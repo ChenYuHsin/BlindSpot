@@ -143,6 +143,8 @@ $(document).ready( function(){
 											$('body').addClass('stop-scrolling');
 											$('.msg-box').addClass('for_msg');
 
+											$('.bu_dai .post-box').attr( 'rel', thisGrid.attr('rel') );
+
 											$('.bu_dai .guo_fang_bu, .post-box .close-me').on( 'click', function(){
 												$('.bu_dai .post-box').fadeOut(800);
 												setTimeout( function(){
@@ -160,7 +162,7 @@ $(document).ready( function(){
 								}
 							},
 							error: function(){
-
+								// if get_post fail
 							}
 						})
 
@@ -179,7 +181,25 @@ $(document).ready( function(){
 		$('.msg-box .post_btn').on( 'click', function(){
 
 			if( $('.msg-box').hasClass('for_msg') ) {
-				alert('Post to this message');
+
+				console.log('Post to this message');
+
+				$.ajax({
+					url: './backend/blindspot.php',
+					type: 'POST',
+					data: {
+						func: 'comment_on_post',
+						p_id: $('.bu_dai .post-box ').attr('rel'),
+						c_content: $('.msg-box input').val()
+					},
+					success: function( response ){
+						$('.msg-box input').val('');
+					},
+					error: function(){
+						alert( "Something wrong~ 請稍候嘗試，感謝~" );
+					}
+				});
+
 			} else {
 
 				$.ajax({

@@ -164,6 +164,37 @@
 	    			$result['data'] = $q_result;
 	    			return json_encode($result);	# code...
 	    			break;
+	    		case 'comment_on_post':
+
+	    			try{
+	    				$c_content = $_POST['c_content'];
+		    			
+		    			$p_id = $_POST['p_id'];
+
+		    		}catch(Exception $e){
+	    				$result['status'] = "fail";
+	    				return json_encode($result);
+	    			}
+					
+	    			$user = $_SESSION['user_id'];
+					$sql = "INSERT INTO `comment`(c_content,p_id,sender_id)
+							VALUES ('$c_content', '$p_id', '$user')";
+	    			$change_result = $this->db_exec($sql);
+	    			// $sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
+	    			// 		FROM `post` p
+	    			// 		LEFT JOIN `member` m
+	    			// 			on p.senderid = m.m_id
+	    			// 		LEFT JOIN (
+	    			// 			SELECT COUNT(c_id) as count_comment, p_id FROM `comment` GROUP BY p_id
+	    			// 			) a
+								// on p.pid = a.p_id
+	    			// 		ORDER BY pid DESC
+	    			// 		LIMIT 0,1 ";
+	    			// $q_result = $this->db_query($sql);
+	    			$result['status'] = 'success';
+	    			//$result['data'] = $q_result;
+	    			return json_encode($result);	# code...
+	    			break;
 	    		
 	    		default:
 	    			# code...

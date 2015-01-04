@@ -127,6 +127,10 @@
 				<span class="name"></span>
 			</div>
 
+			<div class="d_wrapper">
+				<div class="divider"></div>
+			</div>
+
 			<div class="post_content"></div>
 
 			<div class="comment_block">

@@ -523,7 +523,7 @@ body#homepage footer {
 	height: 75vh;
 	border: 1px #c9c9c9 solid;
 	border-radius: 10px;
-	background-color: white;
+	background-color: #dcdcdc;
 	position: absolute;
 	top: 7vh;
 	left: 25vw;
@@ -534,10 +534,8 @@ body#homepage footer {
 
 .bu_dai .post-box .author {
 	width: 94%;
-	margin-top: 15px;
-	margin-left: 3%;
-	padding-bottom: 10px;
-	border-bottom: 1px #dcdcdc solid;
+	padding: 15px 3% 10px 3%;
+	background-color: white;
 }
 
 .bu_dai .post-box .author img {
@@ -553,9 +551,20 @@ body#homepage footer {
 	font-weight: bold;
 }
 
+.bu_dai .post-box .d_wrapper {
+	background-color: white;
+	width: 100%;
+}
+
+.bu_dai .post-box .d_wrapper .divider {
+	width: 90%;
+	border-bottom: 1px #dcdcdc solid;
+}
+
 .bu_dai .post-box .post_content {
 	width: 88%;
-	margin: 10px auto 0px auto;
+	background-color: white;
+	padding: 10px 6% 20px 6%;
 	font-size: 15px;
 }
 
@@ -575,7 +584,6 @@ body#homepage footer {
 .bu_dai .post-box .comment_block {
 	border-top: 1px #848484 solid;
 	background-color: #dcdcdc;
-	margin-top: 20px;
 	padding-left: 20px;
 	padding-right: 20px;
 }
