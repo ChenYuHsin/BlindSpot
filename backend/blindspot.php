@@ -1,6 +1,7 @@
 <?php 
    session_start();
-   //測測試
+   //現在是pull測試
+   //branch 和 pull的測試
 	require'../config/init.php';
 
 	class register{
