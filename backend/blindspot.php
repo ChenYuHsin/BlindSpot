@@ -1,6 +1,6 @@
 <?php 
    session_start();
-
+   //測測試
 	require'../config/init.php';
 
 	class register{
