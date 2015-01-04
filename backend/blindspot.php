@@ -1,7 +1,6 @@
 <?php 
    session_start();
-   //現在是pull測試
-   //branch 和 pull的測試
+
 	require'../config/init.php';
 
 	class register{
@@ -165,6 +164,7 @@
 	    			$result['data'] = $q_result;
 	    			return json_encode($result);	# code...
 	    			break;
+
 	    		case 'comment_on_post':
 
 	    			try{
@@ -197,6 +197,25 @@
 	    			return json_encode($result);	# code...
 	    			break;
 	    		
+	    		case 'get_comment':
+	    			try{
+	    				$p_id = $_POST['p_id'];
+	    			}catch(Exception $e){
+	    				$result['status'] = "fail";
+	    				return json_encode($result);
+	    			}
+
+	    			$user = $_SESSION['user_id'];
+	    			$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`
+	    					FROM `comment`
+	    					WHERE p_id = '$p_id'
+	    					ORDER BY `c_id`";
+	    			$q_result = $this -> db_query($sql);
+	    			$result['status'] = 'success';
+	    			$result['data'] = $q_result;
+	    			return json_encode($result);
+					break;
+
 	    		default:
 	    			# code...
 	    			break;

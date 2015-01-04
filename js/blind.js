@@ -45,7 +45,6 @@ $(document).ready( function(){
 									location.href = "./profile.php";
 								else
 									alert( '我想應該是FB的錯。請稍候嘗試~' );
-								// console.log( response );
 							},
 							error: function() {
 								alert( '我想應該是FB的錯。請稍候嘗試~' );
@@ -80,7 +79,7 @@ $(document).ready( function(){
 			},
 			success: function( data ){
 				var info = $.parseJSON( data );
-				// console.log( info );
+
 				if( info['status'] == "notlogin" ) {
 					//沒有登入，轉跳回登入頁
 					alert( "請先進行登入動作" );
@@ -130,6 +129,27 @@ $(document).ready( function(){
 										$('.psn-wall .grid .more-msg').on( 'click', function(){
 
 											var thisGrid = $(this).parent('.grid');
+
+											$.ajax({
+												url: './backend/blindspot.php',
+												type: 'POST',
+												data: {
+													func: 'get_comment',
+													p_id: thisGrid.attr('rel')
+												},
+												success: function( response ){
+													comment = $.parseJSON(response);
+													if( comment['status'] == "success" ) {
+														$('.comment-wrapper').html('');
+														for( var i = 0; i < comment['data'].length; i++ ) {
+															$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></div><div class="f-left right-part"><div class="name">' + 'sender_name' + '</div><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+														};
+													}
+												},
+												error: function(){
+
+												}
+											});
 
 											$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
 											$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
@@ -182,8 +202,6 @@ $(document).ready( function(){
 
 			if( $('.msg-box').hasClass('for_msg') ) {
 
-				console.log('Post to this message');
-
 				$.ajax({
 					url: './backend/blindspot.php',
 					type: 'POST',
@@ -193,7 +211,9 @@ $(document).ready( function(){
 						c_content: $('.msg-box input').val()
 					},
 					success: function( response ){
-						$('.msg-box input').val('');
+						if( $.parseJSON(response)['status'] == "success" ) {
+							$('.msg-box input').val('');
+						}
 					},
 					error: function(){
 						alert( "Something wrong~ 請稍候嘗試，感謝~" );
