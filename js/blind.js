@@ -117,6 +117,7 @@ $(document).ready( function(){
 							},
 							success: function( response ){
 								post_data = $.parseJSON( response );
+								console.log( post_data );
 								if( post_data['status'] = "success" ) {
 
 									$('#lots_of_post').initialize( $('#framework').html(), {
@@ -130,6 +131,8 @@ $(document).ready( function(){
 
 											var thisGrid = $(this).parent('.grid');
 
+											$('.comment-wrapper').html('');
+
 											$.ajax({
 												url: './backend/blindspot.php',
 												type: 'POST',
@@ -140,9 +143,9 @@ $(document).ready( function(){
 												success: function( response ){
 													comment = $.parseJSON(response);
 													if( comment['status'] == "success" ) {
-														$('.comment-wrapper').html('');
 														for( var i = 0; i < comment['data'].length; i++ ) {
-															$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></div><div class="f-left right-part"><div class="name">' + 'sender_name' + '</div><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+															var sender_name = isThisEnglish( comment['data'][i]['l_name'] ) ? comment['data'][i]['f_name'] + " " + comment['data'][i]['l_name'] : comment['data'][i]['l_name'] + comment['data'][i]['f_name'];
+															$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
 														};
 													}
 												},
@@ -154,6 +157,13 @@ $(document).ready( function(){
 											$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
 											$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
 											$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
+
+											for( var i = 0; i < post_data['data'].length; i++ ) {
+												if( post_data['data'][i]['pid'] == thisGrid.attr('rel') ) {
+													$('.post-box .status-bar .love .number').text( post_data['data'][i]['love'] );
+													$('.post-box .status-bar .hate .number').text( post_data['data'][i]['hate'] );
+												}
+											}
 
 											$('.bu_dai').fadeIn(800);
 											setTimeout( function(){
@@ -170,6 +180,7 @@ $(document).ready( function(){
 												setTimeout( function(){
 													$('.bu_dai').fadeOut(800);
 												}, 300);
+
 												$('body').removeClass('stop-scrolling');
 												$('.msg-box').removeClass('for_msg');
 												$(this).off('click');
@@ -248,6 +259,34 @@ $(document).ready( function(){
 		$('.msg-box input').keypress( function(e){
 			if( e.keyCode == 13 && $('.msg-box input').val() !== "" )
 			 	$('.msg-box .post_btn').trigger('click');
+		});
+
+		$('.bu_dai .post-box .status-bar i.fa').on( 'click', function(){
+			if( $(this).hasClass('fa-thumbs-o-up') ) {
+				var action = "love";
+				$('.post-box .status-bar .love .number').text( parseInt($('.post-box .status-bar .love .number').text())+1 );
+			} else {
+				var action = "hate";
+				$('.post-box .status-bar .hate .number').text( parseInt($('.post-box .status-bar .hate .number').text())+1 );
+			}
+
+			$.ajax({
+				url: './backend/blindspot.php',
+				type: 'POST',
+				data: {
+					func: 'love_post',
+					p_id: $(this).closest('.post-box').attr('rel'),
+					action: action
+				},
+				success: function( response ){
+					if( $.parseJSON(response)['status'] == "success" ) {
+
+					}
+				},
+				error: function(){
+
+				}
+			});
 		});
 
 	}

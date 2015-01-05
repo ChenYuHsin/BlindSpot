@@ -94,8 +94,17 @@
 
 	    			try{
 	    				$l_name = $_POST['lname'];
+	    				$l_name = strip_tags($l_name);
+	    				$l_name = htmlspecialchars($l_name);
+
 		    			$f_name = $_POST['fname'];
+		    			$f_name = strip_tags($l_name);
+		    			$f_name = htmlspecialchars($l_name);
+
 		    			$intro = $_POST['introduction'];
+		    			$intro = strip_tags($intro);
+		    			$intro = htmlspecialchars($intro);
+
 		    		}catch(Exception $e){
 	    				return "fail";
 	    			}
@@ -105,13 +114,16 @@
 							SET l_name = '$l_name', f_name = '$f_name', intro = '$intro'
 							WHERE m_id = $user";
 	    			$change_result = $this->db_exec($sql);
-	    			return "success";	# code...
+	    			$result['status'] = "success";
+	    			return json_encode($result);	# code...
 	    			break;
 
 	    		case 'post_on_wall':
 
 	    			try{
 	    				$content = $_POST['content'];
+	    				$content = strip_tags($content);
+	    				$content = htmlspecialchars($content);
 		    			$friend_id = $_POST['friend_id'];
 
 		    		}catch(Exception $e){
@@ -149,7 +161,7 @@
 	    				return json_encode($result);
 	    			}
 					
-	    			$sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
+	    			$sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment,`love`,`hate`
 	    					FROM `post` p
 	    					LEFT JOIN `member` m
 	    						on p.senderid = m.m_id
@@ -168,8 +180,9 @@
 	    		case 'comment_on_post':
 
 	    			try{
-	    				$c_content = $_POST['c_content'];
-		    			
+	    				$c_content = $_POST['c_content'];//<script>alert("159");</script>
+		    			$c_content = strip_tags($c_content);//alert("159")
+		    			$c_content = htmlspecialchars($c_content);//&ltscript&gtalert(&quot159&quot);&lt/script&gt    			 
 		    			$p_id = $_POST['p_id'];
 
 		    		}catch(Exception $e){
@@ -181,33 +194,32 @@
 					$sql = "INSERT INTO `comment`(c_content,p_id,sender_id)
 							VALUES ('$c_content', '$p_id', '$user')";
 	    			$change_result = $this->db_exec($sql);
-	    			// $sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
-	    			// 		FROM `post` p
-	    			// 		LEFT JOIN `member` m
-	    			// 			on p.senderid = m.m_id
-	    			// 		LEFT JOIN (
-	    			// 			SELECT COUNT(c_id) as count_comment, p_id FROM `comment` GROUP BY p_id
-	    			// 			) a
-								// on p.pid = a.p_id
-	    			// 		ORDER BY pid DESC
-	    			// 		LIMIT 0,1 ";
-	    			// $q_result = $this->db_query($sql);
+					$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name
+	    					FROM `comment` c
+	    					LEFT JOIN `member` m
+	    						on c.sender_id = m.m_id
+	    					WHERE p_id = '$p_id'
+	    					ORDER BY `c_id`";
+	    			$q_result = $this -> db_query($sql);
 	    			$result['status'] = 'success';
-	    			//$result['data'] = $q_result;
-	    			return json_encode($result);	# code...
+	    			$result['data'] = $q_result;
+	    			return json_encode($result);
 	    			break;
 	    		
 	    		case 'get_comment':
 	    			try{
 	    				$p_id = $_POST['p_id'];
-	    			}catch(Exception $e){
+	    			}
+	    			catch(Exception $e){
 	    				$result['status'] = "fail";
 	    				return json_encode($result);
 	    			}
 
 	    			$user = $_SESSION['user_id'];
-	    			$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`
-	    					FROM `comment`
+	    			$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name
+	    					FROM `comment` c
+	    					LEFT JOIN `member` m
+	    						on c.sender_id = m.m_id
 	    					WHERE p_id = '$p_id'
 	    					ORDER BY `c_id`";
 	    			$q_result = $this -> db_query($sql);
@@ -216,6 +228,37 @@
 	    			return json_encode($result);
 					break;
 
+				case 'love_post':
+					try{
+						$p_id = $_POST['p_id'];
+						$love = $_POST['action'];
+					} 
+					catch(Exception $e){
+						$result['status'] = "fail";
+						return json_encode($result);
+					}
+
+					if($love == 'love'){
+						$sql = "UPDATE `post`
+								SET `love` = `love` + 1
+								WHERE `pid` = $p_id";
+					}
+					else if ($love == 'hate') {
+						$sql = "UPDATE `post`
+								SET `hate` = `hate` +1
+								WHERE `pid` = $p_id";
+						# code...
+					}
+					else{
+						$result['status'] = "fail";
+						return json_encode($result);
+					}
+					$change_result = $this->db_exec($sql);
+					$result['status'] = "success";
+	    			return json_encode($result);
+
+
+				break;
 	    		default:
 	    			# code...
 	    			break;

@@ -44,9 +44,9 @@
 	<!-- 瀑布牆 -->
 		<div id="lots_of_post">
 
-
-
-
+			<!-- ... -->
+			<!-- ... -->
+			<!-- ... -->
 
 		</div>
 		<br class="clear" />
@@ -136,34 +136,11 @@
 			<div class="comment_block">
 
 				<div class="status-bar">
-					<div class="good-num"><i class="fa fa-thumbs-o-up"></i>x<span class="number">0</span></div>
-					<div class="bad-num"><i class="fa fa-thumbs-o-down"></i>x<span class="number">0</span></div>
+					<div class="love"><i class="fa fa-thumbs-o-up"></i>x<span class="number"></span></div>
+					<div class="hate"><i class="fa fa-thumbs-o-down"></i>x<span class="number"></span></div>
 				</div>
 
 				<div class="comment-wrapper">
-					<div class="per_comment">
-						<div class="f-left sticker">
-							<img src="./images/profile/1/sticker.png" />
-						</div>
-						<div class="f-left right-part">
-							<div class="name">Hsi-peng Shih</div>
-							<div class="content">This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit.</div>
-						</div>
-
-						<br class="clear" />
-					</div>
-
-					<div class="per_comment">
-						<div class="f-left sticker">
-							<img src="./images/profile/2/sticker.png" />
-						</div>
-						<div class="f-left right-part">
-							<div class="name">EddieWen</div>
-							<div class="content">This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit.</div>
-						</div>
-
-						<br class="clear" />
-					</div>
 					<!-- ... -->
 					<!-- ... -->
 					<!-- ... -->
@@ -178,7 +155,7 @@
 
 		<div id="framework">
 			<div class="author v-mid">
-				<img /><span class="name"></span>
+				<a><img /></a><a><span class="name"></span></a>
 			</div>
 			<div class="post_content"></div>
 			<span class="more-msg">
