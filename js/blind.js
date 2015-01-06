@@ -16,6 +16,22 @@ $(document).ready( function(){
 // --------------------------------- \\
 	if( $('body').attr( 'id' ) == 'homepage' ) {
 
+		// check session
+		$.ajax({
+			url: './backend/blindspot.php',
+			type: 'POST',
+			data: {
+				func: 'if_login'
+			},
+			success: function( response ){
+				if( $.parseJSON(response)['status'] == "login" )
+					location.href = "./profile.php";
+			},
+			error: function(){
+
+			}
+		})
+
 		$('.first-screen .btn.more').on( 'click', function(){
 			$('body').animate({
 				scrollTop: windowH
@@ -285,6 +301,22 @@ $(document).ready( function(){
 				},
 				error: function(){
 
+				}
+			});
+		});
+
+		$('.tool-bar .logout').on( 'click', function(){
+			$.ajax({
+				url: './backend/blindspot.php',
+				type: 'POST',
+				data: {
+					func: 'logout'
+				},
+				success: function(){
+					location.href = "./index.php";
+				},
+				error: function(){
+					alert("登出也會出錯？！");
 				}
 			});
 		});
