@@ -405,7 +405,7 @@ function startOnClick() {
 						introduction: $('#info_form #intro').val()
 					},
 					success: function( response ){
-						if( response == "success" ) {
+						if( $.parseJSON(response)['status'] == "success" ) {
 							alert( "儲存成功" );
 							$('.btn-group .pure-button.cancel').trigger('click');
 
