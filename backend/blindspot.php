@@ -41,13 +41,43 @@
 	    				return "fail";
 	    			}
 
-	    			$sql = "INSERT IGNORE INTO `member`(`fb_id`, `l_name`, `f_name`, `birthday`, `gender`, `e-mail`, `status`) 
-	    								VALUES ('$f_id', '$l_name', '$f_name', '$birth', '$gender', '$email', 'login')";
-	    			$insert_result = $this->db_exec($sql);
-
+	    			//判斷是否有登入過
 	    			$sql = "SELECT m_id FROM `member` WHERE fb_id = $f_id";
 	    			$result = $this->db_query($sql);
-	    			$_SESSION['user_id'] = $result[0]['m_id'];
+	    			if(isset($result[0]['m_id']) || empty($result[0]['m_id'])){
+
+		    			//如果第一次註冊就新增一個會員，不然就跳過
+		    			$sql = "INSERT IGNORE INTO `member`(`fb_id`, `l_name`, `f_name`, `birthday`, `gender`, `e-mail`, `status`) 
+		    								VALUES ('$f_id', '$l_name', '$f_name', '$birth', '$gender', '$email', 'login')";
+		    			$insert_result = $this->db_exec($sql);
+
+
+		    			//把會員id記到SESSION
+		    			$sql = "SELECT m_id FROM `member` WHERE fb_id = $f_id";
+		    			$result = $this->db_query($sql);
+		    			$_SESSION['user_id'] = $result[0]['m_id'];
+		    			$user_id = $_SESSION['user_id'];
+
+		    			//create會員資料夾
+		    			$source_dir = "../images/profile/0";
+		    			$destination_dir = "../images/profile/$user_id";
+						$this->recurse_copy($source_dir, $destination_dir);
+
+	    			}else{
+		    			//把會員id記到SESSION
+		    			$_SESSION['user_id'] = $result[0]['m_id'];
+		    			$user_id = $_SESSION['user_id'];
+	    			}
+
+
+	    			//下載會員的大頭照
+	    			$download_url = "http://graph.facebook.com/$f_id/picture?type=large";
+					$save_route = "../images/profile/$user_id/sticker.png";
+					file_put_contents($save_route, file_get_contents($download_url));
+	    			
+	    			//下載會員的封面照
+
+
 	    			return "success";
 
 	    			break;
@@ -265,7 +295,22 @@
 	    	}
 	    }
 
-
+		function recurse_copy($src,$dst) { 
+		    $dir = opendir($src); 
+		    @mkdir($dst); 
+		    while(false !== ( $file = readdir($dir)) ) { 
+		        if (( $file != '.' ) && ( $file != '..' )) { 
+		            if ( is_dir($src . '/' . $file) ) { 
+		                recurse_copy($src . '/' . $file,$dst . '/' . $file); 
+		            } 
+		            else { 
+		            	if($file != 'back_photo.png')
+			                copy($src . '/' . $file,$dst . '/' . $file); 
+		            } 
+		        } 
+		    } 
+		    closedir($dir); 
+		} 
 
 	    public function db_query($sql){
 
