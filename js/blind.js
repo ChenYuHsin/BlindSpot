@@ -45,7 +45,6 @@ $(document).ready( function(){
 									location.href = "./profile.php";
 								else
 									alert( '我想應該是FB的錯。請稍候嘗試~' );
-								// console.log( response );
 							},
 							error: function() {
 								alert( '我想應該是FB的錯。請稍候嘗試~' );
@@ -80,7 +79,7 @@ $(document).ready( function(){
 			},
 			success: function( data ){
 				var info = $.parseJSON( data );
-				// console.log( info );
+
 				if( info['status'] == "notlogin" ) {
 					//沒有登入，轉跳回登入頁
 					alert( "請先進行登入動作" );
@@ -118,6 +117,7 @@ $(document).ready( function(){
 							},
 							success: function( response ){
 								post_data = $.parseJSON( response );
+								console.log( post_data );
 								if( post_data['status'] = "success" ) {
 
 									$('#lots_of_post').initialize( $('#framework').html(), {
@@ -131,9 +131,39 @@ $(document).ready( function(){
 
 											var thisGrid = $(this).parent('.grid');
 
+											$('.comment-wrapper').html('');
+
+											$.ajax({
+												url: './backend/blindspot.php',
+												type: 'POST',
+												data: {
+													func: 'get_comment',
+													p_id: thisGrid.attr('rel')
+												},
+												success: function( response ){
+													comment = $.parseJSON(response);
+													if( comment['status'] == "success" ) {
+														for( var i = 0; i < comment['data'].length; i++ ) {
+															var sender_name = isThisEnglish( comment['data'][i]['l_name'] ) ? comment['data'][i]['f_name'] + " " + comment['data'][i]['l_name'] : comment['data'][i]['l_name'] + comment['data'][i]['f_name'];
+															$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+														};
+													}
+												},
+												error: function(){
+
+												}
+											});
+
 											$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
 											$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
 											$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
+
+											for( var i = 0; i < post_data['data'].length; i++ ) {
+												if( post_data['data'][i]['pid'] == thisGrid.attr('rel') ) {
+													$('.post-box .status-bar .love .number').text( post_data['data'][i]['love'] );
+													$('.post-box .status-bar .hate .number').text( post_data['data'][i]['hate'] );
+												}
+											}
 
 											$('.bu_dai').fadeIn(800);
 											setTimeout( function(){
@@ -150,6 +180,7 @@ $(document).ready( function(){
 												setTimeout( function(){
 													$('.bu_dai').fadeOut(800);
 												}, 300);
+
 												$('body').removeClass('stop-scrolling');
 												$('.msg-box').removeClass('for_msg');
 												$(this).off('click');
@@ -182,8 +213,6 @@ $(document).ready( function(){
 
 			if( $('.msg-box').hasClass('for_msg') ) {
 
-				console.log('Post to this message');
-
 				$.ajax({
 					url: './backend/blindspot.php',
 					type: 'POST',
@@ -193,7 +222,9 @@ $(document).ready( function(){
 						c_content: $('.msg-box input').val()
 					},
 					success: function( response ){
-						$('.msg-box input').val('');
+						if( $.parseJSON(response)['status'] == "success" ) {
+							$('.msg-box input').val('');
+						}
 					},
 					error: function(){
 						alert( "Something wrong~ 請稍候嘗試，感謝~" );
@@ -228,6 +259,34 @@ $(document).ready( function(){
 		$('.msg-box input').keypress( function(e){
 			if( e.keyCode == 13 && $('.msg-box input').val() !== "" )
 			 	$('.msg-box .post_btn').trigger('click');
+		});
+
+		$('.bu_dai .post-box .status-bar i.fa').on( 'click', function(){
+			if( $(this).hasClass('fa-thumbs-o-up') ) {
+				var action = "love";
+				$('.post-box .status-bar .love .number').text( parseInt($('.post-box .status-bar .love .number').text())+1 );
+			} else {
+				var action = "hate";
+				$('.post-box .status-bar .hate .number').text( parseInt($('.post-box .status-bar .hate .number').text())+1 );
+			}
+
+			$.ajax({
+				url: './backend/blindspot.php',
+				type: 'POST',
+				data: {
+					func: 'love_post',
+					p_id: $(this).closest('.post-box').attr('rel'),
+					action: action
+				},
+				success: function( response ){
+					if( $.parseJSON(response)['status'] == "success" ) {
+
+					}
+				},
+				error: function(){
+
+				}
+			});
 		});
 
 	}

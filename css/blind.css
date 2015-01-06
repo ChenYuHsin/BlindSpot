@@ -11,6 +11,14 @@ input, textarea {
 	font-family: 'Open sans', sans-serif;
 }
 
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	opacity: 0.7;
+}
+
 .v-mid {
 	display: -webkit-flex;
 	display: -ms-flexbox;
