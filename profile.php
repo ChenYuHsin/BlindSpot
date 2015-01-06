@@ -21,6 +21,7 @@
 				<img src="./images/logo/logo-white.png" />
 			</a>
 		</div>
+		<span class="logout">登出</span>
 	</div>
 
 	<div class="psn-photo v-mid">
