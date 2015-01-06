@@ -1,7 +1,6 @@
 <?php 
    session_start();
-   //現在是pull測試
-   //branch 和 pull的測試
+
 	require'../config/init.php';
 
 	class register{
@@ -42,13 +41,43 @@
 	    				return "fail";
 	    			}
 
-	    			$sql = "INSERT IGNORE INTO `member`(`fb_id`, `l_name`, `f_name`, `birthday`, `gender`, `e-mail`, `status`) 
-	    								VALUES ('$f_id', '$l_name', '$f_name', '$birth', '$gender', '$email', 'login')";
-	    			$insert_result = $this->db_exec($sql);
-
+	    			//判斷是否有登入過
 	    			$sql = "SELECT m_id FROM `member` WHERE fb_id = $f_id";
 	    			$result = $this->db_query($sql);
-	    			$_SESSION['user_id'] = $result[0]['m_id'];
+	    			if(isset($result[0]['m_id']) || empty($result[0]['m_id'])){
+
+		    			//如果第一次註冊就新增一個會員，不然就跳過
+		    			$sql = "INSERT IGNORE INTO `member`(`fb_id`, `l_name`, `f_name`, `birthday`, `gender`, `e-mail`, `status`) 
+		    								VALUES ('$f_id', '$l_name', '$f_name', '$birth', '$gender', '$email', 'login')";
+		    			$insert_result = $this->db_exec($sql);
+
+
+		    			//把會員id記到SESSION
+		    			$sql = "SELECT m_id FROM `member` WHERE fb_id = $f_id";
+		    			$result = $this->db_query($sql);
+		    			$_SESSION['user_id'] = $result[0]['m_id'];
+		    			$user_id = $_SESSION['user_id'];
+
+		    			//create會員資料夾
+		    			$source_dir = "../images/profile/0";
+		    			$destination_dir = "../images/profile/$user_id";
+						$this->recurse_copy($source_dir, $destination_dir);
+
+	    			}else{
+		    			//把會員id記到SESSION
+		    			$_SESSION['user_id'] = $result[0]['m_id'];
+		    			$user_id = $_SESSION['user_id'];
+	    			}
+
+
+	    			//下載會員的大頭照
+	    			$download_url = "http://graph.facebook.com/$f_id/picture?type=large";
+					$save_route = "../images/profile/$user_id/sticker.png";
+					file_put_contents($save_route, file_get_contents($download_url));
+	    			
+	    			//下載會員的封面照
+
+
 	    			return "success";
 
 	    			break;
@@ -95,8 +124,17 @@
 
 	    			try{
 	    				$l_name = $_POST['lname'];
+	    				$l_name = strip_tags($l_name);
+	    				$l_name = htmlspecialchars($l_name);
+
 		    			$f_name = $_POST['fname'];
+		    			$f_name = strip_tags($l_name);
+		    			$f_name = htmlspecialchars($l_name);
+
 		    			$intro = $_POST['introduction'];
+		    			$intro = strip_tags($intro);
+		    			$intro = htmlspecialchars($intro);
+
 		    		}catch(Exception $e){
 	    				return "fail";
 	    			}
@@ -106,13 +144,16 @@
 							SET l_name = '$l_name', f_name = '$f_name', intro = '$intro'
 							WHERE m_id = $user";
 	    			$change_result = $this->db_exec($sql);
-	    			return "success";	# code...
+	    			$result['status'] = "success";
+	    			return json_encode($result);	# code...
 	    			break;
 
 	    		case 'post_on_wall':
 
 	    			try{
 	    				$content = $_POST['content'];
+	    				$content = strip_tags($content);
+	    				$content = htmlspecialchars($content);
 		    			$friend_id = $_POST['friend_id'];
 
 		    		}catch(Exception $e){
@@ -150,7 +191,7 @@
 	    				return json_encode($result);
 	    			}
 					
-	    			$sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
+	    			$sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment,`love`,`hate`
 	    					FROM `post` p
 	    					LEFT JOIN `member` m
 	    						on p.senderid = m.m_id
@@ -165,11 +206,13 @@
 	    			$result['data'] = $q_result;
 	    			return json_encode($result);	# code...
 	    			break;
+
 	    		case 'comment_on_post':
 
 	    			try{
-	    				$c_content = $_POST['c_content'];
-		    			
+	    				$c_content = $_POST['c_content'];//<script>alert("159");</script>
+		    			$c_content = strip_tags($c_content);//alert("159")
+		    			$c_content = htmlspecialchars($c_content);//&ltscript&gtalert(&quot159&quot);&lt/script&gt    			 
 		    			$p_id = $_POST['p_id'];
 
 		    		}catch(Exception $e){
@@ -181,29 +224,93 @@
 					$sql = "INSERT INTO `comment`(c_content,p_id,sender_id)
 							VALUES ('$c_content', '$p_id', '$user')";
 	    			$change_result = $this->db_exec($sql);
-	    			// $sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
-	    			// 		FROM `post` p
-	    			// 		LEFT JOIN `member` m
-	    			// 			on p.senderid = m.m_id
-	    			// 		LEFT JOIN (
-	    			// 			SELECT COUNT(c_id) as count_comment, p_id FROM `comment` GROUP BY p_id
-	    			// 			) a
-								// on p.pid = a.p_id
-	    			// 		ORDER BY pid DESC
-	    			// 		LIMIT 0,1 ";
-	    			// $q_result = $this->db_query($sql);
+					$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name
+	    					FROM `comment` c
+	    					LEFT JOIN `member` m
+	    						on c.sender_id = m.m_id
+	    					WHERE p_id = '$p_id'
+	    					ORDER BY `c_id`";
+	    			$q_result = $this -> db_query($sql);
 	    			$result['status'] = 'success';
-	    			//$result['data'] = $q_result;
-	    			return json_encode($result);	# code...
+	    			$result['data'] = $q_result;
+	    			return json_encode($result);
 	    			break;
 	    		
+	    		case 'get_comment':
+	    			try{
+	    				$p_id = $_POST['p_id'];
+	    			}
+	    			catch(Exception $e){
+	    				$result['status'] = "fail";
+	    				return json_encode($result);
+	    			}
+
+	    			$user = $_SESSION['user_id'];
+	    			$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name
+	    					FROM `comment` c
+	    					LEFT JOIN `member` m
+	    						on c.sender_id = m.m_id
+	    					WHERE p_id = '$p_id'
+	    					ORDER BY `c_id`";
+	    			$q_result = $this -> db_query($sql);
+	    			$result['status'] = 'success';
+	    			$result['data'] = $q_result;
+	    			return json_encode($result);
+					break;
+
+				case 'love_post':
+					try{
+						$p_id = $_POST['p_id'];
+						$love = $_POST['action'];
+					} 
+					catch(Exception $e){
+						$result['status'] = "fail";
+						return json_encode($result);
+					}
+
+					if($love == 'love'){
+						$sql = "UPDATE `post`
+								SET `love` = `love` + 1
+								WHERE `pid` = $p_id";
+					}
+					else if ($love == 'hate') {
+						$sql = "UPDATE `post`
+								SET `hate` = `hate` +1
+								WHERE `pid` = $p_id";
+						# code...
+					}
+					else{
+						$result['status'] = "fail";
+						return json_encode($result);
+					}
+					$change_result = $this->db_exec($sql);
+					$result['status'] = "success";
+	    			return json_encode($result);
+
+
+				break;
 	    		default:
 	    			# code...
 	    			break;
 	    	}
 	    }
 
-
+		function recurse_copy($src,$dst) { 
+		    $dir = opendir($src); 
+		    @mkdir($dst); 
+		    while(false !== ( $file = readdir($dir)) ) { 
+		        if (( $file != '.' ) && ( $file != '..' )) { 
+		            if ( is_dir($src . '/' . $file) ) { 
+		                recurse_copy($src . '/' . $file,$dst . '/' . $file); 
+		            } 
+		            else { 
+		            	if($file != 'back_photo.png')
+			                copy($src . '/' . $file,$dst . '/' . $file); 
+		            } 
+		        } 
+		    } 
+		    closedir($dir); 
+		} 
 
 	    public function db_query($sql){
 
