@@ -44,7 +44,7 @@
 	    			//判斷是否有登入過
 	    			$sql = "SELECT m_id FROM `member` WHERE fb_id = $f_id";
 	    			$result = $this->db_query($sql);
-	    			if(isset($result[0]['m_id']) || empty($result[0]['m_id'])){
+	    			if(!isset($result[0]['m_id']) || empty($result[0]['m_id'])){
 
 		    			//如果第一次註冊就新增一個會員，不然就跳過
 		    			$sql = "INSERT IGNORE INTO `member`(`fb_id`, `l_name`, `f_name`, `birthday`, `gender`, `e-mail`, `status`) 
@@ -80,6 +80,37 @@
 
 	    			return "success";
 
+	    			break;
+
+	    		case 'if_login'://剛進首頁先判斷是不是有登入過，有就轉跳到profile.php
+	    			if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+	    				$result['status'] = "notlogin";
+		    			return json_encode($result);
+	    			}else{
+	    				$result['status'] = "login";
+		    			return json_encode($result);
+	    			}
+	    			break;
+
+	    		case 'logout':
+	    			$_SESSION['user_id']='';
+	    			$result['status'] = "success";
+	    			return json_encode($result);	
+	    			break; 
+
+	    		case 'search_name':
+	    			$search_name = $_POST['input'];
+	    			$sql = "SELECT `m_id`, `l_name`, `f_name`  FROM `member` WHERE (l_name like '%$search_name%' or f_name like '%search_name%')";
+	    			$search_result = $this->db_query($sql);
+	    			
+	    			if (!isset($search_result[0]['m_id']) || empty($search_result[0]['m_id'])) {
+	    			$result['status'] = "fail";  //判斷fail，不回傳值	
+	    			return json_encode($result);
+	    			}else{
+	    				$result['status'] = "success";
+		    			$result['data'] = $search_result;
+		    			return json_encode($result);
+	    			}
 	    			break;
 
 	    		case 'get_personal_info':
@@ -126,17 +157,21 @@
 	    				$l_name = $_POST['lname'];
 	    				$l_name = strip_tags($l_name);
 	    				$l_name = htmlspecialchars($l_name);
+                    	$l_name = addslashes($l_name);
 
 		    			$f_name = $_POST['fname'];
-		    			$f_name = strip_tags($l_name);
-		    			$f_name = htmlspecialchars($l_name);
-
+		    			$f_name = strip_tags($f_name);
+		    			$f_name = htmlspecialchars($f_name);
+		    			$f_name = addslashes($f_name);
+		    			
 		    			$intro = $_POST['introduction'];
 		    			$intro = strip_tags($intro);
 		    			$intro = htmlspecialchars($intro);
+		    			$intro = addslashes($intro);
 
 		    		}catch(Exception $e){
-	    				return "fail";
+	    				$result['status'] = "fail";
+	    				return json_encode($result);
 	    			}
 					
 	    			$user = $_SESSION['user_id'];
@@ -154,6 +189,7 @@
 	    				$content = $_POST['content'];
 	    				$content = strip_tags($content);
 	    				$content = htmlspecialchars($content);
+		    			$content = addslashes($content);
 		    			$friend_id = $_POST['friend_id'];
 
 		    		}catch(Exception $e){
@@ -210,9 +246,9 @@
 	    		case 'comment_on_post':
 
 	    			try{
-	    				$c_content = $_POST['c_content'];//<script>alert("159");</script>
-		    			$c_content = strip_tags($c_content);//alert("159")
-		    			$c_content = htmlspecialchars($c_content);//&ltscript&gtalert(&quot159&quot);&lt/script&gt    			 
+	    				$c_content = $_POST['c_content'];//<script alert("159");</script
+		    			// $c_content = strip_tags($c_content);//alert("159")
+		    			// $c_content = htmlspecialchars($c_content);//&ltscript&gtalert(&quot159&quot);&lt/script&gt    			 
 		    			$p_id = $_POST['p_id'];
 
 		    		}catch(Exception $e){
