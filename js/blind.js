@@ -3,10 +3,10 @@ var windowW, windowH;
 $(document).ready( function(){
 
 // IE 不要
-	if( $.support.msie || (!!navigator.userAgent.match(/Trident\/7\./) ) ) {
+	// if( $.support.msie || (!!navigator.userAgent.match(/Trident\/7\./) ) ) {
 		// alert('Stop using IE !');
-		location.href = "http://140.119.19.45/EddieWen/ie_4_ni/";
-	}
+		// location.href = "http://140.119.19.45/EddieWen/ie_4_ni/";
+	// }
 
 	windowW = $(window).width();
 	windowH = $(window).height();
@@ -343,6 +343,7 @@ $(document).ready( function(){
 		});
 
 		$('.tool-bar .search-tool input').change( function(){
+			console.log('change' );
 			$.ajax({
 				url: './backend/blindspot.php',
 				type: 'POST',
