@@ -134,7 +134,7 @@ $(document).ready( function(){
 								var word = $.parseJSON(response);
 								if( word['status'] == "success" ) {
 									$('.data_board .post_number').text( word['data']['post_number'] );
-									$('.data_board .key_word').text( word['data']['key_word'] );
+									$('.data_board .key_word').text( word['data']['keyword'] );
 								}
 							},
 							error: function(){
@@ -153,7 +153,6 @@ $(document).ready( function(){
 							},
 							success: function( response ){
 								post_data = $.parseJSON( response );
-								console.log( post_data );
 								if( post_data['status'] = "success" ) {
 
 									$('#lots_of_post').initialize( $('#framework').html(), {
@@ -281,7 +280,6 @@ $(document).ready( function(){
 						content: $('.msg-box input').val()
 					},
 					success: function( response ){
-						console.log(response);
 						$('.msg-box input').val('');
 
 						var post_detail = $.parseJSON( response );
@@ -364,6 +362,11 @@ $(window).load( function(){
 				$('.msg-box').removeClass('show')
 			}
 
+			// if( scrollNow > $('body').height() - windowH -50 ) {
+			// 	console.log( "call more()" );
+			// 	$('#lots_of_post').giveMeMore();
+			// }
+
 		}
 
 	});
@@ -443,7 +446,7 @@ function startOnClick() {
 					}
 				});
 			} else if( $(this).hasClass('photo') ) {
-				alert( 'photo' );
+				$('#photo_form').submit();
 			}
 		});
 

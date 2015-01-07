@@ -56,9 +56,9 @@
 
 	<div class="data_board">
 		<h1>累計po文數</h1>
-		<h2 class="post_number">26</h2>
+		<h2 class="post_number"></h2>
 		<h1>留言關鍵字</h1>
-		<h2 class="key_word">咿咿啊啊</h2>
+		<h2 class="key_word"></h2>
 	</div>
 
 	<div class="msg-box">
@@ -98,17 +98,19 @@
 
 			</form>
 
-			<form id="photo_form" class="pure-form pure-form-aligned">
+			<form id="photo_form" action="./backend/blindspot.php" method="POST" enctype="multipart/form-data" class="pure-form pure-form-aligned">
 
 				<div class="pure-control-group">
-					<label for="photo">Personal photo</label>
-					<input id="photo" type="file" />
+					<label for="sticker">Personal photo</label>
+					<input id="sticker" name="sticker" type="file" />
 				</div>
 
 				<div class="pure-control-group">
 					<label for="back_photo">Background photo</label>
-					<input id="back_photo" type="file" />
+					<input id="back_photo" name="back_photo" type="file" />
 				</div>
+
+				<input type="hidden" name="func" value="upload_photo" />
 
 			</form>
 

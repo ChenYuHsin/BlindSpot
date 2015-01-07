@@ -482,6 +482,7 @@ body#homepage footer {
 
 .bu_dai .setting-box {
 	width: 70vw;
+	max-width: 950px;
 	height: 75vh;
 	padding: 30px;
 	background-color: white;
@@ -499,7 +500,7 @@ body#homepage footer {
 }
 
 .divider.setting {
-	width: 75%;
+	width: 90%;
 	margin: 10px 0px 0px 0px;
 }
 
