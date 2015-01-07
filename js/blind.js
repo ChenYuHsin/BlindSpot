@@ -258,7 +258,7 @@ $(document).ready( function(){
 						type: 'POST',
 						data: {
 							func: 'comment_on_post',
-							p_id: $('.bu_dai .post-box ').attr('rel'),
+							p_id: $('.bu_dai .post-box').attr('rel'),
 							c_content: $('.msg-box input').val()
 						},
 						success: function( response ){
@@ -270,6 +270,13 @@ $(document).ready( function(){
 
 								var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
 								$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div></div><br class="clear" /></div>');
+
+								$.each( $('.psn-wall .grid'), function(){
+									if( $(this).attr('rel') == $('.bu_dai .post-box').attr('rel') ) {
+										var newMsgNumber = parseInt( $(this).find('.num').text() ) +1;
+										$(this).find('.num').text( newMsgNumber );
+									}
+								});
 							}
 						},
 						error: function(){
