@@ -106,7 +106,7 @@ $(document).ready( function(){
 					$('.msg-box').remove();
 				} else {
 					// me OR someone's id
-					var name = isThisEnglish( info['data'][0]['l_name'] ) ? info['data'][0]['f_name'] + " " + info['data'][0]['l_name'] : info['data'][0]['l_name'] + info['data'][0]['f_name'];
+					var name = fullName( info['data'][0]['l_name'], info['data'][0]['f_name'] );
 
 					$('.psn-wall .psn-info h1').text( name );
 					$('.psn-wall .psn-info h3').text( info['data'][0]['intro'] );
@@ -181,7 +181,7 @@ $(document).ready( function(){
 													comment = $.parseJSON(response);
 													if( comment['status'] == "success" ) {
 														for( var i = 0; i < comment['data'].length; i++ ) {
-															var sender_name = isThisEnglish( comment['data'][i]['l_name'] ) ? comment['data'][i]['f_name'] + " " + comment['data'][i]['l_name'] : comment['data'][i]['l_name'] + comment['data'][i]['f_name'];
+															var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
 															$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
 														};
 													}
