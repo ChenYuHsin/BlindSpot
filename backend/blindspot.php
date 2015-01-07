@@ -103,12 +103,14 @@
 
 	    		case 'search_name':
 	    			$search_name = $_POST['input'];
-	    			$sql = "SELECT `m_id`, `l_name`, `f_name`  FROM `member` WHERE (l_name like '%$search_name%' or f_name like '%search_name%')";
+	    			$sql = "SELECT `m_id`, `l_name`, `f_name`
+	    					FROM `member`
+	    					WHERE (l_name like '%$search_name%' or f_name like '%$search_name%')";
 	    			$search_result = $this->db_query($sql);
 	    			
 	    			if (!isset($search_result[0]['m_id']) || empty($search_result[0]['m_id'])) {
-	    			$result['status'] = "fail";  //判斷fail，不回傳值	
-	    			return json_encode($result);
+		    			$result['status'] = "fail";  //判斷fail，不回傳值	
+		    			return json_encode($result);
 	    			}else{
 	    				$result['status'] = "success";
 		    			$result['data'] = $search_result;

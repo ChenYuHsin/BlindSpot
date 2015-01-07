@@ -130,7 +130,6 @@ $(document).ready( function(){
 								func: 'get_post_about'
 							},
 							success: function( response ){
-								console.log( response );
 								var word = $.parseJSON(response);
 								if( word['status'] == "success" ) {
 									$('.data_board .post_number').text( word['data']['post_number'] );
@@ -341,6 +340,23 @@ $(document).ready( function(){
 					alert("登出也會出錯？！");
 				}
 			});
+		});
+
+		$('.tool-bar .search-tool input').change( function(){
+			$.ajax({
+				url: './backend/blindspot.php',
+				type: 'POST',
+				data: {
+					func: 'search_name',
+					input: $(this).val()
+				},
+				success: function( response ){
+					console.log($.parseJSON(response));
+				},
+				error: function(){
+
+				}
+			})
 		});
 
 	}
