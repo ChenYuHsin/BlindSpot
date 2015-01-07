@@ -29,9 +29,53 @@
 
 	    	switch ($func) {
 
-	    		case 
+	    		case 'get_post_about':
+	    			$user = $_SESSION['user_id'];
+	    			$sql = "SELECT COUNT(*) as count
+	    					FROM `post` 
+	    					WHERE `receiverid` = '$user'";
+	    			$q_result = $this->db_query($sql);
+	    			$result['status'] = 'success';
+	    			$result['data']['post_number'] = $q_result[0]['count'];	 
 
-				break;
+
+	    			$sql = "SELECT `keyword` 
+	    					FROM `member`
+	    					WHERE `m_id` = '$user'";
+	    			$q_result = $this->db_query($sql);
+	    			$result['data']['keyword'] = $q_result[0]['keyword'];
+	    			return json_encode($result);
+					break;
+				case 'delete_post':
+					try{
+						$pid = $_POST['pid'];
+					}
+					catch(Exception $e){
+						$result['status'] = "fail";
+	    				return json_encode($result);
+					}
+					$sql = "UPDATE `post`
+							SET `able` = '-1'
+							WHERE `pid` = '$pid'";
+					$change_result = $this->db_exec($sql);
+	    			$result['status'] = "success";
+	    			return json_encode($result);
+					break;
+				case 'delete_comment':
+					try{
+						$c_id = $_POST['c_id'];
+					}
+					catch(Exception $e){
+						$result['status'] = "fail";
+	    				return json_encode($result);
+					}
+					$sql = "UPDATE `comment`
+							SET `able` = '-1'
+							WHERE `c_id` = '$c_id'";
+					$change_result = $this->db_exec($sql);
+	    			$result['status'] = "success";
+	    			return json_encode($result);
+					break;
 	    		default:
 	    			# code...
 	    			break;
