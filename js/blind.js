@@ -351,7 +351,10 @@ $(document).ready( function(){
 					input: $(this).val()
 				},
 				success: function( response ){
-					console.log($.parseJSON(response));
+					var outcome = $.parseJSON(response);
+					if( outcome['status'] == "success" ) {
+						console.log( outcome['data'] );
+					}
 				},
 				error: function(){
 
