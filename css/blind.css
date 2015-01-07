@@ -243,10 +243,11 @@ body#homepage footer {
 	max-height: 250px;
 	overflow: scroll;
 	margin-top: 2px;
+	border: 1px #c9c9c9 solid;
 	display: none;
 }
 
-.tool-bar .search-tool .name-box.show {
+.tool-bar:hover .search-tool .name-box.show {
 	display: block;
 }
 
@@ -494,6 +495,19 @@ body#homepage footer {
 
 .msg-box .post_btn:hover {
 	background-position: 0px 38px;
+}
+
+.msg-box .dont_click {
+	width: 30%;
+	height: 56px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	display: none;
+}
+
+.msg-box .dont_click.show {
+	display: block;
 }
 
 .bu_dai {

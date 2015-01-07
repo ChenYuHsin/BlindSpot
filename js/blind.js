@@ -155,7 +155,7 @@ $(document).ready( function(){
 								if( post_data['status'] = "success" ) {
 
 									$('#lots_of_post').initialize( $('#framework').html(), {
-										gridNumber: 10,
+										gridNumber: 50,
 										column_number: 3,
 										margin_left: '10px',
 										margin_right: '10px'
@@ -248,6 +248,9 @@ $(document).ready( function(){
 
 		$('.msg-box .post_btn').on( 'click', function(){
 			if( $('.msg-box input').val() !== "" ) {
+
+				$('.msg-box input').prop( 'disabled', true );
+				$('.msg-box .dont_click').addClass('show');
 				if( $('.msg-box').hasClass('for_msg') ) {
 
 					$.ajax({
@@ -262,6 +265,9 @@ $(document).ready( function(){
 							var comment_detail = $.parseJSON( response );
 							if( comment_detail['status'] == "success" ) {
 								$('.msg-box input').val('');
+								$('.msg-box input').prop( 'disabled', false );
+								$('.msg-box .dont_click').removeClass('show');
+
 								var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
 								$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div></div><br class="clear" /></div>');
 							}
@@ -283,6 +289,8 @@ $(document).ready( function(){
 						},
 						success: function( response ){
 							$('.msg-box input').val('');
+							$('.msg-box input').prop( 'disabled', false );
+							$('.msg-box .dont_click').removeClass('show');
 
 							var post_detail = $.parseJSON( response );
 							$('#lots_of_post').addNewGrid( post_detail );
@@ -372,7 +380,8 @@ $(document).ready( function(){
 
 					}
 				})
-			}
+			} else
+				$('.search-tool .name-box').removeClass('show');
 		});
 
 	}

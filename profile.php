@@ -70,6 +70,7 @@
 	<div class="msg-box">
 		<input type="text" placeholder="Anything good, anything bad, you can comment here." />
 		<div class="post_btn"></div>
+		<div class="dont_click"></div>
 	</div>
 
 	<div class="bu_dai">
