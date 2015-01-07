@@ -56,9 +56,9 @@
 
 	<div class="data_board">
 		<h1>累計po文數</h1>
-		<h2>26</h2>
+		<h2 class="post_number">26</h2>
 		<h1>留言關鍵字</h1>
-		<h2>咿咿啊啊</h2>
+		<h2 class="key_word">咿咿啊啊</h2>
 	</div>
 
 	<div class="msg-box">
@@ -164,6 +164,10 @@
 			</span>
 		</div>
 
+	</div>
+
+	<div class="loading_page v-mid">
+		<img src="./images/loading-icon.gif" />
 	</div>
 
 </body>

@@ -121,6 +121,38 @@ $(document).ready( function(){
 						$('.msg-box').remove();
 						$('.psn-photo .sticker-wrapper .ur-sticker').append('<div class="go_setting"></div>');
 						startOnClick();
+						// post_number
+						$.ajax({
+							url: './backend/blindspot.php',
+							type: 'POST',
+							data: {
+								func: 'get_post_number'
+							},
+							success: function( response ){
+								var word = $.parseJSON(response);
+								if( word['status'] == "success" )
+									$('.data_board .post_number').text( word['data']['post_number'] );
+							},
+							error: function(){
+								alert('error');
+							}
+						});
+						// key word
+						$.ajax({
+							url: './backend/blindspot.php',
+							type: 'POST',
+							data: {
+								func: 'get_post_word'
+							},
+							success: function( response ){
+								var word = $.parseJSON(response);
+								if( word['status'] == "success" )
+									$('.data_board .key_word').text( word['data']['keyword'] );
+							},
+							error: function(){
+								alert('error');
+							}
+						});
 					} else {
 						// 看別人
 						$('.data_board').remove();
@@ -142,6 +174,9 @@ $(document).ready( function(){
 										margin_left: '10px',
 										margin_right: '10px'
 									}, post_data, function(){
+
+										// remove loading-page
+										$('.loading_page').fadeOut(800);
 
 										$('.psn-wall .grid .more-msg').on( 'click', function(){
 
