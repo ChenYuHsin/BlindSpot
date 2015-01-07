@@ -402,11 +402,10 @@
 				$thumb_h = $height_thumb;
 				$thumb_w = intval($src_w / $src_h * 100);
 			}
-			 			 
+
 			// start resize
 			imagecopyresized($photo, $src, 0, 0, 0, 0, $thumb_w, $thumb_h, $src_w,  $src_h);
-			 
-			 
+
 			// save thumbnail
 			imagejpeg($photo, $dst);
 		} 
