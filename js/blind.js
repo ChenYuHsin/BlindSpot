@@ -119,35 +119,23 @@ $(document).ready( function(){
 						setPicture( info['data'][0]['m_id'] );
 						$('.data_board').css( 'display', 'block' );
 						$('.msg-box').remove();
+						$('.loading_page').remove();
 						$('.psn-photo .sticker-wrapper .ur-sticker').append('<div class="go_setting"></div>');
 						startOnClick();
-						// post_number
+						// post_about
 						$.ajax({
-							url: './backend/blindspot.php',
+							url: './backend/blindspot_2.php',
 							type: 'POST',
 							data: {
-								func: 'get_post_number'
+								func: 'get_post_about'
 							},
 							success: function( response ){
+								console.log( response );
 								var word = $.parseJSON(response);
-								if( word['status'] == "success" )
+								if( word['status'] == "success" ) {
 									$('.data_board .post_number').text( word['data']['post_number'] );
-							},
-							error: function(){
-								alert('error');
-							}
-						});
-						// key word
-						$.ajax({
-							url: './backend/blindspot.php',
-							type: 'POST',
-							data: {
-								func: 'get_post_word'
-							},
-							success: function( response ){
-								var word = $.parseJSON(response);
-								if( word['status'] == "success" )
-									$('.data_board .key_word').text( word['data']['keyword'] );
+									$('.data_board .key_word').text( word['data']['key_word'] );
+								}
 							},
 							error: function(){
 								alert('error');
@@ -293,6 +281,7 @@ $(document).ready( function(){
 						content: $('.msg-box input').val()
 					},
 					success: function( response ){
+						console.log(response);
 						$('.msg-box input').val('');
 
 						var post_detail = $.parseJSON( response );
