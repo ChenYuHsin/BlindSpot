@@ -199,7 +199,8 @@ body#homepage footer {
 	background-color: #892525;
 	position: fixed;
 	z-index: 10;
-	top: -65px;
+	/*top: -65px;*/
+	top: 0px;
 
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
@@ -229,13 +230,51 @@ body#homepage footer {
 .tool-bar .search-tool input {
 	border: none;
 	border-radius: 5px;
-	padding: 5px 5px 5px 10px;
+	padding: 5px 10px;
 	width: 280px;
 	font-size: 14px;
 }
 
 .tool-bar .search-tool input:focus {
 	outline-style: none;
+}
+
+.tool-bar .search-tool .name-box {
+	width: 300px;
+	max-height: 250px;
+	overflow: scroll;
+	margin-top: 2px;
+	display: none;
+}
+
+.tool-bar .search-tool .name-box.show {
+	display: block;
+}
+
+.tool-bar .search-tool .name-box .title {
+	width: 100%;
+	background-color: #c9c9c9;
+	text-align: center;
+	font-size: 14px;
+	padding: 2px 0px;
+}
+
+.tool-bar .search-tool .name-box .user {
+	width: 94%;
+	font-size: 13px;
+	color: #474747;
+	padding: 10px 3%;
+	background-color: white;
+	border-bottom: 1px #c9c9c9 solid;
+	cursor: pointer;
+}
+
+.tool-bar .search-tool .name-box .user:hover {
+	background-color: #f7f7f7;
+}
+
+.tool-bar .search-tool .name-box .user:last-child {
+	border-bottom: none;
 }
 
 .tool-bar .logout {

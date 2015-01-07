@@ -15,6 +15,12 @@
 	<div class="tool-bar">
 		<div class="search-tool">
 			<input type="text" placeholder="Who are you looking for?" />
+			<!-- 提示框框 -->
+			<div class="name-box">
+				<div class="title">User</div>
+				<div class="user">黃冠豪</div>
+				<div class="user">胡峻杰</div>
+			</div>
 		</div>
 		<div class="logo">
 			<a href="./profile.php">

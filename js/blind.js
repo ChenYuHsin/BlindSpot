@@ -247,50 +247,53 @@ $(document).ready( function(){
 		});
 
 		$('.msg-box .post_btn').on( 'click', function(){
+			if( $('.msg-box input').val() !== "" ) {
+				if( $('.msg-box').hasClass('for_msg') ) {
 
-			if( $('.msg-box').hasClass('for_msg') ) {
-
-				$.ajax({
-					url: './backend/blindspot.php',
-					type: 'POST',
-					data: {
-						func: 'comment_on_post',
-						p_id: $('.bu_dai .post-box ').attr('rel'),
-						c_content: $('.msg-box input').val()
-					},
-					success: function( response ){
-						if( $.parseJSON(response)['status'] == "success" ) {
-							$('.msg-box input').val('');
+					$.ajax({
+						url: './backend/blindspot.php',
+						type: 'POST',
+						data: {
+							func: 'comment_on_post',
+							p_id: $('.bu_dai .post-box ').attr('rel'),
+							c_content: $('.msg-box input').val()
+						},
+						success: function( response ){
+							var comment_detail = $.parseJSON( response );
+							if( comment_detail['status'] == "success" ) {
+								$('.msg-box input').val('');
+								var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
+								$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div></div><br class="clear" /></div>');
+							}
+						},
+						error: function(){
+							alert( "Something wrong~ 請稍候嘗試，感謝~" );
 						}
-					},
-					error: function(){
-						alert( "Something wrong~ 請稍候嘗試，感謝~" );
-					}
-				});
+					});
 
-			} else {
+				} else {
 
-				$.ajax({
-					url: './backend/blindspot.php',
-					type: 'POST',
-					data: {
-						func: 'post_on_wall',
-						friend_id: relationship,
-						content: $('.msg-box input').val()
-					},
-					success: function( response ){
-						$('.msg-box input').val('');
+					$.ajax({
+						url: './backend/blindspot.php',
+						type: 'POST',
+						data: {
+							func: 'post_on_wall',
+							friend_id: relationship,
+							content: $('.msg-box input').val()
+						},
+						success: function( response ){
+							$('.msg-box input').val('');
 
-						var post_detail = $.parseJSON( response );
-						$('#lots_of_post').addNewGrid( post_detail );
-					},
-					error: function(){
-						alert( "Something wrong~ 請稍候嘗試，感謝~" );
-					}
-				});
+							var post_detail = $.parseJSON( response );
+							$('#lots_of_post').addNewGrid( post_detail );
+						},
+						error: function(){
+							alert( "Something wrong~ 請稍候嘗試，感謝~" );
+						}
+					});
 
+				}
 			}
-
 		});
 
 		$('.msg-box input').keypress( function(e){
@@ -342,25 +345,34 @@ $(document).ready( function(){
 			});
 		});
 
-		$('.tool-bar .search-tool input').change( function(){
-			console.log('change' );
-			$.ajax({
-				url: './backend/blindspot.php',
-				type: 'POST',
-				data: {
-					func: 'search_name',
-					input: $(this).val()
-				},
-				success: function( response ){
-					var outcome = $.parseJSON(response);
-					if( outcome['status'] == "success" ) {
-						console.log( outcome['data'] );
-					}
-				},
-				error: function(){
+		// $('.tool-bar .search-tool input').change( function(){
+		$('.tool-bar .search-tool input').on( 'change keyup paste', function(){
+			if( $('.tool-bar .search-tool input').val() !== "" ) {
+				$.ajax({
+					url: './backend/blindspot.php',
+					type: 'POST',
+					data: {
+						func: 'search_name',
+						input: $(this).val()
+					},
+					success: function( response ){
+						var outcome = $.parseJSON(response);
+						if( outcome['status'] == "success" ) {
+							console.log( outcome );
+							$('.search-tool .name-box').html('').append('<div class="title">User</div>');
+							for( var i = 0; i < outcome['data'].length; i++ ) {
+								var name = fullName( outcome['data'][i]['l_name'], outcome['data'][i]['f_name'] );
+								$('.search-tool .name-box').append('<div class="user">' + name + '</div>');
+							}
+							$('.search-tool .name-box').addClass('show');
+						} else
+							$('.search-tool .name-box').removeClass('show');
+					},
+					error: function(){
 
-				}
-			})
+					}
+				})
+			}
 		});
 
 	}
@@ -456,7 +468,7 @@ function startOnClick() {
 							alert( "儲存成功" );
 							$('.btn-group .pure-button.cancel').trigger('click');
 
-							var name = isThisEnglish( $('#info_form #lname').val() ) ? $('#info_form #fname').val() + " " + $('#info_form #lname').val() : $('#info_form #lname').val() + $('#info_form #fname').val()
+							var name = fullName( $('#info_form #lname').val(), $('#info_form #fname').val() );
 							$('.psn-wall .psn-info h1').text( name );
 							$('.psn-wall .psn-info h3').text( $('#info_form #intro').val() );
 						}
@@ -472,6 +484,10 @@ function startOnClick() {
 
 	});
 
+}
+
+function fullName( last_name, first_name ) {
+	return isThisEnglish( last_name ) ? first_name + " " + last_name : last_name + first_name;
 }
 
 function more() {
