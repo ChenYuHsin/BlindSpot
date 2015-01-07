@@ -1,8 +1,8 @@
 <?php 
    session_start();
 
-	require'../config/init.php';
-
+	include_once'../config/init.php';
+	include_once './scws.php';
 	class register{
 
 		public $_config;
@@ -63,21 +63,20 @@
 		    			$destination_dir = "../images/profile/$user_id";
 						$this->recurse_copy($source_dir, $destination_dir);
 
+		    			//下載會員的大頭照
+		    			$download_url = "http://graph.facebook.com/$f_id/picture?type=large";
+						$save_route = "../images/profile/$user_id/sticker.png";
+						file_put_contents($save_route, file_get_contents($download_url));
+		    			
+		    			//下載會員的封面照
+
 	    			}else{
 		    			//把會員id記到SESSION
 		    			$_SESSION['user_id'] = $result[0]['m_id'];
 		    			$user_id = $_SESSION['user_id'];
 	    			}
 
-
-	    			//下載會員的大頭照
-	    			$download_url = "http://graph.facebook.com/$f_id/picture?type=large";
-					$save_route = "../images/profile/$user_id/sticker.png";
-					file_put_contents($save_route, file_get_contents($download_url));
-	    			
-	    			//下載會員的封面照
-
-
+	    			$this->save_log($user_id, 'login');
 	    			return "success";
 
 	    			break;
@@ -93,8 +92,12 @@
 	    			break;
 
 	    		case 'logout':
+	    			$user_id = $_SESSION['user_id'];
 	    			$_SESSION['user_id']='';
 	    			$result['status'] = "success";
+
+	    			$this->save_log($user_id, 'logout');
+
 	    			return json_encode($result);	
 	    			break; 
 
@@ -214,7 +217,15 @@
 	    			$q_result = $this->db_query($sql);
 	    			$result['status'] = 'success';
 	    			$result['data'] = $q_result;
-	    			return json_encode($result);	# code...
+
+
+	    			$this->save_log($user, 'post_on_wall');
+	    			//重新整理接受po文人的關鍵字
+				    $scws = new simpleCSWS();
+				    $keyword = $scws->getoneskeyword($friend_id);
+				    $sql = "UPDATE `member` SET `keyword` = '$keyword' WHERE `m_id` = $friend_id";
+				    $key_exec = $this->db_exec($sql);
+	    			return json_encode($result);
 	    			break;
 
 	    		case 'get_post':
@@ -322,8 +333,35 @@
 					$change_result = $this->db_exec($sql);
 					$result['status'] = "success";
 	    			return json_encode($result);
+				break;
 
+				case 'upload_photo':
 
+					try {
+						$files = $_FILES;
+		    			$user_id = $_SESSION['user_id'];
+					} catch (Exception $e) {
+						$result['status'] = "fail";
+						return json_encode($result);
+					}
+					foreach ($files as $key => $value) {
+
+						if(!empty($value['tmp_name'])){
+			    			$download_url = $value['tmp_name'];
+			    			$photo_name = $key;
+							$save_route = "../images/profile/$user_id/$photo_name.png";
+							// file_put_contents($save_route, file_get_contents($download_url));
+
+							if($photo_name == 'sticker'){
+								$this->resize_photo($download_url, 200, 200, $save_route);
+							}else if($photo_name == 'back_photo'){
+								$this->resize_photo($download_url, 200, 200, $save_route);
+							}
+						}
+					}
+					header('Location:../profile.php');
+					$result['status'] = "success";
+	    			return json_encode($result);
 				break;
 	    		default:
 	    			# code...
@@ -346,6 +384,29 @@
 		        } 
 		    } 
 		    closedir($dir); 
+		} 
+
+		function resize_photo($photo, $width_thumb, $height_thumb, $dst) { 
+			$src = imagecreatefromjpeg($photo);
+			// get the source image's widht and hight
+			$src_w = imagesx($src);
+			$src_h = imagesy($src);
+			 
+			// assign thumbnail's widht and hight
+			if($src_w > $src_h){
+				$thumb_w = $width_thumb;
+				$thumb_h = intval($src_h / $src_w * 100);
+			}else{
+				$thumb_h = $height_thumb;
+				$thumb_w = intval($src_w / $src_h * 100);
+			}
+			 			 
+			// start resize
+			imagecopyresized($thumb, $src, 0, 0, 0, 0, $width, $height, $src_w,  $src_h);
+			 
+			 
+			// save thumbnail
+			imagejpeg($thumb, $dst);
 		} 
 
 	    public function db_query($sql){
@@ -379,6 +440,13 @@
 				$Database->close();
 				return false;
 			}
+
+	    }
+	    public function save_log($user_id, $action){
+
+			//紀錄log
+			$sql = "INSERT INTO `log`(`m_id`, `action`) VALUES ('$user_id', '$action')";
+			$insert_result = $this->db_exec($sql);
 
 	    }
 	}
