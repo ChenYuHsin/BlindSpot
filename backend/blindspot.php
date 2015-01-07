@@ -260,8 +260,8 @@
 
 	    			try{
 	    				$c_content = $_POST['c_content'];//<script alert("159");</script
-		    			// $c_content = strip_tags($c_content);//alert("159")
-		    			// $c_content = htmlspecialchars($c_content);//&ltscript&gtalert(&quot159&quot);&lt/script&gt    			 
+		    			$c_content = strip_tags($c_content);//alert("159")
+		    			$c_content = htmlspecialchars($c_content);//&ltscript&gtalert(&quot159&quot);&lt/script&gt    			 
 		    			$p_id = $_POST['p_id'];
 
 		    		}catch(Exception $e){
@@ -278,7 +278,7 @@
 	    					LEFT JOIN `member` m
 	    						on c.sender_id = m.m_id
 	    					WHERE p_id = '$p_id'
-	    					ORDER BY `c_id`";
+	    					ORDER BY `c_id` DESC LIMIT 1";
 	    			$q_result = $this -> db_query($sql);
 	    			$result['status'] = 'success';
 	    			$result['data'] = $q_result;
