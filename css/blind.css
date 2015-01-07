@@ -199,8 +199,7 @@ body#homepage footer {
 	background-color: #892525;
 	position: fixed;
 	z-index: 10;
-	/*top: -65px;*/
-	top: 0px;
+	top: -65px;
 
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
