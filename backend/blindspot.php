@@ -361,7 +361,7 @@
 							}
 						}
 					}
-					header('Location:../profile.php');
+					// header('Location:../profile.php');
 					$result['status'] = "success";
 	    			return json_encode($result);
 				break;
@@ -404,11 +404,11 @@
 			}
 			 			 
 			// start resize
-			imagecopyresized($thumb, $src, 0, 0, 0, 0, $width, $height, $src_w,  $src_h);
+			imagecopyresized($photo, $src, 0, 0, 0, 0, $thumb_w, $thumb_h, $src_w,  $src_h);
 			 
 			 
 			// save thumbnail
-			imagejpeg($thumb, $dst);
+			imagejpeg($photo, $dst);
 		} 
 
 	    public function db_query($sql){
