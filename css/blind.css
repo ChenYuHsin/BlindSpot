@@ -315,8 +315,8 @@ body#homepage footer {
 	width: 300px;
 	max-height: 250px;
 	overflow: scroll;
-	margin-top: 2px;
-	border: 1px #c9c9c9 solid;
+	margin-top: 1px;
+	border-radius: 3px;
 	display: none;
 }
 
@@ -343,7 +343,8 @@ body#homepage footer {
 }
 
 .tool-bar .search-tool .name-box .user:hover {
-	background-color: #f7f7f7;
+	background-color: #65a9a9;
+	color: white;
 }
 
 .tool-bar .search-tool .name-box .user:last-child {

@@ -356,13 +356,12 @@ $(document).ready( function(){
 			});
 		});
 
+		// search name
 		$('.tool-bar .search-tool input').on( 'input', function(){
-			console.log( 'change' );
 			if( $('.tool-bar .search-tool input').val() !== "" ) {
 				console.log('in_ajax');
 				if( ajax_search ) {
 					ajax_search.abort();
-					console.log( 'abort' );
 				}
 				ajax_search = $.ajax({
 					url: './backend/blindspot.php',
@@ -374,10 +373,10 @@ $(document).ready( function(){
 					success: function( response ){
 						var outcome = $.parseJSON(response);
 						if( outcome['status'] == "success" ) {
-							$('.search-tool .name-box').html('').append('<div class="title">User</div>');
+							$('.search-tool .name-box .user_wrapper').html('');
 							for( var i = 0; i < outcome['data'].length; i++ ) {
 								var name = fullName( outcome['data'][i]['l_name'], outcome['data'][i]['f_name'] );
-								$('.search-tool .name-box').append('<a href="./profile.php?id=' + outcome['data'][i]['m_id'] + '"><div class="user">' + name + '</div></a>');
+								$('.search-tool .name-box .user_wrapper').append('<a href="./profile.php?id=' + outcome['data'][i]['m_id'] + '"><div class="user">' + name + '</div></a>');
 							}
 							$('.search-tool .name-box').addClass('show');
 						} else

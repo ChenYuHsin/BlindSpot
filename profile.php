@@ -18,8 +18,7 @@
 			<!-- 提示框框 -->
 			<div class="name-box">
 				<div class="title">User</div>
-				<div class="user">黃冠豪</div>
-				<div class="user">胡峻杰</div>
+				<div class="user_wrapper"></div>
 			</div>
 		</div>
 		<div class="logo">
