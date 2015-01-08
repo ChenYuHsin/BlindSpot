@@ -76,6 +76,27 @@
 	    			$result['status'] = "success";
 	    			return json_encode($result);
 					break;
+				case 'search_random_user':
+
+					$sql = "SELECT `m_id` FROM `member`";
+					$mem_result = $this->db_query($sql);
+
+					foreach ($mem_result as $key => $value) {
+						$member_arr[$key] = $value['m_id']; 
+					}
+
+					$selected_num = rand(0, count($member_arr)-1);
+					try {
+						$selected_id = $member_arr[$selected_num];
+		    			$result['status'] = "success";
+		    			$result['data'] = $selected_id;
+					} catch (Exception $e) {
+		    			$result['status'] = "fail";
+					}
+
+					return json_encode($result);
+
+					break;
 	    		default:
 	    			# code...
 	    			break;
