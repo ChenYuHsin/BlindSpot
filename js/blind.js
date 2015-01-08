@@ -399,7 +399,7 @@ $(window).load( function(){
 
 	$(window).scroll( function(){
 
-		if( $('body').attr('id') == "profile" ) {
+		if( $('body').attr('id') == "profile" && relationship != "me" ) {
 
 			var scrollNow = $(window).scrollTop();
 			var postTop = $('#lots_of_post').offset().top -20;
