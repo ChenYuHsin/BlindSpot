@@ -349,15 +349,21 @@
 					foreach ($files as $key => $value) {
 
 						if(!empty($value['tmp_name'])){
-			    			$download_url = $value['tmp_name'];
+			    			$temp_name = $value['tmp_name'];
 			    			$photo_name = $key;
-							$save_route = "../images/profile/$user_id/$photo_name.png";
-							// file_put_contents($save_route, file_get_contents($download_url));
+
+							$output_size = array(
+								$photo_name => array( 'output_w' => 200, 'output_h' => 200 )
+							);					
 
 							if($photo_name == 'sticker'){
-								$this->resize_photo($download_url, 200, 200, $save_route);
+								$output_size[$photo_name]['output_w'] = 200;
+								$output_size[$photo_name]['output_h'] = 200;
+								$this->resize_photo($user_id, $output_size, $photo_name);
 							}else if($photo_name == 'back_photo'){
-								$this->resize_photo($download_url, 200, 200, $save_route);
+								$output_size[$photo_name]['output_w'] = 1280;
+								$output_size[$photo_name]['output_h'] = 800;
+								$this->resize_photo($user_id, $output_size, $photo_name);
 							}
 						}
 					}
@@ -388,29 +394,99 @@
 		    closedir($dir); 
 		} 
 
-		function resize_photo($photo, $width_thumb, $height_thumb, $dst) { 
-			$src = imagecreatefromjpeg($photo);
-			// get the source image's widht and hight
-			$src_w = imagesx($src);
-			$src_h = imagesy($src);
-			 
-			// assign thumbnail's widht and hight
-			if($src_w > $src_h){
-				$thumb_w = $width_thumb;
-				$thumb_h = intval($src_h / $src_w * 100);
-			}else{
-				$thumb_h = $height_thumb;
-				$thumb_w = intval($src_w / $src_h * 100);
-			}
-			// if you are using GD 1.6.x, please use imagecreate()
-			$thumb = imagecreatetruecolor($thumb_w, $thumb_h);
-			
-			// start resize
-			imagecopyresized($thumb, $src, 0, 0, 0, 0, $thumb_w, $thumb_h, $src_w,  $src_h);
+		function resize_photo($id, $output_size , $photo_name){
+			if( isset($_FILES[$photo_name] ) ) {
+				if( is_uploaded_file( $_FILES[$photo_name]['tmp_name'] ) ) {
+					$fileSource = $_FILES[$photo_name];
+					$fileExt = $fileSource['type'];
 
-			// save thumbnail
-			imagejpeg($thumb, $dst);
-		} 
+					if($fileExt == 'image/jpeg'){
+						$fileType=".jpg";
+					}elseif($fileExt == 'image/gif'){
+						$fileType=".gif";
+					}elseif($fileExt == 'image/png'){
+						$fileType=".png";
+					}else{
+						exit;
+					}
+
+					if($fileType == ".jpg"){
+						$src = imagecreatefromjpeg($fileSource['tmp_name']);
+					}elseif($fileType == ".gif"){
+						$src = imagecreatefromgif($fileSource['tmp_name']);
+					}elseif($fileType == ".png"){
+						$src = imagecreatefrompng($fileSource['tmp_name']);
+					}
+
+					// 阻止直行圖片自動轉向
+					$exif = @exif_read_data( $fileSource['tmp_name'] );
+					if( !empty( $exif['Orientation'] ) ) {
+						switch($exif['Orientation']) {
+							case 3:
+								$src = imagerotate( $src, 180, 0 );
+								break;
+							case 6:
+								$src = imagerotate( $src, -90, 0 );
+								break;
+							case 8:
+								$src = imagerotate( $src, 90, 0 );
+								break;
+							default:
+								break;
+						}
+					}
+
+					//取得來源圖片長寬
+					$src_w = imagesx($src);
+					$src_h = imagesy($src);
+
+					foreach ($output_size as $dir_key => $dir_value) {
+						$photoDir = "../images/profile/$id";
+
+						$output_w = $dir_value['output_w'];
+						$output_h = $dir_value['output_h'];
+
+						$src_ratio = $src_w / $src_h;
+						$output_ratio = $output_w / $output_h;
+
+						if ( $src_ratio > $output_ratio ){
+							// Triggered when source image is wider
+							$temp_height = $output_h;
+							$temp_width = ( int ) ( $output_h * $src_ratio );
+						} else {
+							// Triggered otherwise (i.e. source image is similar or taller)
+							$temp_width = $output_w;
+							$temp_height = ( int ) ( $output_w / $src_ratio );
+						}
+						
+						// Resize the image into a temporary GD image
+						$temp_gdim = imagecreatetruecolor( $temp_width, $temp_height );
+						imagecopyresampled(
+							$temp_gdim,
+							$src,
+							0, 0,
+							0, 0,
+							$temp_width, $temp_height,
+							$src_w, $src_h
+						);
+
+						// Copy cropped region from temporary image into the desired GD image
+						$x0 = ( $temp_width - $output_w ) / 2;
+						$y0 = ( $temp_height - $output_h ) / 2;
+
+						$desired_gdim = imagecreatetruecolor( $output_w, $output_h );
+						imagecopy(
+							$desired_gdim,
+							$temp_gdim,
+							0, 0,
+							$x0, $y0,
+							$output_w, $output_h
+						);
+						imagejpeg($desired_gdim, $photoDir.'/'.$dir_key.".png", 100);
+					}
+				}
+			}
+		}
 
 	    public function db_query($sql){
 
