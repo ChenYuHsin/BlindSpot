@@ -240,7 +240,7 @@
 	    				return json_encode($result);
 	    			}
 					
-	    			$sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment,`love`,`hate`
+	    			$sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
 	    					FROM `post` p
 	    					LEFT JOIN `member` m
 	    						on p.senderid = m.m_id
@@ -302,7 +302,12 @@
 	    					WHERE p_id = '$p_id'
 	    					ORDER BY `c_id`";
 	    			$q_result = $this -> db_query($sql);
+	    			$sql = "SELECT `love`, `hate` 
+	    					FROM `post`
+	    					WHERE pid = '$p_id'";
+	    			$plike_result = $this -> db_query($sql);
 	    			$result['status'] = 'success';
+	    			$result['post_about'] = $plike_result;
 	    			$result['data'] = $q_result;
 	    			return json_encode($result);
 					break;
