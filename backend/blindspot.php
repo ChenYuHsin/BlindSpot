@@ -361,7 +361,7 @@
 							}
 						}
 					}
-					// header('Location:../profile.php');
+					header('Location:../profile.php');
 					$result['status'] = "success";
 	    			return json_encode($result);
 				break;
@@ -402,12 +402,14 @@
 				$thumb_h = $height_thumb;
 				$thumb_w = intval($src_w / $src_h * 100);
 			}
-
+			// if you are using GD 1.6.x, please use imagecreate()
+			$thumb = imagecreatetruecolor($thumb_w, $thumb_h);
+			
 			// start resize
-			imagecopyresized($photo, $src, 0, 0, 0, 0, $thumb_w, $thumb_h, $src_w,  $src_h);
+			imagecopyresized($thumb, $src, 0, 0, 0, 0, $thumb_w, $thumb_h, $src_w,  $src_h);
 
 			// save thumbnail
-			imagejpeg($photo, $dst);
+			imagejpeg($thumb, $dst);
 		} 
 
 	    public function db_query($sql){
