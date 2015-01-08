@@ -62,10 +62,10 @@ $(document).ready( function(){
 								if( response == "success" )
 									location.href = "./profile.php";
 								else
-									alert( '我想應該是FB的錯。請稍候嘗試~' );
+									alert('啊....\n壞惹');
 							},
 							error: function() {
-								alert( '我想應該是FB的錯。請稍候嘗試~' );
+
 							}
 						});
 
@@ -157,7 +157,7 @@ $(document).ready( function(){
 								if( post_data['status'] = "success" ) {
 
 									$('#lots_of_post').initialize( $('#framework').html(), {
-										gridNumber: 50,
+										gridNumber: 10,
 										column_number: 3,
 										margin_left: '10px',
 										margin_right: '10px'
