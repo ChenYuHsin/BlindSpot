@@ -1,5 +1,7 @@
 var windowW, windowH;
 
+var ajax_search;
+
 $(document).ready( function(){
 
 // IE 不要
@@ -360,10 +362,15 @@ $(document).ready( function(){
 			});
 		});
 
-		// $('.tool-bar .search-tool input').change( function(){
-		$('.tool-bar .search-tool input').on( 'change keyup paste', function(){
+		$('.tool-bar .search-tool input').on( 'input', function(){
+			console.log( 'change' );
 			if( $('.tool-bar .search-tool input').val() !== "" ) {
-				$.ajax({
+				console.log('in_ajax');
+				if( ajax_search ) {
+					ajax_search.abort();
+					console.log( 'abort' );
+				}
+				ajax_search = $.ajax({
 					url: './backend/blindspot.php',
 					type: 'POST',
 					data: {
@@ -385,7 +392,7 @@ $(document).ready( function(){
 					error: function(){
 
 					}
-				})
+				});
 			} else
 				$('.search-tool .name-box').removeClass('show');
 		});
