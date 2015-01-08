@@ -410,7 +410,7 @@ $(window).load( function(){
 				$('.msg-box').removeClass('show')
 			}
 
-			if( addMoreStatus == 0 && scrollNow > $('body').height() - windowH -30 ) {
+			if( addMoreStatus == 0 && scrollNow > $('body').height() - windowH +60 ) {
 				var returnValue = $('#lots_of_post').giveMeMore();
 				if( returnValue == "no_more_data" || returnValue == "last_one" )
 					addMoreStatus = 1;
