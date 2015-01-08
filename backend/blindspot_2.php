@@ -77,8 +77,8 @@
 	    			return json_encode($result);
 					break;
 				case 'search_random_user':
-
-					$sql = "SELECT `m_id` FROM `member`";
+					$user = $_SESSION['user_id'];
+					$sql = "SELECT `m_id` FROM `member` WHERE m_id != $user";
 					$mem_result = $this->db_query($sql);
 
 					foreach ($mem_result as $key => $value) {
@@ -89,7 +89,7 @@
 					try {
 						$selected_id = $member_arr[$selected_num];
 		    			$result['status'] = "success";
-		    			$result['data'] = $selected_id;
+		    			$result['data']['friend_id'] = $selected_id;
 					} catch (Exception $e) {
 		    			$result['status'] = "fail";
 					}
