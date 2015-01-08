@@ -1,5 +1,7 @@
 <?php
 
+    include_once'../config/init.php';
+
 class simpleCSWS{
 
     public $_config;
@@ -18,6 +20,38 @@ class simpleCSWS{
          */
         $this->_initDb();
     }
+
+    function getoneskeyword($user_id){
+
+        $sql = "SELECT `p_content` FROM `post` WHERE receiverid = $user_id";
+        $result = $this->db_query($sql);
+
+        $article = "";
+        foreach ($result as $key => $value) {
+            $article .= $value['p_content']." ";
+        }
+
+        $keyword = $this->getkeyword($article);
+        return $keyword;
+    }
+
+
+    function getkeyword($article){
+
+        $segment_arr = $this->segment($article);
+        $i = 0;
+        $max_frequency = 0;
+        foreach ($segment_arr as $segement_key => $segement_value) {
+            foreach ($segement_value as $key => $value) {
+                if($value['idf'] >= $max_frequency){
+                    $keyword = $value['word'];
+                    $max_frequency = $value['idf'];
+                }
+            }
+        }
+        return $keyword;
+    }
+
 
     function segment($content, $ignore = false, $showa = false, $stats = false, $duality = false, $limit = 10){
 
@@ -56,39 +90,67 @@ class simpleCSWS{
 
         if ($stats == true){
             // stats
-            printf("No. WordString               Attr  Weight(times)\n");
-            printf("-------------------------------------------------\n");
-            $list = $cws->get_tops($limit, $xattr);
-            $cnt = 1;
-            settype($list, 'array');
-            foreach ($list as $tmp)
-            {
-                printf("%02d. %-24.24s %-4.2s  %.2f(%d)\n",
-                    $cnt, $tmp['word'], $tmp['attr'], $tmp['weight'], $tmp['times']);
-                $cnt++;
-            }
+            // printf("No. WordString               Attr  Weight(times)\n");
+            // printf("-------------------------------------------------\n");
+            // $list = $cws->get_tops($limit, $xattr);
+            // $cnt = 1;
+            // settype($list, 'array');
+            // foreach ($list as $tmp)
+            // {
+            //     printf("%02d. %-24.24s %-4.2s  %.2f(%d)\n",
+            //         $cnt, $tmp['word'], $tmp['attr'], $tmp['weight'], $tmp['times']);
+            //     $cnt++;
+            // }
         }else{
             // segment
             $i = 0;
-            echo "<pre>";
             while ($res = $cws->get_result())
             {
-                // $result[$i++] = $res;
-                foreach ($res as $key => $value) {
-                    echo $value['word']."__";
-                }
+                $result[$i++] = $res;
             }
-            echo "</pre>";
         }
 
         $cws->close();
 
-        // return ($result);
+        return ($result);
+    }
+
+    public function db_query($sql){
+
+        $Database = new DataBase($this->_config['host'], 
+                $this->_config['username'], 
+                $this->_config['password'], 
+                $this->_config['dbname']);
+        $Database->Connect();
+        $Database->Query=$sql;
+        $Database->Query();
+        $result = $Database->queryResult->fetchAll();
+        $Database->close();
+
+        return $result;
+    }
+
+    public function db_exec($sql){
+        
+        $Database = new DataBase($this->_config['host'], 
+                $this->_config['username'], 
+                $this->_config['password'], 
+                $this->_config['dbname']);
+        $Database->Connect();
+        $Database->Exec=$sql;
+
+        if($Database->Exec()){
+            $Database->close();
+            return true;
+        }else{
+            $Database->close();
+            return false;
+        }
+
     }
 }
+    // $scws = new simpleCSWS();
+    // echo $keyword = $scws->getoneskeyword(2);
 
-
-    $scws = new simpleCSWS();
-    $scws->segment("農委會主委陳保基出身台大農學院，曾擔任過台大農學院院長，行政院發言人孫立群則是台大農業經濟學系的教授，這些研究農業、依賴農業研究為生、並因農業研究而獲取官位的學者，他們有幫農業及農民講話嗎？他們有護衛農民的權益嗎？沒有，完全沒有，他們反而是在滅農！因此，我也要學孫立群的口吻講一句話，「太扯了！一群沒有用的農業學者！」你們如果不願意護衛農業及農民，就請全部都下台！");
 
 ?>
