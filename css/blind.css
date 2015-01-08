@@ -316,6 +316,7 @@ body#homepage footer {
 	max-height: 250px;
 	overflow: scroll;
 	margin-top: 1px;
+	border: 1px #5d5d5d solid;
 	border-radius: 3px;
 	display: none;
 }
@@ -325,9 +326,9 @@ body#homepage footer {
 }
 
 .tool-bar .search-tool .name-box .title {
-	width: 100%;
+	width: 97%;
 	background-color: #c9c9c9;
-	text-align: center;
+	padding-left: 3%;
 	font-size: 14px;
 	padding: 2px 0px;
 }
@@ -347,8 +348,12 @@ body#homepage footer {
 	color: white;
 }
 
-.tool-bar .search-tool .name-box .user:last-child {
-	border-bottom: none;
+.tool-bar .search-tool .name-box .random_search {
+	width: 100%;
+	background-color: #c9c9c9;
+	text-align: center;
+	font-size: 14px;
+	padding: 7px 0px;
 }
 
 .tool-bar .logout {

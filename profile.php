@@ -19,6 +19,7 @@
 			<div class="name-box">
 				<div class="title">User</div>
 				<div class="user_wrapper"></div>
+				<div class="random_search">Random</div>
 			</div>
 		</div>
 		<div class="logo">

@@ -183,6 +183,8 @@ $(document).ready( function(){
 													comment = $.parseJSON(response);
 													console.log(comment);
 													if( comment['status'] == "success" ) {
+														$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
+														$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
 														for( var i = 0; i < comment['data'].length; i++ ) {
 															var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
 															$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
@@ -359,7 +361,6 @@ $(document).ready( function(){
 		// search name
 		$('.tool-bar .search-tool input').on( 'input', function(){
 			if( $('.tool-bar .search-tool input').val() !== "" ) {
-				console.log('in_ajax');
 				if( ajax_search ) {
 					ajax_search.abort();
 				}
