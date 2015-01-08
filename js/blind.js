@@ -373,11 +373,10 @@ $(document).ready( function(){
 					success: function( response ){
 						var outcome = $.parseJSON(response);
 						if( outcome['status'] == "success" ) {
-							console.log( outcome );
 							$('.search-tool .name-box').html('').append('<div class="title">User</div>');
 							for( var i = 0; i < outcome['data'].length; i++ ) {
 								var name = fullName( outcome['data'][i]['l_name'], outcome['data'][i]['f_name'] );
-								$('.search-tool .name-box').append('<div class="user">' + name + '</div>');
+								$('.search-tool .name-box').append('<a href="./profile.php?id=' + outcome['data'][i]['m_id'] + '"><div class="user">' + name + '</div></a>');
 							}
 							$('.search-tool .name-box').addClass('show');
 						} else
