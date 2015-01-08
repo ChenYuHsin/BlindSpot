@@ -1,6 +1,6 @@
 var windowW, windowH;
 
-var ajax_search;
+var ajax_search, addMoreStatus = 0;
 
 $(document).ready( function(){
 
@@ -181,6 +181,7 @@ $(document).ready( function(){
 												},
 												success: function( response ){
 													comment = $.parseJSON(response);
+													console.log(comment);
 													if( comment['status'] == "success" ) {
 														for( var i = 0; i < comment['data'].length; i++ ) {
 															var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
@@ -196,13 +197,6 @@ $(document).ready( function(){
 											$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
 											$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
 											$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
-
-											for( var i = 0; i < post_data['data'].length; i++ ) {
-												if( post_data['data'][i]['pid'] == thisGrid.attr('rel') ) {
-													$('.post-box .status-bar .love .number').text( post_data['data'][i]['love'] );
-													$('.post-box .status-bar .hate .number').text( post_data['data'][i]['hate'] );
-												}
-											}
 
 											$('.bu_dai').fadeIn(800);
 											setTimeout( function(){
@@ -416,10 +410,11 @@ $(window).load( function(){
 				$('.msg-box').removeClass('show')
 			}
 
-			// if( scrollNow > $('body').height() - windowH -50 ) {
-			// 	console.log( "call more()" );
-			// 	$('#lots_of_post').giveMeMore();
-			// }
+			if( addMoreStatus == 0 && scrollNow > $('body').height() - windowH -30 ) {
+				var returnValue = $('#lots_of_post').giveMeMore();
+				if( returnValue == "no_more_data" || returnValue == "last_one" )
+					addMoreStatus = 1;
+			}
 
 		}
 
