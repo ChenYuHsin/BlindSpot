@@ -391,6 +391,27 @@ $(document).ready( function(){
 				$('.search-tool .name-box').removeClass('show');
 		});
 
+		// random search
+		$('.tool-bar .search-tool .random_search').on( 'click', function(){
+			$.ajax({
+				url: './backend/blindspot.php',
+				type: 'POST',
+				data: {
+					func: 'search_random_user'
+				},
+				success: function( response ){
+					console.log( 'Response -> ' + response );
+					var random_id = $.parseJSON(response);
+					if( random_id['status'] == "success" ) {
+						location.href = "./profile.php?id=" + random_id['data'][0]['friend_id'];
+					}
+				},
+				error: function(){
+
+				}
+			})
+		});
+
 	}
 
 });
