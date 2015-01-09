@@ -196,7 +196,7 @@ $(document).ready( function(){
 														$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
 														for( var i = 0; i < comment['data'].length; i++ ) {
 															var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-															$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+															$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
 														};
 													}
 												},
@@ -398,6 +398,10 @@ $(document).ready( function(){
 				});
 			} else
 				$('.search-tool .name-box').removeClass('show');
+		}).focusin( function(){
+			$('.tool-bar .search-tool .name-box').addClass('show');
+		}).focusout( function(){
+			$('.tool-bar .search-tool .name-box').removeClass('show');
 		});
 
 		// random search

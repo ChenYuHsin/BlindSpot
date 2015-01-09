@@ -66,7 +66,7 @@ a:hover {
 }
 
 /* ------------------------------------ *\
-				Animate.css
+			thanks Animate.css
 \* ------------------------------------ */
 
 .animated {
@@ -321,7 +321,7 @@ body#homepage footer {
 	display: none;
 }
 
-.tool-bar:hover .search-tool .name-box.show {
+.tool-bar .search-tool .name-box.show {
 	display: block;
 }
 
@@ -350,7 +350,7 @@ body#homepage footer {
 
 .tool-bar .search-tool .name-box .random_search {
 	width: 100%;
-	background-color: #c9c9c9;
+	background-color: #f0f0f0;
 	text-align: center;
 	font-size: 14px;
 	padding: 7px 0px;
@@ -455,6 +455,10 @@ body#homepage footer {
 	background-position: 0px 200px;
 }
 
+/* ------------------------------------ *\
+			personal wall
+\* ------------------------------------ */
+
 .psn-wall {
 	margin: 60px 100px 100px 100px;
 }
@@ -484,12 +488,10 @@ body#homepage footer {
 	background-color: #f7f7f7;
 	border-radius: 20px;
 	position: relative;
-	/*border: 1px white solid;*/
 }
 
 .psn-wall .grid:hover {
 	background-color: #ededed;
-	/*border: 1px #65a9a9 solid;*/
 }
 
 .psn-wall .grid .author {
@@ -527,6 +529,10 @@ body#homepage footer {
 .psn-wall .grid .more-msg:hover {
 	color: #1b6caa;
 }
+
+/* ------------------------------------ *\
+			message box
+\* ------------------------------------ */
 
 .msg-box {
 	width: 100%;
@@ -589,6 +595,10 @@ body#homepage footer {
 .msg-box .dont_click.show {
 	display: block;
 }
+
+/* ------------------------------------ *\
+			in the bu_dai
+\* ------------------------------------ */
 
 .bu_dai {
 	width: 100vw;

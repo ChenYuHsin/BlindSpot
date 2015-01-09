@@ -158,9 +158,6 @@
 
 			</div>
 
-			<!-- <div class="comment_about">
-			</div> -->
-
 		</div>
 
 		<div id="framework">
