@@ -540,10 +540,16 @@ body#homepage footer {
 	background-image: url(../images/profile/close_btn.png);
 	background-size: 10px;
 	cursor: pointer;
+	opacity: 0.7;
+}
+
+.delete.post {
+	top: 15px;
+	right: 15px;
 }
 
 .delete:hover {
-	opacity: 0.7;
+	opacity: 0.4;
 }
 
 /* ------------------------------------ *\

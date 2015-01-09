@@ -160,6 +160,7 @@ $(document).ready( function(){
 							},
 							success: function( response ){
 								post_data = $.parseJSON( response );
+								var im = post_data['delete_able'];
 								if( post_data['status'] = "success" ) {
 
 									$('#lots_of_post').initialize( $('#framework').html(), {
@@ -190,7 +191,6 @@ $(document).ready( function(){
 												},
 												success: function( response ){
 													comment = $.parseJSON(response);
-													console.log(comment);
 													var im = comment['delete_able'];
 													if( comment['status'] == "success" ) {
 														$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
@@ -465,7 +465,6 @@ $(window).load( function(){
 								},
 								success: function( response ){
 									comment = $.parseJSON(response);
-									console.log(comment);
 									var im = comment['delete_able'];
 									if( comment['status'] == "success" ) {
 										$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
