@@ -10,7 +10,7 @@
 
 ?>
 
-<body id="profile">
+<body id="profile" class="stop-scrolling">
 
 	<div class="tool-bar">
 		<div class="search-tool">
@@ -176,7 +176,7 @@
 	</div>
 
 	<div class="loading_page v-mid">
-		<img src="./images/loading-icon.gif" />
+		<img src="./images/loading.gif" />
 	</div>
 
 </body>

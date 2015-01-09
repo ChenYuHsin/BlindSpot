@@ -83,6 +83,8 @@ $(document).ready( function(){
 // --------------------------------- \\
 	if( $('body').attr( 'id' ) == 'profile' ) {
 
+		$('body').animate({'scrollTop': '0px'});
+
 		if( relationship != "me" ) {
 			setPicture( relationship );
 		}
@@ -121,7 +123,6 @@ $(document).ready( function(){
 						setPicture( info['data'][0]['m_id'] );
 						$('.data_board').css( 'display', 'block' );
 						$('.msg-box').remove();
-						$('.loading_page').remove();
 						$('.psn-photo .sticker-wrapper .ur-sticker').append('<div class="go_setting"></div>');
 						startOnClick();
 						// post_about
@@ -136,6 +137,11 @@ $(document).ready( function(){
 								if( word['status'] == "success" ) {
 									$('.data_board .post_number').text( word['data']['post_number'] );
 									$('.data_board .key_word').text( word['data']['keyword'] );
+									// remove loading-page
+									setTimeout( function(){
+										$('.loading_page').fadeOut(800);
+										$('body').removeClass('stop-scrolling');
+									}, 500);
 								}
 							},
 							error: function(){
@@ -164,7 +170,10 @@ $(document).ready( function(){
 									}, post_data, function(){
 
 										// remove loading-page
-										$('.loading_page').fadeOut(800);
+										setTimeout( function(){
+											$('.loading_page').fadeOut(800);
+											$('body').removeClass('stop-scrolling');
+										}, 500);
 
 										$('.psn-wall .grid .more-msg').on( 'click', function(){
 

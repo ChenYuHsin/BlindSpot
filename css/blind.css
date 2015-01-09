@@ -845,17 +845,17 @@ body#homepage footer {
 }
 
 .loading_page {
-	background-color: white;
-	width: 100%;
-	height: 415px;
-	position: absolute;
-	top: 100vh;
+	background-color: rgba( 255, 255, 255, 0.95 );
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0px;
 	left: 0px;
-	z-index: 100;
+	z-index: 9999;
 }
 
 .loading_page img {
-	width: 50px;
+	width: 65px;
 	margin: 0px auto;
 }
 
