@@ -176,65 +176,7 @@ $(document).ready( function(){
 											$('body').removeClass('stop-scrolling');
 										}, 500);
 
-										$('.psn-wall .grid .more-msg').on( 'click', function(){
-
-											var thisGrid = $(this).parent('.grid');
-
-											$('.comment-wrapper').html('');
-
-											$.ajax({
-												url: './backend/blindspot.php',
-												type: 'POST',
-												data: {
-													func: 'get_comment',
-													p_id: thisGrid.attr('rel')
-												},
-												success: function( response ){
-													comment = $.parseJSON(response);
-													var im = comment['delete_able'];
-													if( comment['status'] == "success" ) {
-														$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
-														$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
-														for( var i = 0; i < comment['data'].length; i++ ) {
-															var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-															$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
-															if( comment['data'][i]['sender_id'] == im ) {
-																$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
-															}
-														};
-													}
-												},
-												error: function(){
-
-												}
-											});
-
-											$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
-											$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
-											$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
-
-											$('.bu_dai').fadeIn(800);
-											setTimeout( function(){
-												$('.bu_dai .post-box').fadeIn(800);
-											}, 300);
-
-											$('body').addClass('stop-scrolling');
-											$('.msg-box').addClass('for_msg');
-
-											$('.bu_dai .post-box').attr( 'rel', thisGrid.attr('rel') );
-
-											$('.bu_dai .guo_fang_bu, .post-box .close-me').on( 'click', function(){
-												$('.bu_dai .post-box').fadeOut(800);
-												setTimeout( function(){
-													$('.bu_dai').fadeOut(800);
-												}, 300);
-
-												$('body').removeClass('stop-scrolling');
-												$('.msg-box').removeClass('for_msg');
-												$(this).off('click');
-											});
-
-										});
+										onClickFuncInFallwall();
 
 									});
 
@@ -448,69 +390,9 @@ $(window).load( function(){
 			}
 
 			if( dontAddMore == 0 && scrollNow > $('body').height() - windowH +60 ) {
-				var returnValue = $('#lots_of_post').giveMeMore(function(){
-
-						$('.psn-wall .grid .more-msg').on( 'click', function(){
-
-							var thisGrid = $(this).parent('.grid');
-
-							$('.comment-wrapper').html('');
-
-							$.ajax({
-								url: './backend/blindspot.php',
-								type: 'POST',
-								data: {
-									func: 'get_comment',
-									p_id: thisGrid.attr('rel')
-								},
-								success: function( response ){
-									comment = $.parseJSON(response);
-									var im = comment['delete_able'];
-									if( comment['status'] == "success" ) {
-										$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
-										$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
-										for( var i = 0; i < comment['data'].length; i++ ) {
-											var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-											$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
-											if( comment['data'][i]['sender_id'] == im ) {
-												$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
-											}
-										};
-									}
-								},
-								error: function(){
-
-								}
-							});
-
-							$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
-							$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
-							$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
-
-							$('.bu_dai').fadeIn(800);
-							setTimeout( function(){
-								$('.bu_dai .post-box').fadeIn(800);
-							}, 300);
-
-							$('body').addClass('stop-scrolling');
-							$('.msg-box').addClass('for_msg');
-
-							$('.bu_dai .post-box').attr( 'rel', thisGrid.attr('rel') );
-
-							$('.bu_dai .guo_fang_bu, .post-box .close-me').on( 'click', function(){
-								$('.bu_dai .post-box').fadeOut(800);
-								setTimeout( function(){
-									$('.bu_dai').fadeOut(800);
-								}, 300);
-
-								$('body').removeClass('stop-scrolling');
-								$('.msg-box').removeClass('for_msg');
-								$(this).off('click');
-							});
-
-						});
-
-					}); // line 451 is finished
+				var returnValue = $('#lots_of_post').giveMeMore( function(){
+					onClickFuncInFallwall();
+				});
 				if( returnValue == "no_more_data" || returnValue == "oh_no" )
 					dontAddMore = 1;
 			}
@@ -608,6 +490,68 @@ function fullName( last_name, first_name ) {
 
 function more() {
 	$('#lots_of_post').giveMeMore();
+}
+
+function onClickFuncInFallwall() {
+	$('.psn-wall .grid .more-msg').on( 'click', function(){
+
+		var thisGrid = $(this).parent('.grid');
+
+		$('.comment-wrapper').html('');
+
+		$.ajax({
+			url: './backend/blindspot.php',
+			type: 'POST',
+			data: {
+				func: 'get_comment',
+				p_id: thisGrid.attr('rel')
+			},
+			success: function( response ){
+				comment = $.parseJSON(response);
+				var im = comment['delete_able'];
+				if( comment['status'] == "success" ) {
+					$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
+					$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
+					for( var i = 0; i < comment['data'].length; i++ ) {
+						var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
+						$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+						if( comment['data'][i]['sender_id'] == im ) {
+							$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
+						}
+					};
+				}
+			},
+			error: function(){
+
+			}
+		});
+
+		$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
+		$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
+		$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
+
+		$('.bu_dai').fadeIn(800);
+		setTimeout( function(){
+			$('.bu_dai .post-box').fadeIn(800);
+		}, 300);
+
+		$('body').addClass('stop-scrolling');
+		$('.msg-box').addClass('for_msg');
+
+		$('.bu_dai .post-box').attr( 'rel', thisGrid.attr('rel') );
+
+		$('.bu_dai .guo_fang_bu, .post-box .close-me').on( 'click', function(){
+			$('.bu_dai .post-box').fadeOut(800);
+			setTimeout( function(){
+				$('.bu_dai').fadeOut(800);
+			}, 300);
+
+			$('body').removeClass('stop-scrolling');
+			$('.msg-box').removeClass('for_msg');
+			$(this).off('click');
+		});
+
+	});
 }
 
 // --------------------------------- \\    \/
