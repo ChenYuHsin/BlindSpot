@@ -1,6 +1,6 @@
 var windowW, windowH;
 
-var ajax_search, addMoreStatus = 0;
+var ajax_search, dontAddMore = 0;
 
 $(document).ready( function(){
 
@@ -447,7 +447,7 @@ $(window).load( function(){
 				$('.msg-box').removeClass('show')
 			}
 
-			if( addMoreStatus == 0 && scrollNow > $('body').height() - windowH +60 ) {
+			if( dontAddMore == 0 && scrollNow > $('body').height() - windowH +60 ) {
 				var returnValue = $('#lots_of_post').giveMeMore(function(){
 
 						$('.psn-wall .grid .more-msg').on( 'click', function(){
@@ -511,9 +511,9 @@ $(window).load( function(){
 
 						});
 
-					});
-				if( returnValue == "no_more_data" || returnValue == "last_one" )
-					addMoreStatus = 1;
+					}); // line 451 is finished
+				if( returnValue == "no_more_data" || returnValue == "oh_no" )
+					dontAddMore = 1;
 			}
 
 		}
@@ -624,14 +624,12 @@ function isThisEnglish( str ) {
 }
 
 function imageExists( image_url ){
-
 	var http = new XMLHttpRequest();
 
 	http.open( 'HEAD', image_url, false );
 	http.send();
 
 	return http.status != 404;
-
 }
 
 
