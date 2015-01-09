@@ -321,6 +321,7 @@ body#homepage footer {
 	display: none;
 }
 
+.tool-bar .search-tool .name-box:hover,
 .tool-bar .search-tool .name-box.show {
 	display: block;
 }
@@ -528,6 +529,21 @@ body#homepage footer {
 
 .psn-wall .grid .more-msg:hover {
 	color: #1b6caa;
+}
+
+.delete {
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background-image: url(../images/profile/close_btn.png);
+	background-size: 10px;
+	cursor: pointer;
+}
+
+.delete:hover {
+	opacity: 0.7;
 }
 
 /* ------------------------------------ *\
@@ -813,6 +829,7 @@ body#homepage footer {
 
 .bu_dai .post-box .comment-wrapper .right-part {
 	width: 90%;
+	position: relative;
 }
 
 .bu_dai .post-box .comment-wrapper .right-part .name {
