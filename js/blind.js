@@ -494,6 +494,7 @@ function more() {
 
 // fucking long
 function onClickFuncInFallwall() {
+	$('.psn-wall .grid .more-msg').off('click');
 	$('.psn-wall .grid .more-msg').on( 'click', function(){
 
 		var thisGrid = $(this).parent('.grid');
@@ -516,28 +517,32 @@ function onClickFuncInFallwall() {
 					$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
 					for( var i = 0; i < comment['data'].length; i++ ) {
 						var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-						$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+						$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
 						if( comment['data'][i]['sender_id'] == im ) {
 							$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
 						}
 					};
 					$('.delete.comment').on( 'click', function(){
+						var thisComment = $(this).parent('.right-part').parent('.per_comment');
 						$.ajax({
 							url: './backend/blindspot_2.php',
 							type: 'POST',
 							data: {
-								func: 'delete_comment'
+								func: 'delete_comment',
+								c_id: thisComment.attr('rel')
 							},
 							success: function( response ){
-								console.log(response);
-								if( $.parseJSON(response)['status'] == "success" )
-									console.log('ya');
-									// $(this).closest('.per_comment').addClass('zoomOut').remove();
+								if( $.parseJSON(response)['status'] == "success" ) {
+									thisComment.addClass('animated zoomOut');
+									setTimeout( function(){
+										thisComment.remove();
+									}, 450);
+								}
 							},
 							error: function(){
 
 							}
-						})
+						});
 					});
 				}
 			},
