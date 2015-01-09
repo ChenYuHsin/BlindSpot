@@ -492,6 +492,7 @@ function more() {
 	$('#lots_of_post').giveMeMore();
 }
 
+// fucking long
 function onClickFuncInFallwall() {
 	$('.psn-wall .grid .more-msg').on( 'click', function(){
 
@@ -509,6 +510,7 @@ function onClickFuncInFallwall() {
 			success: function( response ){
 				comment = $.parseJSON(response);
 				var im = comment['delete_able'];
+				console.log( comment );
 				if( comment['status'] == "success" ) {
 					$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
 					$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
@@ -519,6 +521,24 @@ function onClickFuncInFallwall() {
 							$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
 						}
 					};
+					$('.delete.comment').on( 'click', function(){
+						$.ajax({
+							url: './backend/blindspot_2.php',
+							type: 'POST',
+							data: {
+								func: 'delete_comment'
+							},
+							success: function( response ){
+								console.log(response);
+								if( $.parseJSON(response)['status'] == "success" )
+									console.log('ya');
+									// $(this).closest('.per_comment').addClass('zoomOut').remove();
+							},
+							error: function(){
+
+							}
+						})
+					});
 				}
 			},
 			error: function(){
