@@ -9,7 +9,7 @@
 		echo '<script type="text/javascript">var relationship = "me";</script>';
 
 ?>
-
+<!--  -->
 <body id="profile" class="stop-scrolling">
 
 	<div class="tool-bar">
