@@ -234,7 +234,7 @@
 
 	    			try{
 	    				$friend_id = $_POST['friend_id'];
-
+	    				$user_id = $_SESSION['user_id'];
 		    		}catch(Exception $e){
 	    				$result['status'] = "fail";
 	    				return json_encode($result);
@@ -253,6 +253,7 @@
 	    			$q_result = $this->db_query($sql);
 	    			$result['status'] = 'success';
 	    			$result['data'] = $q_result;
+	    			$result['delete_able'] = $user_id;
 	    			return json_encode($result);	# code...
 	    			break;
 
@@ -288,13 +289,14 @@
 	    		case 'get_comment':
 	    			try{
 	    				$p_id = $_POST['p_id'];
+	    				$user_id = $_SESSION['user_id'];
 	    			}
 	    			catch(Exception $e){
 	    				$result['status'] = "fail";
 	    				return json_encode($result);
 	    			}
 
-	    			$user = $_SESSION['user_id'];
+	    			//$user = $_SESSION['user_id']; 湖俊傑註解der
 	    			$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name
 	    					FROM `comment` c
 	    					LEFT JOIN `member` m
@@ -309,6 +311,7 @@
 	    			$result['status'] = 'success';
 	    			$result['post_about'] = $plike_result;
 	    			$result['data'] = $q_result;
+	    			$result['delete_able'] = $user_id;
 	    			return json_encode($result);
 					break;
 
