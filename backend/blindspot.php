@@ -284,6 +284,28 @@
 	    			$q_result = $this -> db_query($sql);
 	    			$result['status'] = 'success';
 	    			$result['data'] = $q_result;
+
+	    			//通知原po
+	    			$ori_poster_sql = "SELECT `senderid` FROM `post` WHERE pid = $p_id";
+	    			$ori_poster_result = $this->db_query($ori_poster_sql);
+	    			$ori_poster = $ori_poster_result[0]['senderid'];
+	    			if($ori_poster != $user){//原po是自己就不用通知
+		    			$notification_sql = "INSERT INTO `notification` (`m_id`, `target_id`, `p_id`)
+		    									values ('$user', '$ori_poster', '$p_id')
+		    								ON DUPLICATE KEY UPDATE updatetime = CURRENT_TIMESTAMP; ";
+	    			}
+
+	    			//通知在上面comment的人
+	    			$commenter_sql = "SELECT DISTINCT `sender_id` FROM `comment` WHERE p_id = $p_id";
+	    			$commenter_result = $this->db_query($commenter_sql);
+	    			foreach ($commenter_result as $key => $value) {
+	    				if($value['sender_id'] != $user){//自己不用通知
+		    				$notification_sql .= "INSERT INTO `notification` (`m_id`, `target_id`, `p_id`)
+		    										values ('$user', '".$value['sender_id']."', '$p_id')
+		    										ON DUPLICATE KEY UPDATE updatetime = CURRENT_TIMESTAMP; ";
+	    				}
+	    			}
+	    			$notification_result = $this->db_exec($notification_sql);
 	    			return json_encode($result);
 	    			break;
 	    	
