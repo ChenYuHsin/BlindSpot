@@ -125,7 +125,29 @@
 	    					FROM `member_post`
 	    					WHERE p_id = '$p_id'
 	    					and m_id = '$user_id'";
-	    			$post_status = $this -> db_query($sql);
+	    			
+	    			$status_result = $this -> db_query($sql);
+	    			// $status_result => {
+	    			// 					[0] => {
+	    			// 								['status'] => xxx
+	    			// 							}
+	    			// 					[1] => {
+	    			// 								['status'] => xxx
+	    			// 							}
+	    			// 					}
+
+	    			if (!isset($status_result[0]) || empty($status_result)) {
+	    				$post_status = 'nil';	
+	    			}
+	    			else if ($status_result[0]['status']==0) {
+	    				$post_status = 'nil';	
+	    			}
+	    			else if ($status_result[0]['status']==1) {
+	    				$post_status = 'love';	
+	    			}
+	    			else if ($status_result[0]['status']==2) {
+	    				$post_status = 'hate';	
+	    			}
 	    			$result['status'] = 'success';
 	    			$result['post_about'] = $plike_result;
 	    			$result['data'] = $q_result;

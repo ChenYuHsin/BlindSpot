@@ -304,14 +304,35 @@
 						$sql = "UPDATE `post`
 								SET `love` = `love` + 1
 								WHERE `pid` = $p_id;
-								INSERT INTO `member_post` (`m_id`,`p_id`,)
-								VALUES ";
+								INSERT INTO `member_post` (`m_id`,`p_id`,`status`)
+								VALUES ($user_id, $p_id , 1)
+								ON DUPLICATE KEY UPDATE `status` = 1";
 					}
+
 					else if ($love == 'hate') {
 						$sql = "UPDATE `post`
 								SET `hate` = `hate` +1
-								WHERE `pid` = $p_id";
+								WHERE `pid` = $p_id;
+								INSERT INTO `member_post` (`m_id`,`p_id`,`status`)
+								VALUES ($user_id, $p_id , 2)
+								ON DUPLICATE KEY UPDATE `status` = 2";
 						# code...
+					}
+					else if ($love == 'love_cancel'){
+						$sql = "UPDATE `post`
+								SET `love` = `love` - 1
+								WHERE `pid` = $p_id;
+								UPDATE `member_post`
+								SET `status` = 0
+								WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+					}
+					else if ($love == 'hate_cancel'){
+						$sql = "UPDATE `post`
+								SET `hate` = `hate` - 1
+								WHERE `pid` = $p_id;
+								UPDATE `member_post`
+								SET `status` = 0
+								WHERE `m_id` = $user_id AND `p_id` = $p_id ";
 					}
 					else{
 						$result['status'] = "fail";
