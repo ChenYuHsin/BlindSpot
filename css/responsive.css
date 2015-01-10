@@ -82,6 +82,22 @@
 		width: 40%;
 	}
 
+	.psn-wall {
+		margin: 60px 50px 100px 50px;
+	}
+
+	.psn-wall .psn-info h1 {
+		font-size: 60px;
+	}
+
+	.data_board h1 {
+		font-size: 60px
+	}
+
+	.data_board h2 {
+		font-size: 56px;
+	}
+
 }
 
 @media all and ( max-width: 480px ) {
