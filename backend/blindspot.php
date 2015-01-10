@@ -432,6 +432,21 @@
 					$result['status'] = "success";
 	    			return json_encode($result);
 				break;
+
+				case 'get_notification':
+
+					$user_id = $_SESSION['user_id'];
+					$sql = "SELECT a.`m_id`, a.`target_id`, a.`p_id`, b.senderid as ori_poster, b.receiverid as wall_user
+							FROM `notification` a
+							LEFT JOIN `post` b
+								on a.p_id = b.pid
+							WHERE a.target_id = $user_id";
+					$noti_result = $this->db_query($sql);
+					$result['status'] = "success";
+					$result['data'] = $noti_result;
+	    			return json_encode($result);
+
+				break;
 	    		default:
 	    			# code...
 	    			break;
