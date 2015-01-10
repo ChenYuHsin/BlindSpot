@@ -13,6 +13,10 @@ $(document).ready( function(){
 	windowW = $(window).width();
 	windowH = $(window).height();
 
+	var newStickerUrl = $('.psn-photo .ur-sticker img').attr('src') + '?yo=' + getRandomNum;
+	console.log( newStickerUrl );
+	// $('.psn-photo .ur-sticker img').attr('src');
+
 // --------------------------------- \\    \/
 //			H O M E P A G E			 \\--- /
 // --------------------------------- \\
@@ -284,7 +288,9 @@ $(document).ready( function(){
 
 							var post_detail = $.parseJSON( response );
 							console.log(post_detail);
-							$('#lots_of_post').addNewGrid( post_detail );
+							$('#lots_of_post').addNewGrid( post_detail, function(){
+								onClickFuncInFallwall();
+							});
 						},
 						error: function(){
 							alert( "Something wrong~ 請稍候嘗試，感謝~" );
@@ -662,6 +668,10 @@ function imageExists( image_url ){
 	http.send();
 
 	return http.status != 404;
+}
+
+function getRandomNum() {
+	return Math.floor( Math.random() * 3238947 );
 }
 
 
