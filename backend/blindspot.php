@@ -301,38 +301,92 @@
 					$user_id = $_SESSION['user_id'];
 
 					if($love == 'love'){
-						$sql = "UPDATE `post`
-								SET `love` = `love` + 1
-								WHERE `pid` = $p_id;
-								INSERT INTO `member_post` (`m_id`,`p_id`,`status`)
-								VALUES ($user_id, $p_id , 1)
-								ON DUPLICATE KEY UPDATE `status` = 1";
+						$sql = "SELECT `status` FROM `member_post` WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						$q_result = $this->db_query($sql);
+
+						if(!isset($q_result[0]) || $q_result[0]['status'] != '1'){//原本沒有按過love的人才會進來
+
+							if(isset($q_result[0]) && $q_result[0]['status'] == '2'){//原本是按hate的人，要先把hate-1
+								$minus_sql = "UPDATE `post` SET `hate` = `hate` -1 WHERE pid = $p_id ";
+								$minus_result = $this->db_exec($minus_sql);
+							}
+
+							$sql = "UPDATE `post`
+									SET `love` = `love` + 1
+									WHERE `pid` = $p_id;
+									INSERT INTO `member_post` (`m_id`,`p_id`,`status`)
+									VALUES ($user_id, $p_id , 1)
+									ON DUPLICATE KEY UPDATE `status` = 1";
+						}
+
 					}
 
 					else if ($love == 'hate') {
-						$sql = "UPDATE `post`
-								SET `hate` = `hate` +1
-								WHERE `pid` = $p_id;
-								INSERT INTO `member_post` (`m_id`,`p_id`,`status`)
-								VALUES ($user_id, $p_id , 2)
-								ON DUPLICATE KEY UPDATE `status` = 2";
-						# code...
+
+						$sql = "SELECT `status` FROM `member_post` WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						$q_result = $this->db_query($sql);
+
+						if(!isset($q_result[0]) || $q_result[0]['status'] != '2'){//原本沒有按過hate的人才會進來
+
+							if(isset($q_result[0]) && $q_result[0]['status'] == '1'){//原本是按love的人，要先把love-1
+								$minus_sql = "UPDATE `post` SET `love` = `love` -1 WHERE pid = $p_id ";
+								$minus_result = $this->db_exec($minus_sql);
+							}
+
+							$sql = "UPDATE `post`
+									SET `hate` = `hate` + 1
+									WHERE `pid` = $p_id;
+									INSERT INTO `member_post` (`m_id`,`p_id`,`status`)
+									VALUES ($user_id, $p_id , 2)
+									ON DUPLICATE KEY UPDATE `status` = 2";
+						}
+
 					}
 					else if ($love == 'love_cancel'){
-						$sql = "UPDATE `post`
-								SET `love` = `love` - 1
-								WHERE `pid` = $p_id;
-								UPDATE `member_post`
-								SET `status` = 0
-								WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						$sql = "SELECT `status` FROM `member_post` WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						$q_result = $this->db_query($sql);
+						if (isset($q_result[0]) && $q_result[0]['status'] == 1){//如果原本就是按love
+							$sql = "UPDATE `post`
+									SET `love` = `love` - 1
+									WHERE `pid` = $p_id;
+									UPDATE `member_post`
+									SET `status` = 0
+									WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						}
+						else if (isset($q_result[0]) && $q_result[0]['status'] == 2){
+							$sql = "UPDATE `post`
+									SET `hate` = `hate` - 1
+									WHERE `pid` = $p_id;
+									UPDATE `member_post`
+									SET `status` = 0
+									WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						}	
+						else{//status == 0 || status == 2 || status == null甚麼事情都不做
+							$sql = "SELECT ilovesteven";
+						}	
 					}
 					else if ($love == 'hate_cancel'){
-						$sql = "UPDATE `post`
-								SET `hate` = `hate` - 1
-								WHERE `pid` = $p_id;
-								UPDATE `member_post`
-								SET `status` = 0
-								WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						$sql = "SELECT `status` FROM `member_post` WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						$q_result = $this->db_query($sql);
+						if(isset($q_result[0]) && $q_result[0]['status'] == 2){//如果原本就是按hate
+							$sql = "UPDATE `post`
+									SET `hate` = `hate` - 1
+									WHERE `pid` = $p_id;
+									UPDATE `member_post`
+									SET `status` = 0
+									WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						}
+						else if (isset($q_result[0]) && $q_result[0]['status'] == 1){
+							$sql = "UPDATE `post`
+									SET `love` = `love` - 1
+									WHERE `pid` = $p_id;
+									UPDATE `member_post`
+									SET `status` = 0
+									WHERE `m_id` = $user_id AND `p_id` = $p_id ";
+						}
+						else{//status == 0 || status == null甚麼事情都不做
+							$sql = "SELECT ilovesteven";
+						}
 					}
 					else{
 						$result['status'] = "fail";
