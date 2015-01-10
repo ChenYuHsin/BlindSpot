@@ -335,28 +335,29 @@ $(document).ready( function(){
 			var post_id = $(this).closest('.post-box').attr('rel');
 			if( love_request !== undefined ) {
 				clearTimeout( love_request );
-			} else {
-				love_request = setTimeout( function(){
-					$.ajax({
-						url: './backend/blindspot.php',
-						type: 'POST',
-						data: {
-							func: 'love_post',
-							p_id: post_id,
-							action: action
-						},
-						success: function( response ){
-							console.log(response);
-							// if( $.parseJSON(response)['status'] == "success" ) {
-
-							// }
-						},
-						error: function(){
-
-						}
-					});
-				}, 3000);
 			}
+			love_request = setTimeout( function(){
+				console.log(action);
+				$.ajax({
+					url: './backend/blindspot.php',
+					type: 'POST',
+					data: {
+						func: 'love_post',
+						p_id: post_id,
+						action: action
+					},
+					success: function( response ){
+						console.log(response);
+						// if( $.parseJSON(response)['status'] == "success" ) {
+
+						// }
+					},
+					error: function(){
+
+					}
+				});
+				console.log('request send');
+			}, 3000);
 		});
 
 		$('.tool-bar .logout').on( 'click', function(){
@@ -572,7 +573,6 @@ function onClickFuncInFallwall() {
 				p_id: thisGrid.attr('rel')
 			},
 			success: function( response ){
-				console.log(response);
 				comment = $.parseJSON(response);
 				var im = comment['delete_able'];
 				if( comment['status'] == "success" ) {
