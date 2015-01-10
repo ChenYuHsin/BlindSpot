@@ -12,6 +12,7 @@
 
 <body id="profile" class="stop-scrolling">
 
+	<div class="tool-icon mobile-show"></div>
 	<div class="tool-bar">
 		<div class="search-tool">
 			<input type="text" placeholder="Who are you looking for?" />

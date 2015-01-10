@@ -215,6 +215,7 @@ $(document).ready( function(){
 							c_content: $('.msg-box input').val()
 						},
 						success: function( response ){
+							console.log(response);
 							var comment_detail = $.parseJSON( response );
 							if( comment_detail['status'] == "success" ) {
 								$('.msg-box input').val('');
@@ -483,12 +484,14 @@ function startOnClick() {
 	$('.psn-photo .go_setting').on( 'click', function(){
 
 		$('.bu_dai').fadeIn(800);
+		$('body').addClass('stop-scrolling');
 		setTimeout( function(){
 			$('.bu_dai .setting-box').css( 'top', '10vh' );
 		}, 300);
 
 		$('.bu_dai .guo_fang_bu, .btn-group .pure-button.cancel').on( 'click', function(){
 			$('.bu_dai .setting-box').css( 'top', '-200vh' );
+			$('body').removeClass('stop-scrolling');
 			setTimeout( function(){
 				$('.bu_dai').fadeOut(800);
 			}, 300);
