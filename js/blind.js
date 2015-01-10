@@ -161,11 +161,18 @@ $(document).ready( function(){
 							success: function( response ){
 								post_data = $.parseJSON( response );
 								var im = post_data['delete_able'];
+								if( windowW <= 480 ) {
+									var columnNum = 1;
+								} else if( windowW <= 720 ) {
+									var columnNum = 2;
+								} else {
+									var columnNum = 3;
+								}
 								if( post_data['status'] = "success" ) {
 
 									$('#lots_of_post').initialize( $('#framework').html(), {
 										gridNumber: 10,
-										column_number: 3,
+										column_number: columnNum,
 										margin_left: '10px',
 										margin_right: '10px'
 									}, post_data, function(){

@@ -39,6 +39,10 @@
 		top: -60px;
 	}
 
+	.tool-bar:hover {
+		top: -60px;
+	}
+
 	.tool-bar.show {
 		height: 30px;
 		top: 0px;
@@ -72,6 +76,10 @@
 
 	.tool-bar .logo {
 		display: none;
+	}
+
+	.psn-wall {
+		margin: 60px 70px 100px 70px;
 	}
 
 	.pure-form-aligned .pure-control-group label {
@@ -109,6 +117,12 @@
 
 	.bu_dai .setting-box .pure-form-aligned textarea {
 		width: 55%;
+	}
+
+	.psn-wall .grid .author img {
+		width: 50px;
+		height: 50px;
+		border-radius: 50px;
 	}
 
 }
