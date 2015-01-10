@@ -222,12 +222,10 @@ $(document).ready( function(){
 								$('.msg-box .dont_click').removeClass('show');
 
 								var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
-								$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
+								$('.comment-wrapper').append('<div class="per_comment" rel="' + comment_detail['data'][0]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
 
 								$('.delete.comment').off('click').on( 'click', function(){
 									if( confirm("確定刪除此則留言？") ) {
-										// I dont' know why 'closest' can't get the element
-										// -> $(this).closest('.per_comment');
 										var thisComment = $(this).parent('.right-part').parent('.per_comment');
 										$.ajax({
 											url: './backend/blindspot_2.php',
@@ -568,7 +566,6 @@ function onClickFuncInFallwall() {
 									c_id: thisComment.attr('rel')
 								},
 								success: function( response ){
-									console.log(response);
 									if( $.parseJSON(response)['status'] == "success" ) {
 										thisComment.addClass('animated zoomOut');
 										setTimeout( function(){
