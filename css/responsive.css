@@ -45,20 +45,29 @@
 		padding: 10px 0px;
 	}
 
-	.tool-bar.show .search-tool,
-	.tool-bar.show .logout {
+	.tool-bar .search-tool,
+	.tool-bar .logout {
 		top: 10px;
+	}
+
+	.tool-bar .search-tool {
+		left: 20px;
 	}
 
 	.tool-icon {
 		width: 30px;
 		height: 30px;
-		position: absolute;
+		position: fixed;
 		top: 10px;
 		right: 20px;
 		background-image: url( ../images/mobile/tool-bar-icon.png );
 		background-size: 30px;
+		background-position: 0px 0px;
 		z-index: 11;
+	}
+
+	.tool-icon.to_close {
+		background-position: 0px 30px;
 	}
 
 	.tool-bar .logo {

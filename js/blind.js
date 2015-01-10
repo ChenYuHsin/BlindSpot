@@ -432,6 +432,15 @@ $(document).ready( function(){
 			})
 		});
 
+		// 
+		// 		R E S P O N S I V E
+		//
+		if( windowW <= 960 ) {
+			$('.tool-icon').on( 'click', function(){
+				$('.tool-bar').hasClass('show') ? $('.tool-bar').removeClass('show') : $('.tool-bar').addClass('show');
+				$(this).hasClass('to_close') ? $(this).removeClass('to_close') : $(this).addClass('to_close');
+			});
+		}
 	}
 
 });
