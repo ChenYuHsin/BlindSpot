@@ -234,11 +234,18 @@
 	}
 
 	.bu_dai .setting-box.show {
-		top: 3vh;
+		top: 2vh;
+	}
+
+	.divider.setting {
+		width: 100%;
 	}
 
 	.bu_dai .setting-box {
-		height: 88vh;
+		height: 90vh;
+		width: 90%;
+		padding: 2%;
+		left: 3%;
 	}
 
 	.bu_dai .setting-box .pure-form-aligned textarea {
