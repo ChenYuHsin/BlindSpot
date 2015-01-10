@@ -511,7 +511,6 @@ function onClickFuncInFallwall() {
 			success: function( response ){
 				comment = $.parseJSON(response);
 				var im = comment['delete_able'];
-				console.log( comment );
 				if( comment['status'] == "success" ) {
 					$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
 					$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
@@ -523,6 +522,8 @@ function onClickFuncInFallwall() {
 						}
 					};
 					$('.delete.comment').on( 'click', function(){
+						// I dont' know why 'closest' can't get the element
+						// -> $(this).closest('.per_comment');
 						var thisComment = $(this).parent('.right-part').parent('.per_comment');
 						$.ajax({
 							url: './backend/blindspot_2.php',
@@ -532,11 +533,17 @@ function onClickFuncInFallwall() {
 								c_id: thisComment.attr('rel')
 							},
 							success: function( response ){
+								console.log(response);
 								if( $.parseJSON(response)['status'] == "success" ) {
 									thisComment.addClass('animated zoomOut');
 									setTimeout( function(){
 										thisComment.remove();
 									}, 450);
+									$.each( $('.grid'), function(){
+										if( $(this).attr('rel') == thisComment.closest('.post-box').attr('rel') ) {
+											$(this).find('.more-msg .num').text( parseInt( $(this).find('.more-msg .num').text() )-1 );
+										}
+									});
 								}
 							},
 							error: function(){
