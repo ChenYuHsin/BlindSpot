@@ -121,10 +121,16 @@
 	    					FROM `post`
 	    					WHERE pid = '$p_id'";
   			 		$plike_result = $this -> db_query($sql);
+	    			$sql = "SELECT `status`
+	    					FROM `member_post`
+	    					WHERE p_id = '$p_id'
+	    					and m_id = '$user_id'";
+	    			$post_status = $this -> db_query($sql);
 	    			$result['status'] = 'success';
 	    			$result['post_about'] = $plike_result;
 	    			$result['data'] = $q_result;
 	    			$result['delete_able'] = $user_id;
+	    			$result['you_2_post'] = $post_status;
 	    			return json_encode($result);
 					break;
 	    		default:
