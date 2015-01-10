@@ -362,7 +362,7 @@
 									WHERE `m_id` = $user_id AND `p_id` = $p_id ";
 						}	
 						else{//status == 0 || status == 2 || status == null甚麼事情都不做
-							$sql = "SELECT ilovesteven";
+							$sql = "SELECT `ilovesteven`";
 						}	
 					}
 					else if ($love == 'hate_cancel'){
@@ -385,7 +385,7 @@
 									WHERE `m_id` = $user_id AND `p_id` = $p_id ";
 						}
 						else{//status == 0 || status == null甚麼事情都不做
-							$sql = "SELECT ilovesteven";
+							$sql = "SELECT `ilovesteven`";
 						}
 					}
 					else{
