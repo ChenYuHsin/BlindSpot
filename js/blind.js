@@ -332,31 +332,31 @@ $(document).ready( function(){
 				}
 			}
 
+			var post_id = $(this).closest('.post-box').attr('rel');
 			if( love_request !== undefined ) {
 				clearTimeout( love_request );
 			} else {
 				love_request = setTimeout( function(){
-					alert('send request');
+					$.ajax({
+						url: './backend/blindspot.php',
+						type: 'POST',
+						data: {
+							func: 'love_post',
+							p_id: post_id,
+							action: action
+						},
+						success: function( response ){
+							console.log(response);
+							// if( $.parseJSON(response)['status'] == "success" ) {
+
+							// }
+						},
+						error: function(){
+
+						}
+					});
 				}, 3000);
 			}
-
-			// $.ajax({
-			// 	url: './backend/blindspot.php',
-			// 	type: 'POST',
-			// 	data: {
-			// 		func: 'love_post',
-			// 		p_id: $(this).closest('.post-box').attr('rel'),
-			// 		action: action
-			// 	},
-			// 	success: function( response ){
-			// 		if( $.parseJSON(response)['status'] == "success" ) {
-
-			// 		}
-			// 	},
-			// 	error: function(){
-
-			// 	}
-			// });
 		});
 
 		$('.tool-bar .logout').on( 'click', function(){
@@ -562,6 +562,7 @@ function onClickFuncInFallwall() {
 		var thisGrid = $(this).parent('.grid');
 
 		$('.comment-wrapper').html('');
+		$('.bu_dai .post-box .fa').removeClass('clicked');
 
 		$.ajax({
 			url: './backend/blindspot_2.php',
@@ -571,20 +572,23 @@ function onClickFuncInFallwall() {
 				p_id: thisGrid.attr('rel')
 			},
 			success: function( response ){
+				console.log(response);
 				comment = $.parseJSON(response);
-				// console.log( comment['you_2_post'] );
 				var im = comment['delete_able'];
 				if( comment['status'] == "success" ) {
 					$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
 					$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
-					if( comment['you_2_post'] !== "" ) {
-						if( comment['you_2_post'] == "1" )
+
+
+					if( comment['you_2_post'] != "nil" ) {
+						if( comment['you_2_post'] == "love" )
 							var addTarget = $('.bu_dai .post-box .love .fa');
 						else
 							var addTarget = $('.bu_dai .post-box .hate .fa');
 
 						addTarget.addClass('clicked');
 					}
+
 					for( var i = 0; i < comment['data'].length; i++ ) {
 						var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
 						$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
@@ -592,6 +596,7 @@ function onClickFuncInFallwall() {
 							$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
 						}
 					};
+
 					$('.delete.comment').on( 'click', function(){
 						if( confirm("確定刪除此則留言？") ) {
 							// I dont' know why 'closest' can't get the element
