@@ -554,7 +554,7 @@ function more() {
 	$('#lots_of_post').giveMeMore();
 }
 
-// fucking long
+// it's fucking long
 function onClickFuncInFallwall() {
 
 	$('.psn-wall .grid .more-msg').off('click').on( 'click', function(){
