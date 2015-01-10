@@ -286,36 +286,7 @@
 	    			$result['data'] = $q_result;
 	    			return json_encode($result);
 	    			break;
-	    		
-	    		case 'get_comment':
-	    			try{
-	    				$p_id = $_POST['p_id'];
-	    				$user_id = $_SESSION['user_id'];
-	    			}
-	    			catch(Exception $e){
-	    				$result['status'] = "fail";
-	    				return json_encode($result);
-	    			}
-
-	    			//$user = $_SESSION['user_id']; 湖俊傑註解der
-	    			$sql = "SELECT `c_id`,`sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name
-	    					FROM `comment` c
-	    					LEFT JOIN `member` m
-	    						on c.sender_id = m.m_id
-	    					WHERE p_id = '$p_id'
-	    					and able = '1' 
-	    					ORDER BY `c_id`";
-	    			$q_result = $this -> db_query($sql);
-	    			$sql = "SELECT `love`, `hate` 
-	    					FROM `post`
-	    					WHERE pid = '$p_id'";
-  			 		$plike_result = $this -> db_query($sql);
-	    			$result['status'] = 'success';
-	    			$result['post_about'] = $plike_result;
-	    			$result['data'] = $q_result;
-	    			$result['delete_able'] = $user_id;
-	    			return json_encode($result);
-					break;
+	    	
 
 				case 'love_post':
 					try{
@@ -327,10 +298,14 @@
 						return json_encode($result);
 					}
 
+					$user_id = $_SESSION['user_id'];
+
 					if($love == 'love'){
 						$sql = "UPDATE `post`
 								SET `love` = `love` + 1
-								WHERE `pid` = $p_id";
+								WHERE `pid` = $p_id;
+								INSERT INTO `member_post` (`m_id`,`p_id`,)
+								VALUES ";
 					}
 					else if ($love == 'hate') {
 						$sql = "UPDATE `post`
