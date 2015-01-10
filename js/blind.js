@@ -248,6 +248,7 @@ $(document).ready( function(){
 							content: $('.msg-box input').val()
 						},
 						success: function( response ){
+							console.log( response );
 							$('.msg-box input').val('');
 							$('.msg-box input').prop( 'disabled', false );
 							$('.msg-box .dont_click').removeClass('show');
@@ -522,34 +523,36 @@ function onClickFuncInFallwall() {
 						}
 					};
 					$('.delete.comment').on( 'click', function(){
-						// I dont' know why 'closest' can't get the element
-						// -> $(this).closest('.per_comment');
-						var thisComment = $(this).parent('.right-part').parent('.per_comment');
-						$.ajax({
-							url: './backend/blindspot_2.php',
-							type: 'POST',
-							data: {
-								func: 'delete_comment',
-								c_id: thisComment.attr('rel')
-							},
-							success: function( response ){
-								console.log(response);
-								if( $.parseJSON(response)['status'] == "success" ) {
-									thisComment.addClass('animated zoomOut');
-									setTimeout( function(){
-										thisComment.remove();
-									}, 450);
-									$.each( $('.grid'), function(){
-										if( $(this).attr('rel') == thisComment.closest('.post-box').attr('rel') ) {
-											$(this).find('.more-msg .num').text( parseInt( $(this).find('.more-msg .num').text() )-1 );
-										}
-									});
-								}
-							},
-							error: function(){
+						if( confirm("確定刪除此則留言？") ) {
+							// I dont' know why 'closest' can't get the element
+							// -> $(this).closest('.per_comment');
+							var thisComment = $(this).parent('.right-part').parent('.per_comment');
+							$.ajax({
+								url: './backend/blindspot_2.php',
+								type: 'POST',
+								data: {
+									func: 'delete_comment',
+									c_id: thisComment.attr('rel')
+								},
+								success: function( response ){
+									console.log(response);
+									if( $.parseJSON(response)['status'] == "success" ) {
+										thisComment.addClass('animated zoomOut');
+										setTimeout( function(){
+											thisComment.remove();
+										}, 450);
+										$.each( $('.grid'), function(){
+											if( $(this).attr('rel') == thisComment.closest('.post-box').attr('rel') ) {
+												$(this).find('.more-msg .num').text( parseInt( $(this).find('.more-msg .num').text() )-1 );
+											}
+										});
+									}
+								},
+								error: function(){
 
-							}
-						});
+								}
+							});
+						}
 					});
 				}
 			},
