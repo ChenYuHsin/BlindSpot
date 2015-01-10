@@ -275,7 +275,7 @@
 					$sql = "INSERT INTO `comment`(c_content,p_id,sender_id)
 							VALUES ('$c_content', '$p_id', '$user')";
 	    			$change_result = $this->db_exec($sql);
-					$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name
+					$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name,`c_id`
 	    					FROM `comment` c
 	    					LEFT JOIN `member` m
 	    						on c.sender_id = m.m_id
