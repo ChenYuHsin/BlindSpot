@@ -13,10 +13,6 @@ $(document).ready( function(){
 	windowW = $(window).width();
 	windowH = $(window).height();
 
-	var newStickerUrl = $('.psn-photo .ur-sticker img').attr('src') + '?yo=' + getRandomNum;
-	console.log( newStickerUrl );
-	// $('.psn-photo .ur-sticker img').attr('src');
-
 // --------------------------------- \\    \/
 //			H O M E P A G E			 \\--- /
 // --------------------------------- \\
@@ -287,7 +283,6 @@ $(document).ready( function(){
 							$('.msg-box .dont_click').removeClass('show');
 
 							var post_detail = $.parseJSON( response );
-							console.log(post_detail);
 							$('#lots_of_post').addNewGrid( post_detail, function(){
 								onClickFuncInFallwall();
 							});
@@ -448,8 +443,8 @@ function setPicture( user_id ) {
 
 	var img_src = "./images/profile/" + user_id;
 
-	$('.psn-photo').css( "background-image", imageExists( img_src + "/back_photo.png" ) ? "url( " + img_src + "/back_photo.png )" : "url( ./images/profile/0/back_photo.png )" );
-	$('.psn-photo .sticker-wrapper .ur-sticker img').attr( "src", imageExists( img_src + "/sticker.png" ) ? img_src + "/sticker.png" : "./images/profile/0/sticker.png" );
+	$('.psn-photo').css( "background-image", imageExists( img_src + "/back_photo.png" ) ? "url( " + img_src + "/back_photo.png?yo=" + getRandomNum().toString() + " )" : "url( ./images/profile/0/back_photo.png?yo=" + getRandomNum().toString() + " )" );
+	$('.psn-photo .sticker-wrapper .ur-sticker img').attr( "src", imageExists( img_src + "/sticker.png" ) ? img_src + "/sticker.png?yo=" + getRandomNum().toString()  : "./images/profile/0/sticker.png" + getRandomNum().toString() );
 
 }
 
