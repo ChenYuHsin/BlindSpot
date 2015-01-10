@@ -672,7 +672,7 @@ function onClickFuncInFallwall() {
 
 function isThisEnglish( str ) {
 	var regExp = /^[\d|a-zA-Z]+$/;
-	return regExp.test(str) ? true : false;
+	return regExp.test(str);
 }
 
 function imageExists( image_url ){
