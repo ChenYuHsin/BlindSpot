@@ -215,4 +215,34 @@
 		margin-bottom: 0px;
 	}
 
+	.bu_dai .setting-box {
+		width: 90%;
+		padding: 2%;
+		left: 3%;
+	}
+
+	.divider.setting {
+		margin: 0px;
+	}
+
+	.bu_dai .setting-box form {
+		margin-top: 10px;
+	}
+
+	.pure-control-group {
+		padding-left: 10px;
+	}
+
+	.bu_dai .setting-box.show {
+		top: 3vh;
+	}
+
+	.bu_dai .setting-box {
+		height: 88vh;
+	}
+
+	.bu_dai .setting-box .pure-form-aligned textarea {
+		width: 90%;
+	}
+
 }

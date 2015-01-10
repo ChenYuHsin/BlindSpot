@@ -502,11 +502,11 @@ function startOnClick() {
 		$('.bu_dai').fadeIn(800);
 		$('body').addClass('stop-scrolling');
 		setTimeout( function(){
-			$('.bu_dai .setting-box').css( 'top', '10vh' );
+			$('.bu_dai .setting-box').addClass('show');
 		}, 300);
 
 		$('.bu_dai .guo_fang_bu, .btn-group .pure-button.cancel').on( 'click', function(){
-			$('.bu_dai .setting-box').css( 'top', '-200vh' );
+			$('.bu_dai .setting-box').removeClass('show');
 			$('body').removeClass('stop-scrolling');
 			setTimeout( function(){
 				$('.bu_dai').fadeOut(800);

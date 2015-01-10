@@ -698,8 +698,7 @@ body#homepage footer {
 	background-color: white;
 	position: absolute;
 	top: -200vh;
-	/*top: 10vh;*/
-	left: 15vw;
+	left: 13vw;
 	border: 1px #c9c9c9 solid;
 	border-radius: 30px;
 
@@ -707,6 +706,10 @@ body#homepage footer {
 	   -moz-transition: all 1s;
 		 -o-transition: all 1s;
 			transition: all 1s;
+}
+
+.bu_dai .setting-box.show {
+	top: 10vh;
 }
 
 .divider.setting {
