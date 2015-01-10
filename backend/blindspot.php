@@ -305,13 +305,11 @@
 	    					WHERE p_id = '$p_id'
 	    					and able = 1 
 	    					ORDER BY `c_id`";
-
 	    			$q_result = $this -> db_query($sql);
 	    			$sql = "SELECT `love`, `hate` 
 	    					FROM `post`
 	    					WHERE pid = '$p_id'";
-	    			 
-	    			$plike_result = $this -> db_query($sql);
+  			 		$plike_result = $this -> db_query($sql);
 	    			$result['status'] = 'success';
 	    			$result['post_about'] = $plike_result;
 	    			$result['data'] = $q_result;
