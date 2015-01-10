@@ -672,10 +672,7 @@ function onClickFuncInFallwall() {
 
 function isThisEnglish( str ) {
 	var regExp = /^[\d|a-zA-Z]+$/;
-	if( regExp.test(str) )
-		return true; // english
-	else
-		return false; // chinese
+	return regExp.test(str) ? true : false;
 }
 
 function imageExists( image_url ){
