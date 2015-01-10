@@ -303,30 +303,52 @@ $(document).ready( function(){
 
 		$('.bu_dai .post-box .status-bar i.fa').on( 'click', function(){
 			if( $(this).hasClass('fa-thumbs-o-up') ) {
-				var action = "love";
-				$('.post-box .status-bar .love .number').text( parseInt($('.post-box .status-bar .love .number').text())+1 );
+				if( $(this).hasClass('clicked') ) {
+					var action = "love_cancel";
+					$(this).removeClass('clicked');
+					$('.post-box .status-bar .love .number').text( parseInt($('.post-box .status-bar .love .number').text())-1 );
+				} else {
+					var action = "love";
+					$(this).addClass('clicked');
+					$('.post-box .status-bar .love .number').text( parseInt($('.post-box .status-bar .love .number').text())+1 );
+					if( $('.post-box .status-bar .hate i.fa').hasClass('clicked') ) {
+						$('.post-box .status-bar .hate i.fa').removeClass('clicked');
+						$('.post-box .status-bar .hate .number').text( parseInt($('.post-box .status-bar .hate .number').text())-1 );
+					}
+				}
 			} else {
-				var action = "hate";
-				$('.post-box .status-bar .hate .number').text( parseInt($('.post-box .status-bar .hate .number').text())+1 );
+				if( $(this).hasClass('clicked') ) {
+					var action = "hate_cancel";
+					$(this).removeClass('clicked');
+					$('.post-box .status-bar .hate .number').text( parseInt($('.post-box .status-bar .hate .number').text())-1 );
+				} else {
+					var action = "hate";
+					$(this).addClass('clicked');
+					$('.post-box .status-bar .hate .number').text( parseInt($('.post-box .status-bar .hate .number').text())+1 );
+					if( $('.post-box .status-bar .love i.fa').hasClass('clicked') ) {
+						$('.post-box .status-bar .love i.fa').removeClass('clicked');
+						$('.post-box .status-bar .love .number').text( parseInt($('.post-box .status-bar .love .number').text())-1 );
+					}
+				}
 			}
 
-			$.ajax({
-				url: './backend/blindspot.php',
-				type: 'POST',
-				data: {
-					func: 'love_post',
-					p_id: $(this).closest('.post-box').attr('rel'),
-					action: action
-				},
-				success: function( response ){
-					if( $.parseJSON(response)['status'] == "success" ) {
+			// $.ajax({
+			// 	url: './backend/blindspot.php',
+			// 	type: 'POST',
+			// 	data: {
+			// 		func: '',
+			// 		p_id: $(this).closest('.post-box').attr('rel'),
+			// 		action: action
+			// 	},
+			// 	success: function( response ){
+			// 		if( $.parseJSON(response)['status'] == "success" ) {
 
-					}
-				},
-				error: function(){
+			// 		}
+			// 	},
+			// 	error: function(){
 
-				}
-			});
+			// 	}
+			// });
 		});
 
 		$('.tool-bar .logout').on( 'click', function(){

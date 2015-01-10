@@ -839,11 +839,13 @@ body#homepage footer {
 	cursor: pointer;
 }
 
-.bu_dai .post-box .comment_block .status-bar i.fa-thumbs-o-up:hover {
+.bu_dai .post-box .comment_block .status-bar i.fa-thumbs-o-up:hover,
+.bu_dai .post-box .comment_block .status-bar i.fa-thumbs-o-up.clicked {
 	color: #0080ff;
 }
 
-.bu_dai .post-box .comment_block .status-bar i.fa-thumbs-o-down:hover {
+.bu_dai .post-box .comment_block .status-bar i.fa-thumbs-o-down:hover,
+.bu_dai .post-box .comment_block .status-bar i.fa-thumbs-o-down.clicked {
 	color: #ff0800;
 }
 
