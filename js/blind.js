@@ -222,7 +222,40 @@ $(document).ready( function(){
 								$('.msg-box .dont_click').removeClass('show');
 
 								var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
-								$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div></div><br class="clear" /></div>');
+								$('.comment-wrapper').append('<div class="per_comment"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
+
+								$('.delete.comment').off('click').on( 'click', function(){
+									if( confirm("確定刪除此則留言？") ) {
+										// I dont' know why 'closest' can't get the element
+										// -> $(this).closest('.per_comment');
+										var thisComment = $(this).parent('.right-part').parent('.per_comment');
+										$.ajax({
+											url: './backend/blindspot_2.php',
+											type: 'POST',
+											data: {
+												func: 'delete_comment',
+												c_id: thisComment.attr('rel')
+											},
+											success: function( response ){
+												console.log(response);
+												if( $.parseJSON(response)['status'] == "success" ) {
+													thisComment.addClass('animated zoomOut');
+													setTimeout( function(){
+														thisComment.remove();
+													}, 450);
+													$.each( $('.grid'), function(){
+														if( $(this).attr('rel') == thisComment.closest('.post-box').attr('rel') ) {
+															$(this).find('.more-msg .num').text( parseInt( $(this).find('.more-msg .num').text() )-1 );
+														}
+													});
+												}
+											},
+											error: function(){
+
+											}
+										});
+									}
+								});
 
 								$.each( $('.psn-wall .grid'), function(){
 									if( $(this).attr('rel') == $('.bu_dai .post-box').attr('rel') ) {
@@ -495,8 +528,8 @@ function more() {
 
 // fucking long
 function onClickFuncInFallwall() {
-	$('.psn-wall .grid .more-msg').off('click');
-	$('.psn-wall .grid .more-msg').on( 'click', function(){
+
+	$('.psn-wall .grid .more-msg').off('click').on( 'click', function(){
 
 		var thisGrid = $(this).parent('.grid');
 
@@ -587,8 +620,8 @@ function onClickFuncInFallwall() {
 		});
 
 	});
-	$('.psn-wall .grid .delete.post').off('click');
-	$('.psn-wall .grid .delete.post').on( 'click', function(){
+
+	$('.psn-wall .grid .delete.post').off('click').on( 'click', function(){
 		if( confirm("確定刪除此則貼文？") ) {
 			var thisGrid = $(this).parent('.grid');
 			$.ajax({
