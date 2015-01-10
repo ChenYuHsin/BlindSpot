@@ -69,6 +69,11 @@ a:hover {
 	display: none;
 }
 
+.pure-button {
+	width: 90px;
+	margin-left: 10px;
+}
+
 /* ------------------------------------ *\
 			thanks Animate.css
 \* ------------------------------------ */

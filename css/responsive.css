@@ -74,6 +74,14 @@
 		display: none;
 	}
 
+	.pure-form-aligned .pure-control-group label {
+		text-align: left;
+	}
+
+	.bu_dai .setting-box .pure-form-aligned textarea {
+		width: 65%;
+	}
+
 }
 
 @media all and ( max-width: 720px ) {
@@ -88,6 +96,7 @@
 
 	.psn-wall .psn-info h1 {
 		font-size: 60px;
+		line-height: 64px;
 	}
 
 	.data_board h1 {
@@ -96,6 +105,10 @@
 
 	.data_board h2 {
 		font-size: 56px;
+	}
+
+	.bu_dai .setting-box .pure-form-aligned textarea {
+		width: 55%;
 	}
 
 }
@@ -133,6 +146,59 @@
 		margin-left: 5%;
 		float: none;
 		display: table-footer-group;
+	}
+
+	.tool-icon {
+		right: 10px;
+	}
+
+	.tool-bar .search-tool {
+		left: 10px;
+	}
+
+	.tool-bar .search-tool input {
+		width: 160px;
+	}
+
+	.tool-bar .search-tool .name-box {
+		width: 180px;
+	}
+
+	.tool-bar .logout {
+		right: 60px;
+	}
+
+	.psn-wall {
+		margin: 60px 15px 100px 15px;
+	}
+
+	.psn-wall .psn-info {
+		padding-left: 15px;
+	}
+
+	.psn-wall .psn-info h1 {
+		font-size: 50px;
+		line-height: 54px;
+	}
+
+	.psn-wall .psn-info h3 {
+		font-size: 16px;
+	}
+
+	.data_board {
+		margin-bottom: 30px;
+	}
+
+	.data_board h1 {
+		font-size: 48px;
+	}
+
+	.data_board h2 {
+		font-size: 44px;
+	}
+
+	.data_board h2:last-child {
+		margin-bottom: 0px;
 	}
 
 }
