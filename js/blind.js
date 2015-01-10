@@ -589,26 +589,28 @@ function onClickFuncInFallwall() {
 	});
 	$('.psn-wall .grid .delete.post').off('click');
 	$('.psn-wall .grid .delete.post').on( 'click', function(){
-		var thisGrid = $(this).parent('.grid');
-		$.ajax({
-			url: './backend/blindspot_2.php',
-			type: 'POST',
-			data: {
-				func: 'delete_post',
-				pid: thisGrid.attr('rel')
-			},
-			success: function( response ){
-				if( $.parseJSON(response)['status'] == "success" ) {
-					thisGrid.addClass('zoomOut');
-					setTimeout( function(){
-						thisGrid.remove();
-					}, 450);
-				}
-			},
-			error: function(){
+		if( confirm("確定刪除此則貼文？") ) {
+			var thisGrid = $(this).parent('.grid');
+			$.ajax({
+				url: './backend/blindspot_2.php',
+				type: 'POST',
+				data: {
+					func: 'delete_post',
+					pid: thisGrid.attr('rel')
+				},
+				success: function( response ){
+					if( $.parseJSON(response)['status'] == "success" ) {
+						thisGrid.addClass('zoomOut');
+						setTimeout( function(){
+							thisGrid.remove();
+						}, 450);
+					}
+				},
+				error: function(){
 
-			}
-		});
+				}
+			});
+		}
 	});
 }
 
