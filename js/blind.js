@@ -337,7 +337,8 @@ $(document).ready( function(){
 				clearTimeout( love_request );
 			}
 			love_request = setTimeout( function(){
-				console.log(action);
+				console.log( "Your action is -> " + action );
+				console.log( "Post_id is -> " + post_id );
 				$.ajax({
 					url: './backend/blindspot.php',
 					type: 'POST',
@@ -348,16 +349,13 @@ $(document).ready( function(){
 					},
 					success: function( response ){
 						console.log(response);
-						// if( $.parseJSON(response)['status'] == "success" ) {
-
-						// }
+						// if( $.parseJSON(response)['status'] == "success" )
 					},
 					error: function(){
 
 					}
 				});
-				console.log('request send');
-			}, 3000);
+			}, 2000);
 		});
 
 		$('.tool-bar .logout').on( 'click', function(){
