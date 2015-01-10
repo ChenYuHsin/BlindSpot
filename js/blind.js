@@ -1,6 +1,6 @@
 var windowW, windowH;
 
-var ajax_search, dontAddMore = 0;
+var ajax_search, love_request, dontAddMore = 0;
 
 $(document).ready( function(){
 
@@ -332,11 +332,19 @@ $(document).ready( function(){
 				}
 			}
 
+			if( love_request !== undefined ) {
+				clearTimeout( love_request );
+			} else {
+				love_request = setTimeout( function(){
+					alert('send request');
+				}, 3000);
+			}
+
 			// $.ajax({
 			// 	url: './backend/blindspot.php',
 			// 	type: 'POST',
 			// 	data: {
-			// 		func: '',
+			// 		func: 'love_post',
 			// 		p_id: $(this).closest('.post-box').attr('rel'),
 			// 		action: action
 			// 	},
