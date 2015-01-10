@@ -564,7 +564,7 @@ function onClickFuncInFallwall() {
 		$('.comment-wrapper').html('');
 
 		$.ajax({
-			url: './backend/blindspot.php',
+			url: './backend/blindspot_2.php',
 			type: 'POST',
 			data: {
 				func: 'get_comment',
@@ -572,10 +572,19 @@ function onClickFuncInFallwall() {
 			},
 			success: function( response ){
 				comment = $.parseJSON(response);
+				// console.log( comment['you_2_post'] );
 				var im = comment['delete_able'];
 				if( comment['status'] == "success" ) {
 					$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
 					$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
+					if( comment['you_2_post'] !== "" ) {
+						if( comment['you_2_post'] == "1" )
+							var addTarget = $('.bu_dai .post-box .love .fa');
+						else
+							var addTarget = $('.bu_dai .post-box .hate .fa');
+
+						addTarget.addClass('clicked');
+					}
 					for( var i = 0; i < comment['data'].length; i++ ) {
 						var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
 						$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
