@@ -2,7 +2,7 @@
    session_start();
 
 	include_once'../config/init.php';
-	include_once './scws.php';
+	// include_once './scws.php';
 	class register{
 
 		public $_config;
@@ -221,12 +221,12 @@
 	    			$result['data'] = $q_result;
 
 
-	    			$this->save_log($user, 'post_on_wall');
+	    			$this->save_log($user, 'post_on_wall', $friend_id);
 	    			//重新整理接受po文人的關鍵字
-				    $scws = new simpleCSWS();
-				    $keyword = $scws->getoneskeyword($friend_id);
-				    $sql = "UPDATE `member` SET `keyword` = '$keyword' WHERE `m_id` = $friend_id";
-				    $key_exec = $this->db_exec($sql);
+				    // $scws = new simpleCSWS();
+				    // $keyword = $scws->getoneskeyword($friend_id);
+				    // $sql = "UPDATE `member` SET `keyword` = '$keyword' WHERE `m_id` = $friend_id";
+				    // $key_exec = $this->db_exec($sql);
 	    			return json_encode($result);
 	    			break;
 
@@ -532,10 +532,10 @@
 			}
 
 	    }
-	    public function save_log($user_id, $action){
+	    public function save_log($user_id,$action , $target = 0){
 
 			//紀錄log
-			$sql = "INSERT INTO `log`(`m_id`, `action`) VALUES ('$user_id', '$action')";
+			$sql = "INSERT INTO `log`(`m_id`,`target` ,`action`) VALUES ('$user_id','$target' ,'$action')";
 			$insert_result = $this->db_exec($sql);
 
 	    }
