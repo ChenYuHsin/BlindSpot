@@ -245,11 +245,11 @@
 	    					LEFT JOIN `member` m
 	    						on p.senderid = m.m_id
 	    					LEFT JOIN (
-	    						SELECT COUNT(c_id) as count_comment, p_id FROM `comment` GROUP BY p_id
+	    						SELECT COUNT(c_id) as count_comment, p_id FROM `comment` where able=1 GROUP BY p_id
 	    						) a
 								on p.pid = a.p_id
 	    					WHERE receiverid = '$friend_id'
-	    					and able = 1
+	    					and able = '1'
 	    					ORDER BY p.updatetime DESC";
 	    			$q_result = $this->db_query($sql);
 	    			$result['status'] = 'success';
@@ -303,7 +303,7 @@
 	    					LEFT JOIN `member` m
 	    						on c.sender_id = m.m_id
 	    					WHERE p_id = '$p_id'
-	    					and able = 1 
+	    					and able = '1' 
 	    					ORDER BY `c_id`";
 	    			$q_result = $this -> db_query($sql);
 	    			$sql = "SELECT `love`, `hate` 
