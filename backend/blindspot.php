@@ -249,6 +249,7 @@
 	    						) a
 								on p.pid = a.p_id
 	    					WHERE receiverid = '$friend_id'
+	    					and able = 1
 	    					ORDER BY p.updatetime DESC";
 	    			$q_result = $this->db_query($sql);
 	    			$result['status'] = 'success';
@@ -302,11 +303,14 @@
 	    					LEFT JOIN `member` m
 	    						on c.sender_id = m.m_id
 	    					WHERE p_id = '$p_id'
+	    					and able = 1 
 	    					ORDER BY `c_id`";
+
 	    			$q_result = $this -> db_query($sql);
 	    			$sql = "SELECT `love`, `hate` 
 	    					FROM `post`
 	    					WHERE pid = '$p_id'";
+	    			 
 	    			$plike_result = $this -> db_query($sql);
 	    			$result['status'] = 'success';
 	    			$result['post_about'] = $plike_result;
@@ -345,6 +349,7 @@
 	    			return json_encode($result);
 				break;
 
+				
 				case 'upload_photo':
 
 					try {
