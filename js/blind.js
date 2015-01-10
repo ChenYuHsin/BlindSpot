@@ -235,7 +235,6 @@ $(document).ready( function(){
 												c_id: thisComment.attr('rel')
 											},
 											success: function( response ){
-												console.log(response);
 												if( $.parseJSON(response)['status'] == "success" ) {
 													thisComment.addClass('animated zoomOut');
 													setTimeout( function(){
@@ -279,12 +278,12 @@ $(document).ready( function(){
 							content: $('.msg-box input').val()
 						},
 						success: function( response ){
-							console.log( response );
 							$('.msg-box input').val('');
 							$('.msg-box input').prop( 'disabled', false );
 							$('.msg-box .dont_click').removeClass('show');
 
 							var post_detail = $.parseJSON( response );
+							console.log(post_detail);
 							$('#lots_of_post').addNewGrid( post_detail );
 						},
 						error: function(){
