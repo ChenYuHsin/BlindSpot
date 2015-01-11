@@ -206,7 +206,7 @@
 					$sql = "INSERT INTO `post`(p_content,receiverid,senderid)
 							VALUES ('$content', '$friend_id', '$user')";
 	    			$change_result = $this->db_exec($sql);
-	    			$sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
+	    			$sql = "SELECT `pid`,`p_content`,`senderid`, p.updatetime, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
 	    					FROM `post` p
 	    					LEFT JOIN `member` m
 	    						on p.senderid = m.m_id
@@ -276,7 +276,7 @@
 					$sql = "INSERT INTO `comment`(c_content,p_id,sender_id)
 							VALUES ('$c_content', '$p_id', '$user')";
 	    			$change_result = $this->db_exec($sql);
-					$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name,`c_id`
+					$sql = "SELECT `sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name,`c_id`, c.updatetime
 	    					FROM `comment` c
 	    					LEFT JOIN `member` m
 	    						on c.sender_id = m.m_id
