@@ -107,12 +107,20 @@
 		line-height: 64px;
 	}
 
+	.data_board {
+		margin-bottom: 30px;
+	}
+
 	.data_board h1 {
 		font-size: 60px
 	}
 
 	.data_board h2 {
 		font-size: 56px;
+	}
+
+	.data_board h2:last-child {
+		margin-bottom: 0px;
 	}
 
 	.bu_dai .setting-box .pure-form-aligned textarea {
@@ -199,20 +207,13 @@
 		font-size: 16px;
 	}
 
-	.data_board {
-		margin-bottom: 30px;
-	}
-
 	.data_board h1 {
 		font-size: 48px;
 	}
 
 	.data_board h2 {
+		padding: 50px 0px;
 		font-size: 44px;
-	}
-
-	.data_board h2:last-child {
-		margin-bottom: 0px;
 	}
 
 	.bu_dai .setting-box {
