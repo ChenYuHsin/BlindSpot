@@ -287,4 +287,21 @@
 		background-size: 62px;
 	}
 
+	.bu_dai .post-box .comment-wrapper .right-part {
+		width: 80%;
+	}
+
+	.psn-wall .grid .author .name,
+	.bu_dai .post-box .author .name,
+	.bu_dai .post-box .comment-wrapper .right-part .name {
+		font-size: 14px;
+	}
+
+	.psn-wall .grid .post_content,
+	.bu_dai .post-box .post_content,
+	.psn-wall .grid .more-msg,
+	.bu_dai .post-box .comment-wrapper .right-part .content {
+		font-size: 12px;
+	}
+
 }
