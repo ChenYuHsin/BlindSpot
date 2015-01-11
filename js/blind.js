@@ -363,7 +363,7 @@ $(document).ready( function(){
 
 					}
 				});
-			}, 2000);
+			}, 1500);
 		});
 
 		$('.tool-bar .logout').on( 'click', function(){
@@ -652,7 +652,6 @@ function onClickFuncInFallwall() {
 			}
 		});
 
-		// console.log( thisGrid.find('.author a').attr('href') );
 		$('.post-box .author a').attr( 'href', thisGrid.find('.author a').attr('href') );
 		$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
 		$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
