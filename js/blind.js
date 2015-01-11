@@ -275,6 +275,18 @@ $(document).ready( function(){
 			 	$('.msg-box .post_btn').trigger('click');
 		});
 
+		// iOS -> msg-box can'y fixed at bottom problem
+		if( isIOS() ) {
+			$('.msg-box').addClass('is_ios');
+			$('.msg-box .post_btn').addClass('hidden');
+			$('.msg-box input').addClass('hidden');
+			$('.msg-box .input_ios').addClass('show');
+			$('.msg-box input').on( 'click', function(){
+				var input = prompt( 'What do you want to say?', '' );
+				alert(input);
+			});
+		}
+
 		$('.bu_dai .post-box .status-bar i.fa').on( 'click', function(){
 			if( $(this).hasClass('fa-thumbs-o-up') ) {
 				if( $(this).hasClass('clicked') ) {
@@ -478,8 +490,8 @@ $(document).ready( function(){
 				},
 				success: function( response ){
 					comment = $.parseJSON(response);
-					var im = comment['delete_able'];
 					if( comment['status'] == "success" ) {
+						var im = comment['delete_able'];
 						$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
 						$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
 
@@ -541,8 +553,6 @@ $(document).ready( function(){
 		if( windowW <= 960 ) {
 			$('.tool-icon').on( 'click', function(){
 				$('.tool-bar').hasClass('show') ? $('.tool-bar').removeClass('show') : $('.tool-bar').addClass('show');
-				// $('.msg-box input').hasClass('show') ? $('.msg-box input').removeClass('show') : $('.msg-box input').addClass('show');
-				// $('.msg-box .post_btn').hasClass('show') ? $('.msg-box .post_btn').removeClass('show') : $('.msg-box .post_btn').addClass('show');
 				$(this).hasClass('to_close') ? $(this).removeClass('to_close') : $(this).addClass('to_close');
 			});
 		}
@@ -662,6 +672,13 @@ function startOnClick() {
 
 function fullName( last_name, first_name ) {
 	return isThisEnglish( last_name ) ? first_name + " " + last_name : last_name + first_name;
+}
+
+function isIOS() {
+	if( navigator.platform == "iPad" || navigator.platform == "iPhone" || navigator.platform == "iPod" )
+		return true;
+	else
+		return false;
 }
 
 function more() {

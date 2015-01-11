@@ -629,6 +629,14 @@ body#homepage footer {
 	bottom: 0px;
 }
 
+.msg-box.hidden {
+	display: none;
+}
+
+.msg-box.is_ios {
+	height: 40px;
+}
+
 .msg-box input {
 	width: 82%;
 	height: 36px;
@@ -644,6 +652,10 @@ body#homepage footer {
 	outline-style: none;
 }
 
+.msg-box input.hidden {
+	display: none;
+}
+
 .msg-box .post_btn {
 	width: 63px;
 	height: 38px;
@@ -653,6 +665,10 @@ body#homepage footer {
 	right: 5%;
 	top: 10px;
 	cursor: pointer;
+}
+
+.msg-box .post_btn.hidden {
+	display: none;
 }
 
 .msg-box .post_btn:hover {
@@ -669,6 +685,20 @@ body#homepage footer {
 }
 
 .msg-box .dont_click.show {
+	display: block;
+}
+
+.msg-box .input_ios {
+	width: 100%;
+	padding-top: 10px;
+	font-size: 14px;
+	color: white;
+	letter-spacing: 5px;
+	text-align: center;
+	display: none;
+}
+
+.msg-box .input_ios.show {
 	display: block;
 }
 

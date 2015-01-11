@@ -72,6 +72,7 @@
 		<input type="text" placeholder="Anything good, anything bad, you can comment here." />
 		<div class="post_btn"></div>
 		<div class="dont_click"></div>
+		<div class="input_ios">我要留言</div>
 	</div>
 
 	<div class="bu_dai">
