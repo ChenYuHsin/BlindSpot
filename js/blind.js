@@ -159,6 +159,7 @@ $(document).ready( function(){
 								friend_id: relationship
 							},
 							success: function( response ){
+								// updatetime <-
 								post_data = $.parseJSON( response );
 								var im = post_data['delete_able'];
 								if( windowW <= 480 ) {
@@ -231,36 +232,6 @@ $(document).ready( function(){
 
 								var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
 								$('.comment-wrapper').append('<div class="per_comment" rel="' + comment_detail['data'][0]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
-
-								$('.delete.comment').off('click').on( 'click', function(){
-									if( confirm("確定刪除此則留言？") ) {
-										var thisComment = $(this).parent('.right-part').parent('.per_comment');
-										$.ajax({
-											url: './backend/blindspot_2.php',
-											type: 'POST',
-											data: {
-												func: 'delete_comment',
-												c_id: thisComment.attr('rel')
-											},
-											success: function( response ){
-												if( $.parseJSON(response)['status'] == "success" ) {
-													thisComment.addClass('animated zoomOut');
-													setTimeout( function(){
-														thisComment.remove();
-													}, 450);
-													$.each( $('.grid'), function(){
-														if( $(this).attr('rel') == thisComment.closest('.post-box').attr('rel') ) {
-															$(this).find('.more-msg .num').text( parseInt( $(this).find('.more-msg .num').text() )-1 );
-														}
-													});
-												}
-											},
-											error: function(){
-
-											}
-										});
-									}
-								});
 
 								$.each( $('.psn-wall .grid'), function(){
 									if( $(this).attr('rel') == $('.bu_dai .post-box').attr('rel') ) {
@@ -436,7 +407,9 @@ $(document).ready( function(){
 			})
 		});
 
-		$('.psn-wall .grid').on( 'click', ' .delete.post', function(){
+		// delete post
+		$('.psn-wall').on( 'click', '.grid .delete.post', function(){
+			console.log('click');
 			if( confirm("確定刪除此則貼文？") ) {
 				var thisGrid = $(this).parent('.grid');
 				$.ajax({
@@ -459,6 +432,113 @@ $(document).ready( function(){
 					}
 				});
 			}
+		});
+
+		// delete comment
+		$('.post-box').on( 'click', '.delete.comment', function(){
+			if( confirm("確定刪除此則留言？") ) {
+				// I dont' know why 'closest' can't get the element
+				// -> $(this).closest('.per_comment');
+				var thisComment = $(this).parent('.right-part').parent('.per_comment');
+				$.ajax({
+					url: './backend/blindspot_2.php',
+					type: 'POST',
+					data: {
+						func: 'delete_comment',
+						c_id: thisComment.attr('rel')
+					},
+					success: function( response ){
+						if( $.parseJSON(response)['status'] == "success" ) {
+							thisComment.addClass('animated zoomOut');
+							setTimeout( function(){
+								thisComment.remove();
+							}, 450);
+							$.each( $('.grid'), function(){
+								if( $(this).attr('rel') == thisComment.closest('.post-box').attr('rel') ) {
+									$(this).find('.more-msg .num').text( parseInt( $(this).find('.more-msg .num').text() )-1 );
+								}
+							});
+						}
+					},
+					error: function(){
+
+					}
+				});
+			}
+		});
+
+		// press more-msg
+		$('.psn-wall').on( 'click', '.grid .more-msg', function(){
+
+			var thisGrid = $(this).parent('.grid');
+
+			$('.comment-wrapper').html('');
+			$('.bu_dai .post-box .fa').removeClass('clicked');
+
+			$.ajax({
+				url: './backend/blindspot_2.php',
+				type: 'POST',
+				data: {
+					func: 'get_comment',
+					p_id: thisGrid.attr('rel')
+				},
+				success: function( response ){
+					comment = $.parseJSON(response);
+					var im = comment['delete_able'];
+					if( comment['status'] == "success" ) {
+						$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
+						$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
+
+						if( comment['you_2_post'] != "nil" ) {
+							if( comment['you_2_post'] == "love" )
+								var addTarget = $('.bu_dai .post-box .love .fa');
+							else
+								var addTarget = $('.bu_dai .post-box .hate .fa');
+
+							addTarget.addClass('clicked');
+						}
+
+						for( var i = 0; i < comment['data'].length; i++ ) {
+							var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
+							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+							if( comment['data'][i]['sender_id'] == im ) {
+								$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
+							}
+						};
+
+					}
+				},
+				error: function(){
+
+				}
+			});
+
+			$('.post-box .author a').attr( 'href', thisGrid.find('.author a').attr('href') );
+			$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
+			$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
+			$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
+
+			$('.bu_dai').fadeIn(800);
+			setTimeout( function(){
+				$('.bu_dai .post-box').fadeIn(800);
+			}, 300);
+
+			$('body').addClass('stop-scrolling');
+			$('.msg-box').addClass('for_msg');
+
+			$('.bu_dai .post-box').attr( 'rel', thisGrid.attr('rel') );
+
+			$('.bu_dai .guo_fang_bu, .post-box .close-me').on( 'click', function(){
+				$('.bu_dai .post-box').fadeOut(800);
+				setTimeout( function(){
+					$('.bu_dai').fadeOut(800);
+				}, 300);
+
+				$('body').removeClass('stop-scrolling');
+				$('.msg-box').removeClass('for_msg');
+				$(this).off('click');
+			});
+
 		});
 
 		// 
@@ -599,112 +679,6 @@ function more() {
 // it's fucking long
 function onClickFuncInFallwall() {
 
-	$('.psn-wall .grid .more-msg').off('click').on( 'click', function(){
-
-		var thisGrid = $(this).parent('.grid');
-
-		$('.comment-wrapper').html('');
-		$('.bu_dai .post-box .fa').removeClass('clicked');
-
-		$.ajax({
-			url: './backend/blindspot_2.php',
-			type: 'POST',
-			data: {
-				func: 'get_comment',
-				p_id: thisGrid.attr('rel')
-			},
-			success: function( response ){
-				comment = $.parseJSON(response);
-				var im = comment['delete_able'];
-				if( comment['status'] == "success" ) {
-					$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
-					$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
-
-
-					if( comment['you_2_post'] != "nil" ) {
-						if( comment['you_2_post'] == "love" )
-							var addTarget = $('.bu_dai .post-box .love .fa');
-						else
-							var addTarget = $('.bu_dai .post-box .hate .fa');
-
-						addTarget.addClass('clicked');
-					}
-
-					for( var i = 0; i < comment['data'].length; i++ ) {
-						var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-						$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
-						if( comment['data'][i]['sender_id'] == im ) {
-							$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
-						}
-					};
-
-					$('.delete.comment').on( 'click', function(){
-						if( confirm("確定刪除此則留言？") ) {
-							// I dont' know why 'closest' can't get the element
-							// -> $(this).closest('.per_comment');
-							var thisComment = $(this).parent('.right-part').parent('.per_comment');
-							$.ajax({
-								url: './backend/blindspot_2.php',
-								type: 'POST',
-								data: {
-									func: 'delete_comment',
-									c_id: thisComment.attr('rel')
-								},
-								success: function( response ){
-									if( $.parseJSON(response)['status'] == "success" ) {
-										thisComment.addClass('animated zoomOut');
-										setTimeout( function(){
-											thisComment.remove();
-										}, 450);
-										$.each( $('.grid'), function(){
-											if( $(this).attr('rel') == thisComment.closest('.post-box').attr('rel') ) {
-												$(this).find('.more-msg .num').text( parseInt( $(this).find('.more-msg .num').text() )-1 );
-											}
-										});
-									}
-								},
-								error: function(){
-
-								}
-							});
-						}
-					});
-				}
-			},
-			error: function(){
-
-			}
-		});
-
-		$('.post-box .author a').attr( 'href', thisGrid.find('.author a').attr('href') );
-		$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
-		$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
-		$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
-
-		$('.bu_dai').fadeIn(800);
-		setTimeout( function(){
-			$('.bu_dai .post-box').fadeIn(800);
-		}, 300);
-
-		$('body').addClass('stop-scrolling');
-		$('.msg-box').addClass('for_msg');
-
-		$('.bu_dai .post-box').attr( 'rel', thisGrid.attr('rel') );
-
-		$('.bu_dai .guo_fang_bu, .post-box .close-me').on( 'click', function(){
-			$('.bu_dai .post-box').fadeOut(800);
-			setTimeout( function(){
-				$('.bu_dai').fadeOut(800);
-			}, 300);
-
-			$('body').removeClass('stop-scrolling');
-			$('.msg-box').removeClass('for_msg');
-			$(this).off('click');
-		});
-
-	});
-
-	
 }
 
 // --------------------------------- \\    \/
