@@ -109,7 +109,7 @@
 	    			}
 
 	    			//$user = $_SESSION['user_id']; 湖俊傑註解der
-	    			$sql = "SELECT `c_id`,`sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name
+	    			$sql = "SELECT `c_id`,`sender_id`,`c_content`,`hate`,`love`,m.l_name, m.f_name,c.updatetime
 	    					FROM `comment` c
 	    					LEFT JOIN `member` m
 	    						on c.sender_id = m.m_id
