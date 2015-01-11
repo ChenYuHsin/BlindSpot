@@ -240,7 +240,7 @@
 	    				return json_encode($result);
 	    			}
 					
-	    			$sql = "SELECT `pid`,`p_content`,`senderid`, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
+	    			$sql = "SELECT `pid`,`p_content`,`senderid`, p.updatetime, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
 	    					FROM `post` p
 	    					LEFT JOIN `member` m
 	    						on p.senderid = m.m_id
@@ -248,6 +248,7 @@
 	    						SELECT COUNT(c_id) as count_comment, p_id FROM `comment` where able=1 GROUP BY p_id
 	    						) a
 								on p.pid = a.p_id
+
 	    					WHERE receiverid = '$friend_id'
 	    					and able = '1'
 	    					ORDER BY p.updatetime DESC";
