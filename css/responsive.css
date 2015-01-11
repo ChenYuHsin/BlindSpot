@@ -269,4 +269,15 @@
 		width: 48%;
 	}
 
+	.msg-box input {
+		font-size: 14px;
+		height: 30px;
+	}
+
+	.msg-box .post_btn {
+		width: 62px;
+		height: 36px;
+		background-size: 62px;
+	}
+
 }
