@@ -62,7 +62,7 @@
 	</div>
 
 	<div class="data_board">
-		<h1>累計po文數</h1>
+		<h1>累計貼文數</h1>
 		<h2 class="post_number"></h2>
 		<h1>留言關鍵字</h1>
 		<h2 class="key_word"></h2>
