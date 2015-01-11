@@ -134,8 +134,8 @@
 			<img class="close-me" src="./images/profile/close_btn.png" />
 
 			<div class="author v-mid">
-				<img />
-				<span class="name"></span>
+				<a href=""><img /></a>
+				<a href=""><span class="name"></span></a>
 			</div>
 
 			<div class="d_wrapper">

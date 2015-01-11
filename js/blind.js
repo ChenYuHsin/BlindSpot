@@ -652,6 +652,8 @@ function onClickFuncInFallwall() {
 			}
 		});
 
+		// console.log( thisGrid.find('.author a').attr('href') );
+		$('.post-box .author a').attr( 'href', thisGrid.find('.author a').attr('href') );
 		$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
 		$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
 		$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
