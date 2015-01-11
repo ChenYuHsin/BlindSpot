@@ -221,7 +221,6 @@ $(document).ready( function(){
 							c_content: $('.msg-box input').val()
 						},
 						success: function( response ){
-							console.log(response);
 							var comment_detail = $.parseJSON( response );
 							if( comment_detail['status'] == "success" ) {
 								$('.msg-box input').val('');
@@ -405,7 +404,6 @@ $(document).ready( function(){
 
 		// delete post
 		$('.psn-wall').on( 'click', '.grid .delete.post', function(){
-			console.log('click');
 			if( confirm("確定刪除此則貼文？") ) {
 				var thisGrid = $(this).parent('.grid');
 				$.ajax({
