@@ -163,7 +163,7 @@ $(document).ready( function(){
 								var im = post_data['delete_able'];
 								if( windowW <= 480 ) {
 									var columnNum = 1;
-								} else if( windowW <= 720 ) {
+								} else if( windowW <= 960 ) {
 									var columnNum = 2;
 								} else {
 									var columnNum = 3;
@@ -442,6 +442,8 @@ $(document).ready( function(){
 		if( windowW <= 960 ) {
 			$('.tool-icon').on( 'click', function(){
 				$('.tool-bar').hasClass('show') ? $('.tool-bar').removeClass('show') : $('.tool-bar').addClass('show');
+				// $('.msg-box input').hasClass('show') ? $('.msg-box input').removeClass('show') : $('.msg-box input').addClass('show');
+				// $('.msg-box .post_btn').hasClass('show') ? $('.msg-box .post_btn').removeClass('show') : $('.msg-box .post_btn').addClass('show');
 				$(this).hasClass('to_close') ? $(this).removeClass('to_close') : $(this).addClass('to_close');
 			});
 		}

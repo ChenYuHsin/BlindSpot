@@ -95,6 +95,10 @@
 		left: 5vw;
 	}
 
+	.msg-box input {
+		font-size: 14px;
+	}
+
 }
 
 @media all and ( max-width: 720px ) {
@@ -270,7 +274,6 @@
 	}
 
 	.msg-box input {
-		font-size: 14px;
 		height: 30px;
 	}
 
