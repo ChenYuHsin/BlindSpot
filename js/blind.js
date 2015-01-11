@@ -221,7 +221,10 @@ $(document).ready( function(){
 							c_content: $('.msg-box input').val()
 						},
 						success: function( response ){
+								console.log(response);
 							var comment_detail = $.parseJSON( response );
+
+								console.log(comment_detail);
 							if( comment_detail['status'] == "success" ) {
 								$('.msg-box input').val('');
 								$('.msg-box input').prop( 'disabled', false );
