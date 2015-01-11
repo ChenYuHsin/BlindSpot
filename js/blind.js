@@ -280,10 +280,60 @@ $(document).ready( function(){
 			$('.msg-box').addClass('is_ios');
 			$('.msg-box .post_btn').addClass('hidden');
 			$('.msg-box input').addClass('hidden');
-			$('.msg-box .input_ios').addClass('show');
-			$('.msg-box input').on( 'click', function(){
-				var input = prompt( 'What do you want to say?', '' );
-				alert(input);
+			$('.msg-box .input_ios').addClass('show').on( 'click', function(){
+				var input = prompt( '肆意留言吧！', '' );
+				if( input ) {
+					alert(input);
+					if( $('.msg-box').hasClass('for_msg') ) {
+
+						$.ajax({
+							url: './backend/blindspot.php',
+							type: 'POST',
+							data: {
+								func: 'comment_on_post',
+								p_id: $('.bu_dai .post-box').attr('rel'),
+								c_content: input
+							},
+							success: function( response ){
+								var comment_detail = $.parseJSON( response );
+								if( comment_detail['status'] == "success" ) {
+									var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
+									$('.comment-wrapper').append('<div class="per_comment" rel="' + comment_detail['data'][0]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
+
+									$.each( $('.psn-wall .grid'), function(){
+										if( $(this).attr('rel') == $('.bu_dai .post-box').attr('rel') ) {
+											var newMsgNumber = parseInt( $(this).find('.num').text() ) +1;
+											$(this).find('.num').text( newMsgNumber );
+										}
+									});
+								}
+							},
+							error: function(){
+								alert( "Something wrong~ 請稍候嘗試，感謝~" );
+							}
+						});
+
+					} else {
+
+						$.ajax({
+							url: './backend/blindspot.php',
+							type: 'POST',
+							data: {
+								func: 'post_on_wall',
+								friend_id: relationship,
+								content: input
+							},
+							success: function( response ){
+								var post_detail = $.parseJSON( response );
+								$('#lots_of_post').addNewGrid( post_detail );
+							},
+							error: function(){
+								alert( "Something wrong~ 請稍候嘗試，感謝~" );
+							}
+						});
+
+					}
+				}
 			});
 		}
 
