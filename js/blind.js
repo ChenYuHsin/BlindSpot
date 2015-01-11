@@ -345,8 +345,6 @@ $(document).ready( function(){
 				clearTimeout( love_request );
 			}
 			love_request = setTimeout( function(){
-				console.log( "Your action is -> " + action );
-				console.log( "Post_id is -> " + post_id );
 				$.ajax({
 					url: './backend/blindspot.php',
 					type: 'POST',
@@ -356,7 +354,6 @@ $(document).ready( function(){
 						action: action
 					},
 					success: function( response ){
-						console.log(response);
 						// if( $.parseJSON(response)['status'] == "success" )
 					},
 					error: function(){
