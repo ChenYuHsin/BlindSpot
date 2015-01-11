@@ -184,8 +184,6 @@ $(document).ready( function(){
 											$('body').removeClass('stop-scrolling');
 										}, 500);
 
-										onClickFuncInFallwall();
-
 									});
 
 								}
@@ -262,9 +260,7 @@ $(document).ready( function(){
 							$('.msg-box .dont_click').removeClass('show');
 
 							var post_detail = $.parseJSON( response );
-							$('#lots_of_post').addNewGrid( post_detail, function(){
-								onClickFuncInFallwall();
-							});
+							$('#lots_of_post').addNewGrid( post_detail );
 						},
 						error: function(){
 							alert( "Something wrong~ 請稍候嘗試，感謝~" );
@@ -572,9 +568,7 @@ $(window).load( function(){
 			}
 
 			if( dontAddMore == 0 && scrollNow > $('body').height() - windowH +60 ) {
-				var returnValue = $('#lots_of_post').giveMeMore( function(){
-					onClickFuncInFallwall();
-				});
+				var returnValue = $('#lots_of_post').giveMeMore();
 				if( returnValue == "no_more_data" || returnValue == "oh_no" )
 					dontAddMore = 1;
 			}
@@ -674,11 +668,6 @@ function fullName( last_name, first_name ) {
 
 function more() {
 	$('#lots_of_post').giveMeMore();
-}
-
-// it's fucking long
-function onClickFuncInFallwall() {
-
 }
 
 // --------------------------------- \\    \/
