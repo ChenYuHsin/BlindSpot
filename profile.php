@@ -164,9 +164,11 @@
 		<div id="framework">
 			<div class="author v-mid">
 				<a><img /></a>
-				<a><span class="name"></span></a><br/>
+				<div class="nt-wrapper">
+					<a><span class="name"></span></a><br/>
+					<span class="time_ago">1小時以前</span>
+				</div>
 			</div>
-			<span>1小時以前</span>
 			<div class="post_content"></div>
 			<span class="more-msg">
 				<span class="num"></span>則留言...

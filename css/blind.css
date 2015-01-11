@@ -554,10 +554,18 @@ body#homepage footer {
 	margin-left: 10px;
 }
 
+.psn-wall .grid .author .nt-wrapper {
+	margin-left: 10px;
+}
+
 .psn-wall .grid .author .name {
 	font-size: 16px;
 	color: #404040;
-	margin-left: 10px;
+}
+
+.psn-wall .grid .author .time_ago {
+	font-size: 12px;
+	color: #959595;
 }
 
 .psn-wall .grid .post_content {
