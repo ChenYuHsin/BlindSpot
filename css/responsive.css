@@ -99,6 +99,10 @@
 		font-size: 14px;
 	}
 
+	.msg-box .post_btn:hover {
+		background-position: 0px 0px;
+	}
+
 }
 
 @media all and ( max-width: 720px ) {
