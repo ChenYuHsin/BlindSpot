@@ -258,6 +258,13 @@
 		width: 90%;
 	}
 
+	.bu_dai .post-box {
+		width: 96vw;
+		height: 80vh;
+		top: 3vh;
+		left: 1vw;
+	}
+
 	.bu_dai .post-box .comment_block .status-bar div {
 		width: 48%;
 	}
