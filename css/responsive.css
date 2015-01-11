@@ -90,6 +90,11 @@
 		width: 65%;
 	}
 
+	.bu_dai .post-box {
+		width: 90vw;
+		left: 5vw;
+	}
+
 }
 
 @media all and ( max-width: 720px ) {
@@ -251,6 +256,10 @@
 
 	.bu_dai .setting-box .pure-form-aligned textarea {
 		width: 90%;
+	}
+
+	.bu_dai .post-box .comment_block .status-bar div {
+		width: 48%;
 	}
 
 }
