@@ -35,8 +35,8 @@
 		    			$l_name = $_POST['last_name'];
 		    			$f_name = $_POST['first_name'];
 		    			$email = $_POST['email'];
-		    			$gender = $_POST['gender'];
-		    			$birth = $_POST['birthday'];	    				
+		    			$gender = isset($_POST['gender']) ? $_POST['gender'] : "";	    				
+		    			$birth = isset($_POST['birthday']) ? $_POST['birthday'] : "";	    				
 	    			}catch(Exception $e){
 	    				return "fail";
 	    			}
