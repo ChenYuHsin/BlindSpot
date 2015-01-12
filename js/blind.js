@@ -766,6 +766,37 @@ function long_time_ago( past_time ) {
 	return time_str;
 }
 
+function developer( code ) {
+
+	$.ajax({
+		url: './js/secret.php',
+		type: 'POST',
+		data: {
+			code: code
+		},
+		success: function(response) {
+			if( response != "nice" ) {
+				console.log(response);
+			} else {
+				$.ajax({
+					url: './backend/blindspot.php',
+					type: 'POST',
+					data: {
+						func: 'developer',
+					},
+					success: function(response) {
+
+					}
+				});
+			}
+		},
+		error: function() {
+
+		}
+	})
+
+}
+
 function more() {
 	$('#lots_of_post').giveMeMore();
 }
