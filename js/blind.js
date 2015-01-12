@@ -85,6 +85,8 @@ $(document).ready( function(){
 
 		$('body').animate({'scrollTop': '0px'});
 
+		relationship = ( jq_GET['id'] == undefined ) ? 'me' : jq_GET['id'];
+
 		if( relationship != "me" ) {
 			setPicture( relationship );
 		}
@@ -790,6 +792,18 @@ function getRandomNum() {
 	return Math.floor( Math.random() *547 );
 }
 
+// GET url parameter
+var jq_GET = (function(qurl) {
+	if (qurl == "") return {};
+	var b = {};
+	for (var i = 0; i < qurl.length; ++i)
+	{
+		var p=qurl[i].split('=');
+		if (p.length != 2) continue;
+		b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+	}
+    return b;
+})(window.location.search.substr(1).split('&'));
 
 
 

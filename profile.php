@@ -1,14 +1,4 @@
-<?php
-
-	include( "./source/head.php" );
-
-	if( isset( $_GET['id'] ) ) {
-		$id = $_GET['id'];
-		echo '<script type="text/javascript">var relationship = '.$id.';</script>';
-	} else
-		echo '<script type="text/javascript">var relationship = "me";</script>';
-
-?>
+<?php include( "./source/head.php" ); ?>
 
 <body id="profile" class="stop-scrolling">
 
