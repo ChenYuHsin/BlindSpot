@@ -61,8 +61,8 @@ $(document).ready( function(){
 							success: function(response) {
 								if( response == "success" )
 									location.href = "./profile.php";
-								else
-									alert('啊....\n壞惹');
+								// else
+								// 	alert('啊....\n壞惹');
 							},
 							error: function() {
 
