@@ -290,6 +290,7 @@
 	    			$ori_poster_sql = "SELECT `senderid` FROM `post` WHERE pid = $p_id";
 	    			$ori_poster_result = $this->db_query($ori_poster_sql);
 	    			$ori_poster = $ori_poster_result[0]['senderid'];
+	    			$notification_sql = "";
 	    			if($ori_poster != $user){//原po是自己就不用通知
 		    			$notification_sql = "INSERT INTO `notification` (`m_id`, `target_id`, `p_id`)
 		    									values ('$user', '$ori_poster', '$p_id')
@@ -306,7 +307,9 @@
 		    										ON DUPLICATE KEY UPDATE updatetime = CURRENT_TIMESTAMP; ";
 	    				}
 	    			}
-	    			$notification_result = $this->db_exec($notification_sql);
+	    			if(isset($notification_sql) && !empty($notification_sql)){
+		    			$notification_result = $this->db_exec($notification_sql);
+	    			}
 	    			return json_encode($result);
 	    			break;
 	    	
