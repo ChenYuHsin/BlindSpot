@@ -537,6 +537,7 @@ $(document).ready( function(){
 				success: function( response ){
 					comment = $.parseJSON(response);
 					if( comment['status'] == "success" ) {
+						console.log( comment );
 						var im = comment['delete_able'];
 						$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
 						$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
@@ -552,7 +553,7 @@ $(document).ready( function(){
 
 						for( var i = 0; i < comment['data'].length; i++ ) {
 							var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><div class="nt-wrapper>"<a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><span class="time_ago">3分鐘之前</span></div><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><div class="nt-wrapper>"<a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><span class="time_ago">' + long_time_ago( comment['data'][i]['updatetime'] ) + '</span></div><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
 							if( comment['data'][i]['sender_id'] == im ) {
 								$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
 							}
@@ -726,6 +727,41 @@ function isIOS() {
 		return true;
 	else
 		return false;
+}
+
+function long_time_ago( past_time ) {
+
+	var time_str = "";
+
+	var nowTime = new Date(),
+		nowYear = nowTime.getFullYear(),
+		nowMonth = nowTime.getMonth() +1,
+		nowDate = nowTime.getDate(),
+		nowHour = nowTime.getHours(),
+		nowMinute = nowTime.getMinutes(),
+		nowSecond = nowTime.getSeconds();
+
+	var pastYear = past_time.substr( 0, 4 ),
+		pastMonth = past_time.substr( 5, 2 ),
+		pastDate = past_time.substr( 8, 2 ),
+		pastHour = past_time.substr( 11, 2 ),
+		pastMinute = past_time.substr( 14, 2 ),
+		pastSecond = past_time.substr( 17, 2 );
+
+	if( nowYear - pastYear >= 1 )
+		time_str = nowYear - pastYear + "年前";
+	else if( nowMonth - pastMonth >= 1 )
+		time_str = nowMonth - pastMonth + "月前";
+	else if( nowDate - pastDate >= 1 )
+		time_str = nowDate - pastDate + "天前";
+	else if( nowHour - pastHour >= 1 )
+		time_str = nowHour - pastHour + "小時前";
+	else if( nowMinute - pastMinute >= 1 )
+		time_str = nowMinute - pastMinute + "分鐘前";
+	else
+		time_str = nowSecond - pastSecond + "秒前";
+
+	return time_str;
 }
 
 function more() {
