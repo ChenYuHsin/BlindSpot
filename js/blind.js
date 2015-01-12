@@ -197,11 +197,7 @@ $(document).ready( function(){
 
 				}
 			},
-			error: function( info ){
-				console.log( "===============================" );
-				console.log( "============ Error ============" );
-				console.log( "===============================" );
-				console.log( info );
+			error: function(){
 			}
 		});
 
@@ -221,10 +217,7 @@ $(document).ready( function(){
 							c_content: $('.msg-box input').val()
 						},
 						success: function( response ){
-								console.log(response);
 							var comment_detail = $.parseJSON( response );
-
-								console.log(comment_detail);
 							if( comment_detail['status'] == "success" ) {
 								$('.msg-box input').val('');
 								$('.msg-box input').prop( 'disabled', false );
@@ -559,7 +552,7 @@ $(document).ready( function(){
 
 						for( var i = 0; i < comment['data'].length; i++ ) {
 							var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><div class="nt-wrapper>"<a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><span class="time_ago">3分鐘之前</span></div><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
 							if( comment['data'][i]['sender_id'] == im ) {
 								$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
 							}
@@ -575,6 +568,7 @@ $(document).ready( function(){
 			$('.post-box .author a').attr( 'href', thisGrid.find('.author a').attr('href') );
 			$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
 			$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
+			$('.post-box .author .time_ago').text( thisGrid.find('.author .time_ago').text() );
 			$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
 
 			$('.bu_dai').fadeIn(800);

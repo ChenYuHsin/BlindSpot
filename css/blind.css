@@ -331,8 +331,8 @@ body#homepage footer {
 }
 
 .tool-bar .logo {
-	width: 100px;
-	margin: 0px auto;
+	width: 80px;
+	margin: 5px auto;
 }
 
 .tool-bar .logo img {
@@ -565,7 +565,7 @@ body#homepage footer {
 
 .psn-wall .grid .author .time_ago {
 	font-size: 12px;
-	color: #959595;
+	color: #858585;
 }
 
 .psn-wall .grid .post_content {
@@ -833,6 +833,11 @@ body#homepage footer {
 	font-weight: bold;
 }
 
+.bu_dai .post-box .author .time_ago {
+	font-size: 12px;
+	color: #858585;
+}
+
 .bu_dai .post-box .d_wrapper {
 	background-color: white;
 	width: 100%;
@@ -929,7 +934,12 @@ body#homepage footer {
 
 .bu_dai .post-box .comment-wrapper .right-part .name {
 	color: #404040;
-	font-weight: bold;
+	margin-right: 10px;
+}
+
+.bu_dai .post-box .comment-wrapper .right-part .time_ago {
+	font-size: 12px;
+	color: #858585;
 }
 
 .bu_dai .post-box .comment-wrapper .right-part .content {

@@ -136,7 +136,10 @@
 
 			<div class="author v-mid">
 				<a href=""><img /></a>
-				<a href=""><span class="name"></span></a>
+				<div class="nt-wrapper">
+					<a href=""><span class="name"></span></a><br/>
+					<span class="time_ago"></span>
+				</div>
 			</div>
 
 			<div class="d_wrapper">
@@ -167,7 +170,7 @@
 				<a><img /></a>
 				<div class="nt-wrapper">
 					<a><span class="name"></span></a><br/>
-					<span class="time_ago">1小時以前</span>
+					<span class="time_ago"></span>
 				</div>
 			</div>
 			<div class="post_content"></div>
