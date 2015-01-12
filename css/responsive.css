@@ -146,6 +146,14 @@
 		border-radius: 50px;
 	}
 
+	.bu_dai .post-box .comment-wrapper .right-part {
+		width: 86%;
+	}
+
+	.bu_dai .post-box .comment_block .status-bar div {
+		width: 49%;
+	}
+
 }
 
 @media all and ( max-width: 480px ) {
@@ -294,14 +302,14 @@
 	.psn-wall .grid .author .name,
 	.bu_dai .post-box .author .name,
 	.bu_dai .post-box .comment-wrapper .right-part .name {
-		font-size: 14px;
+		font-size: 16px;
 	}
 
 	.psn-wall .grid .post_content,
 	.bu_dai .post-box .post_content,
 	.psn-wall .grid .more-msg,
 	.bu_dai .post-box .comment-wrapper .right-part .content {
-		font-size: 12px;
+		font-size: 14px;
 	}
 
 }
