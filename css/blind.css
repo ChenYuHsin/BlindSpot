@@ -636,22 +636,23 @@ body#homepage footer {
 	height: 40px;
 }
 
-.msg-box input {
+.msg-box textarea {
 	width: 82%;
-	height: 36px;
+	/*width: 76%;*/
+	height: 30px;
 	font-size: 18px;
 	margin: 10px 5% 0px 5%;
-	padding-left: 1%;
-	padding-right: 6%;
+	padding: 8px 6% 0px 1%;
 	border-radius: 10px;
 	border: none;
+	resize: none;
 }
 
-.msg-box input:focus {
+.msg-box textarea:focus {
 	outline-style: none;
 }
 
-.msg-box input.hidden {
+.msg-box textarea.hidden {
 	display: none;
 }
 

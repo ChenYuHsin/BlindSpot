@@ -203,9 +203,9 @@ $(document).ready( function(){
 		});
 
 		$('.msg-box .post_btn').on( 'click', function(){
-			if( $('.msg-box input').val() !== "" ) {
-
-				$('.msg-box input').prop( 'disabled', true );
+			if( $('.msg-box textarea').val() !== "" ) {
+console.log($('.msg-box textarea').val());
+				$('.msg-box textarea').prop( 'disabled', true );
 				$('.msg-box .dont_click').addClass('show');
 				if( $('.msg-box').hasClass('for_msg') ) {
 
@@ -215,13 +215,13 @@ $(document).ready( function(){
 						data: {
 							func: 'comment_on_post',
 							p_id: $('.bu_dai .post-box').attr('rel'),
-							c_content: $('.msg-box input').val()
+							c_content: $('.msg-box textarea').val()
 						},
 						success: function( response ){
 							var comment_detail = $.parseJSON( response );
 							if( comment_detail['status'] == "success" ) {
-								$('.msg-box input').val('');
-								$('.msg-box input').prop( 'disabled', false );
+								$('.msg-box textarea').val('');
+								$('.msg-box textarea').prop( 'disabled', false );
 								$('.msg-box .dont_click').removeClass('show');
 
 								var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
@@ -248,11 +248,11 @@ $(document).ready( function(){
 						data: {
 							func: 'post_on_wall',
 							friend_id: relationship,
-							content: $('.msg-box input').val()
+							content: $('.msg-box textarea').val()
 						},
 						success: function( response ){
-							$('.msg-box input').val('');
-							$('.msg-box input').prop( 'disabled', false );
+							$('.msg-box textarea').val('');
+							$('.msg-box textarea').prop( 'disabled', false );
 							$('.msg-box .dont_click').removeClass('show');
 
 							var post_detail = $.parseJSON( response );
@@ -267,16 +267,18 @@ $(document).ready( function(){
 			}
 		});
 
-		$('.msg-box input').keypress( function(e){
-			if( e.keyCode == 13 && $('.msg-box input').val() !== "" )
-			 	$('.msg-box .post_btn').trigger('click');
-		});
+		// $('.msg-box textarea').keypress( function(e){
+		// 	if( e.keyCode == 13 ) {
+		// 		$('.msg-box').css( 'height', $('.msg-box').height() + 22 );
+		// 	 	$('.msg-box textarea').css( 'height', $('.msg-box textarea').height() + 22 );
+		// 	}
+		// });
 
 		// iOS -> msg-box can'y fixed at bottom problem
 		if( isIOS() ) {
 			$('.msg-box').addClass('is_ios');
 			$('.msg-box .post_btn').addClass('hidden');
-			$('.msg-box input').addClass('hidden');
+			$('.msg-box textarea').addClass('hidden');
 			$('.msg-box .input_ios').addClass('show').on( 'click', function(){
 				var input = prompt( '肆意留言吧！', '' );
 				if( input ) {
