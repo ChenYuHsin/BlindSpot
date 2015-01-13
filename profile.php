@@ -100,12 +100,12 @@
 			<form id="photo_form" action="./backend/blindspot.php" method="POST" enctype="multipart/form-data" class="pure-form pure-form-aligned">
 
 				<div class="pure-control-group">
-					<label for="sticker">Personal photo</label>
+					<label for="sticker">Personal photo<br/><span class="note">(2M limit)</span></label>
 					<input id="sticker" name="sticker" type="file" />
 				</div>
 
 				<div class="pure-control-group">
-					<label for="back_photo">Background photo</label>
+					<label for="back_photo">Background photo<br/><span class="note">(2M limit)</span></label>
 					<input id="back_photo" name="back_photo" type="file" />
 				</div>
 
