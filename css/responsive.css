@@ -95,7 +95,7 @@
 		left: 5vw;
 	}
 
-	.msg-box input {
+	.msg-box textarea {
 		font-size: 14px;
 	}
 
@@ -285,7 +285,7 @@
 		width: 48%;
 	}
 
-	.msg-box input {
+	.msg-box textarea {
 		height: 30px;
 	}
 
