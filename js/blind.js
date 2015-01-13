@@ -147,7 +147,7 @@ $(document).ready( function(){
 								}
 							},
 							error: function(){
-								alert('error');
+								location.reload();
 							}
 						});
 					} else {
@@ -715,7 +715,6 @@ function startOnClick() {
 						}
 					},
 					error: function(){
-						alert( "啊被你用壞掉了...." );
 					}
 				});
 			} else if( $(this).hasClass('photo') ) {
