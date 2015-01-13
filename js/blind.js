@@ -268,8 +268,10 @@ console.log($('.msg-box textarea').val());
 		});
 
 		// $('.msg-box textarea').keypress( function(e){
-		// 	if( e.keyCode == 13 && $('.msg-box input').val() !== "" )
-		// 	 	$('.msg-box .post_btn').trigger('click');
+		// 	if( e.keyCode == 13 ) {
+		// 		$('.msg-box').css( 'height', $('.msg-box').height() + 22 );
+		// 	 	$('.msg-box textarea').css( 'height', $('.msg-box textarea').height() + 22 );
+		// 	}
 		// });
 
 		// iOS -> msg-box can'y fixed at bottom problem

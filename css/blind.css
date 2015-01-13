@@ -638,6 +638,7 @@ body#homepage footer {
 
 .msg-box textarea {
 	width: 82%;
+	/*width: 76%;*/
 	height: 30px;
 	font-size: 18px;
 	margin: 10px 5% 0px 5%;
