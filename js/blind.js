@@ -426,16 +426,15 @@ $(document).ready( function(){
 								var name = fullName( outcome['data'][i]['l_name'], outcome['data'][i]['f_name'] );
 								$('.search-tool .name-box .user_wrapper').append('<a href="./profile.php?id=' + outcome['data'][i]['m_id'] + '"><div class="user">' + name + '</div></a>');
 							}
-							$('.search-tool .name-box').addClass('show');
-						} else
-							$('.search-tool .name-box').removeClass('show');
+						}
 					},
 					error: function(){
 
 					}
 				});
-			} else
-				$('.search-tool .name-box').removeClass('show');
+			} else {
+				$('.search-tool .name-box .user_wrapper').html('');
+			}
 		}).focusin( function(){
 			$('.tool-bar .search-tool .name-box').addClass('show');
 		}).focusout( function(){
