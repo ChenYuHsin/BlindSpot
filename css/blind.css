@@ -569,6 +569,7 @@ body#homepage footer {
 .psn-wall .grid .post_content {
 	margin: 20px 10px 60px 10px;
 	font-size: 15px;
+	word-wrap: break-word;
 }
 
 .psn-wall .grid .more-msg {
@@ -942,6 +943,7 @@ body#homepage footer {
 
 .bu_dai .post-box .comment-wrapper .right-part .content {
 	font-size: 14px;
+	word-wrap: break-word;
 }
 
 .data_board {
