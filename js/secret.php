@@ -3,7 +3,7 @@
 	if( isset($_POST['code']) ) {
 		$code = $_POST['code'];
 
-		if( $code == "abababc" ) {
+		if( $code == "887451717554" ) {
 
 
 			session_start();

@@ -1,6 +1,6 @@
 var windowW, windowH;
 
-var ajax_search, love_request, dontAddMore = 0;
+var ajax_search, love_request, dontAddMore = 0, developer_code = "";;
 
 $(document).ready( function(){
 
@@ -606,6 +606,15 @@ $(document).ready( function(){
 				$(this).hasClass('to_close') ? $(this).removeClass('to_close') : $(this).addClass('to_close');
 			});
 		}
+
+		// $('body').keydown( function(e){
+		// 	if( e.keyCode == '13' ) {
+		// 		developer( developer_code );
+		// 	} else {
+		// 		developer_code += e.keyCode;
+		// 	}
+		// });
+
 	}
 
 });
