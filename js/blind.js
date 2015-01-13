@@ -772,28 +772,32 @@ function developer( code ) {
 		url: './js/secret.php',
 		type: 'POST',
 		data: {
+			func: 'develope',
 			code: code
 		},
 		success: function(response) {
-			if( response != "nice" ) {
-				console.log(response);
+			if( response.substr( 0, 4 ) == "FUCK" ) {
+				alert('別亂來喔！');
+			} else if( response.substr( 0, 8 ) == "fuck you" ) {
+				alert('你想幹嘛啦！');
 			} else {
-				$.ajax({
-					url: './backend/blindspot.php',
-					type: 'POST',
-					data: {
-						func: 'developer',
-					},
-					success: function(response) {
+				if( windowW <= 480 ) {
+					var columnNum = 1;
+				} else if( windowW <= 960 ) {
+					var columnNum = 2;
+				} else {
+					var columnNum = 3;
+				}
 
-					}
-				});
+				$('#lots_of_post').initialize( $('#framework').html(), {
+					gridNumber: 10,
+					column_number: columnNum,
+					margin_left: '10px',
+					margin_right: '10px'
+				}, $.parseJSON(response) );
 			}
-		},
-		error: function() {
-
 		}
-	})
+	});
 
 }
 
