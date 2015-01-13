@@ -433,9 +433,14 @@
 						$result['status'] = "fail";
 						return json_encode($result);
 					}
+
 					foreach ($files as $key => $value) {
 
 						if(!empty($value['tmp_name'])){
+							if($value['size'] > 2 * 1048576){
+								$result['status'] = "oversize";
+								return json_encode($result);
+							}
 			    			$temp_name = $value['tmp_name'];
 			    			$photo_name = $key;
 
