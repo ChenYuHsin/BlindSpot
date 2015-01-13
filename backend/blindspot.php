@@ -194,6 +194,7 @@
 	    				$content = $_POST['content'];
 	    				$content = strip_tags($content);
 	    				$content = htmlspecialchars($content);
+	    				$content = nl2br($content);
 		    			$content = addslashes($content);
 		    			$friend_id = $_POST['friend_id'];
 
