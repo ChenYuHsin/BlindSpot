@@ -226,7 +226,7 @@ $(document).ready( function(){
 								$('.msg-box .dont_click').removeClass('show');
 
 								var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
-								$('.comment-wrapper').append('<div class="per_comment" rel="' + comment_detail['data'][0]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
+								$('.comment-wrapper').append('<div class="per_comment" rel="' + comment_detail['data'][0]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + getlink( comment_detail['data'][0]['c_content'] ) + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
 
 								$.each( $('.psn-wall .grid'), function(){
 									if( $(this).attr('rel') == $('.bu_dai .post-box').attr('rel') ) {
@@ -538,7 +538,6 @@ $(document).ready( function(){
 				success: function( response ){
 					comment = $.parseJSON(response);
 					if( comment['status'] == "success" ) {
-						console.log( comment );
 						var im = comment['delete_able'];
 						$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
 						$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
@@ -554,7 +553,7 @@ $(document).ready( function(){
 
 						for( var i = 0; i < comment['data'].length; i++ ) {
 							var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><div class="nt-wrapper>"<a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><span class="time_ago">' + long_time_ago( comment['data'][i]['updatetime'] ) + '</span></div><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><div class="nt-wrapper>"<a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><span class="time_ago">' + long_time_ago( comment['data'][i]['updatetime'] ) + '</span></div><div class="content">' + getlink( comment['data'][i]['c_content'] ) + '</div></div><br class="clear" /></div>');
 							if( comment['data'][i]['sender_id'] == im ) {
 								$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
 							}
@@ -807,6 +806,12 @@ function developer( code ) {
 		}
 	});
 
+}
+
+function getlink(text) {
+	return Autolinker.link( text, {
+		stripPrefix: false
+	});
 }
 
 function more() {

@@ -23,6 +23,9 @@
 	<!-- font-awesome -->
 	<link type="text/css" rel="stylesheet" href="./lib/font-awesome/css/font-awesome.css" />
 
+	<!-- Autolinker -->
+	<script src="./lib/autolinker/Autolinker.min.js"></script>
+
 	<!-- my CSS -->
 	<link type="text/css" rel="stylesheet" href="./css/blind.css" />
 	<link type="text/css" rel="stylesheet" href="./css/responsive.css" />
