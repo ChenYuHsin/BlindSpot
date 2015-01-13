@@ -1,6 +1,6 @@
 var windowW, windowH;
 
-var ajax_search, love_request, dontAddMore = 0;
+var ajax_search, love_request, dontAddMore = 0, developer_code = "";;
 
 $(document).ready( function(){
 
@@ -30,7 +30,6 @@ $(document).ready( function(){
 					location.href = "./profile.php";
 			},
 			error: function(){
-
 			}
 		})
 
@@ -147,7 +146,7 @@ $(document).ready( function(){
 								}
 							},
 							error: function(){
-								alert('error');
+								location.reload();
 							}
 						});
 					} else {
@@ -226,7 +225,7 @@ $(document).ready( function(){
 								$('.msg-box .dont_click').removeClass('show');
 
 								var sender_name = fullName( comment_detail['data'][0]['l_name'], comment_detail['data'][0]['f_name'] );
-								$('.comment-wrapper').append('<div class="per_comment" rel="' + comment_detail['data'][0]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + comment_detail['data'][0]['c_content'] + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
+								$('.comment-wrapper').append('<div class="per_comment" rel="' + comment_detail['data'][0]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><img src="./images/profile/' + comment_detail['data'][0]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><a href="./profile.php?id=' + comment_detail['data'][0]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><div class="content">' + getlink( comment_detail['data'][0]['c_content'] ) + '</div><div class="delete comment"></div></div><br class="clear" /></div>');
 
 								$.each( $('.psn-wall .grid'), function(){
 									if( $(this).attr('rel') == $('.bu_dai .post-box').attr('rel') ) {
@@ -426,16 +425,15 @@ $(document).ready( function(){
 								var name = fullName( outcome['data'][i]['l_name'], outcome['data'][i]['f_name'] );
 								$('.search-tool .name-box .user_wrapper').append('<a href="./profile.php?id=' + outcome['data'][i]['m_id'] + '"><div class="user">' + name + '</div></a>');
 							}
-							$('.search-tool .name-box').addClass('show');
-						} else
-							$('.search-tool .name-box').removeClass('show');
+						}
 					},
 					error: function(){
 
 					}
 				});
-			} else
-				$('.search-tool .name-box').removeClass('show');
+			} else {
+				$('.search-tool .name-box .user_wrapper').html('');
+			}
 		}).focusin( function(){
 			$('.tool-bar .search-tool .name-box').addClass('show');
 		}).focusout( function(){
@@ -539,7 +537,6 @@ $(document).ready( function(){
 				success: function( response ){
 					comment = $.parseJSON(response);
 					if( comment['status'] == "success" ) {
-						console.log( comment );
 						var im = comment['delete_able'];
 						$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
 						$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
@@ -555,7 +552,7 @@ $(document).ready( function(){
 
 						for( var i = 0; i < comment['data'].length; i++ ) {
 							var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><div class="nt-wrapper>"<a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><span class="time_ago">' + long_time_ago( comment['data'][i]['updatetime'] ) + '</span></div><div class="content">' + comment['data'][i]['c_content'] + '</div></div><br class="clear" /></div>');
+							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><div class="nt-wrapper>"<a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><span class="time_ago">' + long_time_ago( comment['data'][i]['updatetime'] ) + '</span></div><div class="content">' + getlink( comment['data'][i]['c_content'] ) + '</div></div><br class="clear" /></div>');
 							if( comment['data'][i]['sender_id'] == im ) {
 								$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
 							}
@@ -606,6 +603,15 @@ $(document).ready( function(){
 				$(this).hasClass('to_close') ? $(this).removeClass('to_close') : $(this).addClass('to_close');
 			});
 		}
+
+		// $('body').keydown( function(e){
+		// 	if( e.keyCode == '13' ) {
+		// 		developer( developer_code );
+		// 	} else {
+		// 		developer_code += e.keyCode;
+		// 	}
+		// });
+
 	}
 
 });
@@ -708,7 +714,6 @@ function startOnClick() {
 						}
 					},
 					error: function(){
-						alert( "啊被你用壞掉了...." );
 					}
 				});
 			} else if( $(this).hasClass('photo') ) {
@@ -764,6 +769,47 @@ function long_time_ago( past_time ) {
 		time_str = nowSecond - pastSecond + "秒前";
 
 	return time_str;
+}
+
+function developer( code ) {
+
+	$.ajax({
+		url: './js/secret.php',
+		type: 'POST',
+		data: {
+			func: 'develope',
+			code: code
+		},
+		success: function(response) {
+			if( response.substr( 0, 4 ) == "FUCK" ) {
+				alert('別亂來喔！');
+			} else if( response.substr( 0, 8 ) == "fuck you" ) {
+				alert('你想幹嘛啦！');
+			} else {
+				if( windowW <= 480 ) {
+					var columnNum = 1;
+				} else if( windowW <= 960 ) {
+					var columnNum = 2;
+				} else {
+					var columnNum = 3;
+				}
+
+				$('#lots_of_post').initialize( $('#framework').html(), {
+					gridNumber: 10,
+					column_number: columnNum,
+					margin_left: '10px',
+					margin_right: '10px'
+				}, $.parseJSON(response) );
+			}
+		}
+	});
+
+}
+
+function getlink(text) {
+	return Autolinker.link( text, {
+		stripPrefix: false
+	});
 }
 
 function more() {

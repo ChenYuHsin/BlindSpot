@@ -12,6 +12,7 @@ input, textarea {
 }
 
 a {
+	color: #2288d6;
 	text-decoration: none;
 }
 
@@ -313,12 +314,12 @@ body#homepage footer {
 
 .tool-bar {
 	width: 100%;
-	height: 50px;
+	height: 30px;
 	padding: 15px 0px;
 	background-color: #892525;
 	position: fixed;
 	z-index: 10;
-	top: -65px;
+	top: 0px;
 
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
@@ -326,13 +327,10 @@ body#homepage footer {
 			transition: all 0.5s;
 }
 
-.tool-bar:hover {
-	top: 0px;
-}
-
 .tool-bar .logo {
-	width: 80px;
-	margin: 5px auto;
+	width: 70px;
+	margin: 0px auto;
+	margin-top: -3px;
 }
 
 .tool-bar .logo img {
@@ -341,7 +339,7 @@ body#homepage footer {
 
 .tool-bar .search-tool {
 	position: absolute;
-	top: 25px;
+	top: 15px;
 	left: 70px;
 }
 
@@ -411,7 +409,7 @@ body#homepage footer {
 	border: 1px white solid;
 	border-radius: 5px;
 	position: absolute;
-	top: 25px;
+	top: 15px;
 	right: 70px;
 	cursor: pointer;
 
@@ -571,6 +569,7 @@ body#homepage footer {
 .psn-wall .grid .post_content {
 	margin: 20px 10px 60px 10px;
 	font-size: 15px;
+	word-wrap: break-word;
 }
 
 .psn-wall .grid .more-msg {
@@ -944,6 +943,7 @@ body#homepage footer {
 
 .bu_dai .post-box .comment-wrapper .right-part .content {
 	font-size: 14px;
+	word-wrap: break-word;
 }
 
 .data_board {
