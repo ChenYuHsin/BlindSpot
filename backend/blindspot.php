@@ -25,7 +25,11 @@
 
 	    public function getinfo(){
 
-	    	$func = $_POST['func'];
+	    	if(!isset($_POST['func'])){
+	    		header("Location:../profile.php");
+	    	}else{
+		    	$func = $_POST['func'];
+	    	}
 
 	    	switch ($func) {
 
@@ -432,11 +436,6 @@
 
 					try {
 						$files = $_FILES;
-						foreach ($files as $key => $value) {
-							if($value['error'] == 1){
-								header('Location:../profile.php?status=oversize');
-							}
-						}
 		    			$user_id = $_SESSION['user_id'];
 					} catch (Exception $e) {
 						$result['status'] = "fail";
