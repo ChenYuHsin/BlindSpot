@@ -97,6 +97,11 @@
 
 	.msg-box textarea {
 		font-size: 14px;
+		margin-left: 3%;
+	}
+
+	.msg-box .post_btn {
+		right: 3%;
 	}
 
 	.msg-box .post_btn:hover {
@@ -152,6 +157,10 @@
 
 	.bu_dai .post-box .comment_block .status-bar div {
 		width: 49%;
+	}
+
+	.msg-box textarea {
+		width: 73%;
 	}
 
 }

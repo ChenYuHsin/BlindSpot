@@ -5,7 +5,7 @@
 	<div class="tool-icon mobile-show"></div>
 	<div class="tool-bar">
 		<div class="search-tool">
-			<input type="text" placeholder="Who are you looking for?" />
+			<input type="text" placeholder="搜尋你的好友試試" />
 			<!-- 提示框框 -->
 			<div class="name-box">
 				<div class="title">User</div>
