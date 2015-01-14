@@ -147,6 +147,7 @@
 	    			$sql = "SELECT `m_id`, `l_name`, `f_name`, `intro` FROM `member` WHERE m_id = $friend_id";
 	    			$q_result = $this->db_query($sql);
 	    			if(sizeof($q_result) > 0){
+	    				$q_result[0]['intro'] = htmlspecialchars_decode($q_result[0]['intro']);
 		    			$result['data'] = $q_result;
 		    			return json_encode($result);
 	    			}else{
@@ -192,7 +193,7 @@
 
 	    			try{
 	    				$content = $_POST['content'];
-	    				$content = strip_tags($content);
+	    				// $content = strip_tags($content);
 	    				$content = htmlspecialchars($content);
 	    				$content = nl2br($content);
 		    			$content = addslashes($content);
@@ -255,6 +256,7 @@
 	    					ORDER BY p.updatetime DESC";
 	    			$q_result = $this->db_query($sql);
 	    			$result['status'] = 'success';
+    				// $q_result[0]['p_content'] = htmlspecialchars_decode($q_result[0]['p_content']);
 	    			$result['data'] = $q_result;
 	    			$result['delete_able'] = $user_id;
 	    			return json_encode($result);	# code...
@@ -264,7 +266,7 @@
 
 	    			try{
 	    				$c_content = $_POST['c_content'];//<script alert("159");</script
-		    			$c_content = strip_tags($c_content);//alert("159")
+		    			// $c_content = strip_tags($c_content);//alert("159")
 		    			$c_content = htmlspecialchars($c_content);//&ltscript&gtalert(&quot159&quot);&lt/script&gt 
 	    				$c_content = nl2br($c_content);
 		    			$p_id = $_POST['p_id'];
@@ -430,6 +432,11 @@
 
 					try {
 						$files = $_FILES;
+						foreach ($files as $key => $value) {
+							if($value['error'] == 1){
+								header('Location:../profile.php?status=oversize');
+							}
+						}
 		    			$user_id = $_SESSION['user_id'];
 					} catch (Exception $e) {
 						$result['status'] = "fail";
@@ -439,10 +446,6 @@
 					foreach ($files as $key => $value) {
 
 						if(!empty($value['tmp_name'])){
-							if($value['size'] > 2 * 1048576){
-								$result['status'] = "oversize";
-								return json_encode($result);
-							}
 			    			$temp_name = $value['tmp_name'];
 			    			$photo_name = $key;
 
