@@ -267,14 +267,14 @@ $(document).ready( function(){
 			}
 		});
 
-		// $('.msg-box textarea').autogrow();
+		$('.msg-box textarea').autosize();
 
-		$('.msg-box textarea').keypress( function(e){
-			if( e.keyCode == 13 ) {
-				$('.msg-box').css( 'height', $('.msg-box').height() + 22 );
-			 	$('.msg-box textarea').css( 'height', $('.msg-box textarea').height() + 22 );
-			}
-		});
+		// $('.msg-box textarea').keypress( function(e){
+		// 	if( e.keyCode == 13 ) {
+		// 		$('.msg-box').css( 'height', $('.msg-box').height() + 18 );
+		// 	 	$('.msg-box textarea').css( 'height', $('.msg-box textarea').height() + 18 );
+		// 	}
+		// });
 
 		// iOS -> msg-box can'y fixed at bottom problem
 		if( isIOS() ) {

@@ -29,6 +29,9 @@
 	<!-- Autolinker -->
 	<script src="./lib/autolinker/Autolinker.min.js"></script>
 
+	<!-- Autosize of textarea -->
+	<script src="./lib/autosize/jquery.autosize.min.js"></script>
+
 	<!-- my CSS -->
 	<link type="text/css" rel="stylesheet" href="./css/blind.css" />
 	<link type="text/css" rel="stylesheet" href="./css/responsive.css" />
