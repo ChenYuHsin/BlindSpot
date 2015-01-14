@@ -194,6 +194,7 @@
 	    				$content = $_POST['content'];
 	    				$content = strip_tags($content);
 	    				$content = htmlspecialchars($content);
+	    				$content = nl2br($content);
 		    			$content = addslashes($content);
 		    			$friend_id = $_POST['friend_id'];
 
@@ -264,7 +265,8 @@
 	    			try{
 	    				$c_content = $_POST['c_content'];//<script alert("159");</script
 		    			$c_content = strip_tags($c_content);//alert("159")
-		    			$c_content = htmlspecialchars($c_content);//&ltscript&gtalert(&quot159&quot);&lt/script&gt    			 
+		    			$c_content = htmlspecialchars($c_content);//&ltscript&gtalert(&quot159&quot);&lt/script&gt 
+	    				$c_content = nl2br($c_content);
 		    			$p_id = $_POST['p_id'];
 
 		    		}catch(Exception $e){
@@ -433,9 +435,14 @@
 						$result['status'] = "fail";
 						return json_encode($result);
 					}
+
 					foreach ($files as $key => $value) {
 
 						if(!empty($value['tmp_name'])){
+							if($value['size'] > 2 * 1048576){
+								$result['status'] = "oversize";
+								return json_encode($result);
+							}
 			    			$temp_name = $value['tmp_name'];
 			    			$photo_name = $key;
 
