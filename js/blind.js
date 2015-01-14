@@ -267,8 +267,6 @@ $(document).ready( function(){
 			}
 		});
 
-		// $('.msg-box textarea');
-
 		$('.msg-box textarea').autosize().keypress( function(e){
 			if( e.keyCode == 13 && !e.shiftKey ) {
 				$('.msg-box .post_btn').trigger('click');
@@ -606,14 +604,6 @@ $(document).ready( function(){
 				$(this).hasClass('to_close') ? $(this).removeClass('to_close') : $(this).addClass('to_close');
 			});
 		}
-
-		// $('body').keydown( function(e){
-		// 	if( e.keyCode == '13' ) {
-		// 		developer( developer_code );
-		// 	} else {
-		// 		developer_code += e.keyCode;
-		// 	}
-		// });
 
 	}
 
