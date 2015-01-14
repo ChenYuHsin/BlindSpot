@@ -204,7 +204,7 @@ $(document).ready( function(){
 
 		$('.msg-box .post_btn').on( 'click', function(){
 			if( $('.msg-box textarea').val() !== "" ) {
-console.log($('.msg-box textarea').val());
+
 				$('.msg-box textarea').prop( 'disabled', true );
 				$('.msg-box .dont_click').addClass('show');
 				if( $('.msg-box').hasClass('for_msg') ) {
@@ -267,12 +267,14 @@ console.log($('.msg-box textarea').val());
 			}
 		});
 
-		// $('.msg-box textarea').keypress( function(e){
-		// 	if( e.keyCode == 13 ) {
-		// 		$('.msg-box').css( 'height', $('.msg-box').height() + 22 );
-		// 	 	$('.msg-box textarea').css( 'height', $('.msg-box textarea').height() + 22 );
-		// 	}
-		// });
+		// $('.msg-box textarea').autogrow();
+
+		$('.msg-box textarea').keypress( function(e){
+			if( e.keyCode == 13 ) {
+				$('.msg-box').css( 'height', $('.msg-box').height() + 22 );
+			 	$('.msg-box textarea').css( 'height', $('.msg-box textarea').height() + 22 );
+			}
+		});
 
 		// iOS -> msg-box can'y fixed at bottom problem
 		if( isIOS() ) {

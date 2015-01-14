@@ -618,10 +618,10 @@ body#homepage footer {
 	bottom: -100px;
 	z-index: 50;
 
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-		 -o-transition: all 1s;
-			transition: all 1s;
+	-webkit-transition: bottom 1s;
+	   -moz-transition: bottom 1s;
+		 -o-transition: bottom 1s;
+			transition: bottom 1s;
 }
 
 .msg-box.show {

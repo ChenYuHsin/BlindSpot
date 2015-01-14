@@ -23,15 +23,15 @@
 	<!-- font-awesome -->
 	<link type="text/css" rel="stylesheet" href="./lib/font-awesome/css/font-awesome.css" />
 
+	<!-- jQuery -->
+	<script type="text/javascript" src="./lib/jquery.min.js" ></script>
+
 	<!-- Autolinker -->
 	<script src="./lib/autolinker/Autolinker.min.js"></script>
 
 	<!-- my CSS -->
 	<link type="text/css" rel="stylesheet" href="./css/blind.css" />
 	<link type="text/css" rel="stylesheet" href="./css/responsive.css" />
-
-	<!-- jQuery -->
-	<script type="text/javascript" src="./lib/jquery.min.js" ></script>
 
 	<!-- my JS -->
 	<script type="text/javascript" src="./js/blind.js" ></script>
