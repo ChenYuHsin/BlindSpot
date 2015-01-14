@@ -3,7 +3,7 @@
 	if( isset($_POST['code']) ) {
 		$code = $_POST['code'];
 
-		if( $code == "887451717554" ) {
+		if( $code == "ji3g4xj3gk6" ) {
 
 
 			session_start();
@@ -25,6 +25,10 @@
 					switch($func) {
 						case 'develope':
 							$developer_id = $_SESSION['user_id'];
+
+							$sql = "INSERT INTO log
+									VALUES ( null, $developer_id, 0, 'developer', null )";
+							$insert = $this -> db_exec( $sql );
 							
 			    			$sql = "SELECT `pid`,`p_content`,`senderid`, p.updatetime, m.l_name, m.f_name, IFNULL(a.count_comment, 0) as count_comment
 			    					FROM `post` p
@@ -40,6 +44,7 @@
 			    			$result['status'] = 'success';
 			    			$result['data'] = $q_result;
 			    			return json_encode($result);
+
 			    			break;
 						default:
 							break;

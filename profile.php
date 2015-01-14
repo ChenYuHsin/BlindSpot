@@ -60,7 +60,7 @@
 
 	<div class="msg-box">
 		<!-- <input type="text" placeholder="Anything good, anything bad, you can comment here." /> -->
-		<textarea type="text" placeholder="Anything good, anything bad, you can comment here."></textarea>
+		<textarea type="text" placeholder="說，吧。"></textarea>
 		<div class="post_btn"></div>
 		<div class="dont_click"></div>
 		<div class="input_ios">我要留言</div>
