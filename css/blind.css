@@ -402,6 +402,20 @@ body#homepage footer {
 	cursor: pointer;
 }
 
+.tool-bar .notification {
+	width: 32px;
+	height: 32px;
+	background-image: url(../images/notification.png);
+	background-position: 0px 0px;
+	position: absolute;
+	top: 16px;
+	right: 150px;
+}
+
+.tool-bar .notification.new {
+	background-position: 0px 32px;
+}
+
 .tool-bar .logout {
 	font-size: 12px;
 	color: white;
