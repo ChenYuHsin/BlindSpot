@@ -267,13 +267,11 @@ $(document).ready( function(){
 			}
 		});
 
-		$('.msg-box textarea').autosize();
+		// $('.msg-box textarea');
 
-		$('.msg-box textarea').keypress( function(e){
-			if( e.keyCode == 13 ) {
+		$('.msg-box textarea').autosize().keypress( function(e){
+			if( e.keyCode == 13 && !e.shiftKey ) {
 				$('.msg-box .post_btn').trigger('click');
-				// $('.msg-box').css( 'height', $('.msg-box').height() + 18 );
-			 	// $('.msg-box textarea').css( 'height', $('.msg-box textarea').height() + 18 );
 			}
 		});
 
