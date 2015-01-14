@@ -269,6 +269,14 @@ $(document).ready( function(){
 
 		$('.msg-box textarea').autosize();
 
+		$('.msg-box textarea').keypress( function(e){
+			if( e.keyCode == 13 ) {
+				$('.msg-box .post_btn').trigger('click');
+				// $('.msg-box').css( 'height', $('.msg-box').height() + 18 );
+			 	// $('.msg-box textarea').css( 'height', $('.msg-box textarea').height() + 18 );
+			}
+		});
+
 		// iOS -> msg-box can'y fixed at bottom problem
 		if( isIOS() ) {
 			$('.msg-box').addClass('is_ios');

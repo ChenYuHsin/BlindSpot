@@ -295,7 +295,7 @@
 	}
 
 	.msg-box textarea {
-		height: 30px;
+		width: 66%;
 	}
 
 	.msg-box .post_btn {
