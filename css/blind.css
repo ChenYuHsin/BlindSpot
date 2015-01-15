@@ -405,14 +405,19 @@ body#homepage footer {
 .tool-bar .notification {
 	width: 32px;
 	height: 32px;
-	background-image: url(../images/notification.png);
-	background-position: 0px 0px;
 	position: absolute;
 	top: 16px;
 	right: 150px;
 }
 
-.tool-bar .notification.new {
+.tool-bar .notification .noti_icon {
+	width: 32px;
+	height: 32px;
+	background-image: url(../images/notification.png);
+	background-position: 0px 0px;
+}
+
+.tool-bar .notification .icon.new {
 	background-position: 0px 32px;
 }
 
@@ -435,20 +440,21 @@ body#homepage footer {
 }
 
 .tool-bar .notification .noti_box .title {
-	width: 400px;
+	width: 390px;
 	background-color: #c9c9c9;
 	font-size: 14px;
-	padding: 2px 0px 2px 3%;
+	padding: 2px 0px 2px 10px;
 	position: fixed;
 }
 
 .tool-bar .notification .noti_box .noti_line {
-	width: 94%;
+	width: 82%;
 	font-size: 13px;
 	color: #474747;
-	padding: 10px 3%;
+	padding: 10px 15% 10px 3%;
 	background-color: white;
 	border-bottom: 1px #c9c9c9 solid;
+	position: relative;
 	cursor: pointer;
 }
 
@@ -469,6 +475,18 @@ body#homepage footer {
 .tool-bar .notification .noti_box .noti_line.nope:hover {
 	color: #474747;
 	background-color: white;
+}
+
+.tool-bar .notification .noti_box .noti_line .time {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: #858585;
+	font-size: 12px;
+}
+
+.tool-bar .notification .noti_box .noti_line:hover .time {
+	color: white;
 }
 
 .tool-bar .overlay {

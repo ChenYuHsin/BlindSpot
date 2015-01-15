@@ -19,10 +19,11 @@
 			</a>
 		</div>
 		<div class="notification">
+			<div class="noti_icon"></div>
 			<div class="noti_box">
 				<div class="title">通知</div>
 				<div class="wrapper">
-					<!-- <div class="noti_line" rel="">施璽鵬在您關注的貼文下留言</div>
+					<!-- <div class="noti_line" rel="">施璽鵬在您關注的貼文下留言<div class="time">三分鐘前</div></div>
 					<div class="noti_line nope">無</div> -->
 				</div>
 			</div>
