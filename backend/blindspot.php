@@ -471,10 +471,16 @@
 				case 'get_notification':
 
 					$user_id = $_SESSION['user_id'];
-					$sql = "SELECT a.`m_id`, a.`target_id`, a.`p_id`, b.senderid as ori_poster, b.receiverid as wall_user
+					$sql = "SELECT a.`m_id`, c.f_name as m_id_fname,c.l_name as m_id_lname  ,
+									a.`target_id`, a.`p_id`, b.senderid as ori_poster, 
+									b.receiverid as wall_user,d.f_name as wall_user_fname,d.l_name as wall_user_lname  
 							FROM `notification` a
 							LEFT JOIN `post` b
 								on a.p_id = b.pid
+							LEFT JOIN `member` c
+								on a.m_id = c.m_id
+							LEFT JOIN `member` d
+								on b.receiverid = d.m_id
 							WHERE a.target_id = $user_id";
 					$noti_result = $this->db_query($sql);
 					$result['status'] = "success";
