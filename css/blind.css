@@ -493,6 +493,10 @@ body#homepage footer {
 	color: white;
 }
 
+.tool-bar .notification .noti_box .noti_line .wall_user {
+	display: none;
+}
+
 .tool-bar .overlay {
 	width: 100vw;
 	height: 100vh;

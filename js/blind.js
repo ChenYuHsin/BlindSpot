@@ -96,7 +96,6 @@ $(document).ready( function(){
 			},
 			success: function(response){
 				var notification_data = $.parseJSON(response);
-console.log(notification_data);
 				// 有 通 知
 				if( notification_data.data.length > 0 ) {
 					for( var i = 0; i < notification_data.data.length; i++ ) {
@@ -107,7 +106,7 @@ console.log(notification_data);
 						}
 						var name = fullName( notification_data['data'][i]['m_id_lname'], notification_data['data'][i]['m_id_fname'] );
 						var wallUserName = fullName( notification_data['data'][i]['wall_user_lname'], notification_data['data'][i]['wall_user_fname'] );
-						$('.tool-bar .notification .noti_box .wrapper').append('<div class="' + lineClass + '" rel="' + notification_data['data'][i]['p_id'] + '"><span rel="' + notification_data['data'][i]['wall_user'] + '">' + name + '</span>在您關注的貼文下留言<div class="time user_name" rel="' + wallUserName + '">' + long_time_ago( notification_data['data'][i]['updatetime'] ) + '</div></div>');
+						$('.tool-bar .notification .noti_box .wrapper').append('<div class="' + lineClass + '" rel="' + notification_data['data'][i]['p_id'] + '"><span>' + name + '</span>在您關注的貼文下留言<div class="time">' + long_time_ago( notification_data['data'][i]['updatetime'] ) + '</div><div class="wall_user" rel="' + notification_data['data'][i]['wall_user'] + '">' + wallUserName + '</div></div>');
 					}
 				} else {
 					$('.tool-bar .notification .noti_box .wrapper').html('<div class="noti_line nope">無</div>');
@@ -132,7 +131,7 @@ console.log(notification_data);
 			});
 
 			$('.tool-bar .notification .noti_box .noti_line').on( 'click', function(){
-				showPostDetail( $(this).attr('rel'), $(this).find('.user_name').attr('rel'), $(this).find('span').attr('rel') );
+				showPostDetail( $(this).attr('rel'), $(this).find('.wall_user').text(), $(this).find('.wall_user').attr('rel') );
 				$(this).removeClass('notread');
 				// send clicked msg
 				$.ajax({
