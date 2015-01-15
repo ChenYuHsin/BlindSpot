@@ -785,7 +785,6 @@ function showPostDetail( post_id, wall_owner_fullname, wall_owner_id ) {
 		},
 		success: function( response ){
 			comment = $.parseJSON(response);
-			console.log(comment);
 			if( comment['status'] == "success" ) {
 				var im = comment['delete_able'];
 				$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
