@@ -27,6 +27,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="overlay"></div>
 		<span class="logout">登出</span>
 	</div>
 

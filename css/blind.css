@@ -425,6 +425,7 @@ body#homepage footer {
 	position: absolute;
 	top: 35px;
 	right: -50px;
+	z-index: 5;
 
 	display: none;
 }
@@ -434,10 +435,11 @@ body#homepage footer {
 }
 
 .tool-bar .notification .noti_box .title {
-	width: 97%;
+	width: 400px;
 	background-color: #c9c9c9;
 	font-size: 14px;
 	padding: 2px 0px 2px 3%;
+	position: fixed;
 }
 
 .tool-bar .notification .noti_box .noti_line {
@@ -448,6 +450,10 @@ body#homepage footer {
 	background-color: white;
 	border-bottom: 1px #c9c9c9 solid;
 	cursor: pointer;
+}
+
+.tool-bar .notification .noti_box .noti_line:first-child {
+	margin-top: 23px;
 }
 
 .tool-bar .notification .noti_box .noti_line:hover {
@@ -463,6 +469,20 @@ body#homepage footer {
 .tool-bar .notification .noti_box .noti_line.nope:hover {
 	color: #474747;
 	background-color: white;
+}
+
+.tool-bar .overlay {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+
+	display: none;
+}
+
+.tool-bar .overlay.show {
+	display: block;
 }
 
 .tool-bar .logout {

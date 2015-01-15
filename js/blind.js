@@ -99,7 +99,6 @@ $(document).ready( function(){
 				console.log( notification_data['data'] );
 				// 有 通 知
 				if( notification_data.data.length > 0 ) {
-					$('.tool-bar .notification .noti_box').addClass('show');
 					for( var i = notification_data.data.length -1; i >= 0 ; i-- ) {
 						var name = fullName( notification_data['data'][i]['m_id_lname'], notification_data['data'][i]['m_id_fname'] );
 						$('.tool-bar .notification .noti_box .wrapper').append('<div class="noti_line" rel="' + notification_data['data'][i]['p_id'] + '">' + name + '在您關注的貼文下留言</div>');
@@ -110,6 +109,22 @@ $(document).ready( function(){
 			},
 			error: function(){
 			}
+		});
+
+		// show/hide notification
+		$('.tool-bar .notification').on( 'click', function(){
+			$('.tool-bar .notification .noti_box').addClass('show');
+			$('.tool-bar .overlay').addClass('show').on( 'click', function(){
+				$('.tool-bar .notification .noti_box').removeClass('show');
+				$('.tool-bar .overlay').removeClass('show').off('click');
+			});
+		});
+
+		// make it could be scroll but body can't
+		$('.tool-bar .notification .noti_box').on( 'mouseenter', function(){
+			$('body').addClass('stop-scrolling');
+		}).on( 'mouseleave', function(){
+			$('body').removeClass('stop-scrolling');
 		});
 
 		// 取得當頁user資料，若沒id則抓session user資料
