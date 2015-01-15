@@ -96,12 +96,12 @@ $(document).ready( function(){
 			},
 			success: function(response){
 				var notification_data = $.parseJSON(response);
-				console.log( notification_data['data'] );
+
 				// 有 通 知
 				if( notification_data.data.length > 0 ) {
-					for( var i = notification_data.data.length -1; i >= 0 ; i-- ) {
+					for( var i = 0; i < notification_data.data.length; i++ ) {
 						var name = fullName( notification_data['data'][i]['m_id_lname'], notification_data['data'][i]['m_id_fname'] );
-						$('.tool-bar .notification .noti_box .wrapper').append('<div class="noti_line" rel="' + notification_data['data'][i]['p_id'] + '">' + name + '在您關注的貼文下留言</div>');
+						$('.tool-bar .notification .noti_box .wrapper').append('<div class="noti_line" rel="' + notification_data['data'][i]['p_id'] + '"><span>' + name + '</span>在您關注的貼文下留言<div class="time">' + long_time_ago( notification_data['data'][i]['updatetime'] ) + '</div></div>');
 					}
 				} else {
 					$('.tool-bar .notification .noti_box .wrapper').html('<div class="noti_line nope">無</div>');
@@ -112,7 +112,7 @@ $(document).ready( function(){
 		});
 
 		// show/hide notification
-		$('.tool-bar .notification').on( 'click', function(){
+		$('.tool-bar .notification .noti_icon').on( 'click', function(){
 			$('.tool-bar .notification .noti_box').addClass('show').on( 'mouseenter', function(){
 				// make it could be scroll but body can't
 				$('body').addClass('stop-scrolling');
@@ -123,6 +123,10 @@ $(document).ready( function(){
 			$('.tool-bar .overlay').addClass('show').on( 'click', function(){
 				$('.tool-bar .notification .noti_box').removeClass('show');
 				$('.tool-bar .overlay').removeClass('show').off('click');
+			});
+
+			$('.tool-bar .notification .noti_box .noti_line').on( 'click', function(){
+				showPostDetail( $(this).attr('rel'), $(this).find('span') );
 			});
 		});
 
@@ -563,9 +567,6 @@ $(document).ready( function(){
 
 			var thisGrid = $(this).parent('.grid');
 
-			$('.comment-wrapper').html('');
-			$('.bu_dai .post-box .fa').removeClass('clicked');
-
 			showPostDetail( thisGrid.attr('rel') );
 
 			$('.post-box .author a').attr( 'href', thisGrid.find('.author a').attr('href') );
@@ -573,27 +574,7 @@ $(document).ready( function(){
 			$('.post-box .author .name').text( thisGrid.find('.author .name').text() );
 			$('.post-box .author .time_ago').text( thisGrid.find('.author .time_ago').text() );
 			$('.post-box .post_content').html( thisGrid.find('.post_content').html() );
-
-			$('.bu_dai').fadeIn(800);
-			setTimeout( function(){
-				$('.bu_dai .post-box').fadeIn(800);
-			}, 300);
-
-			$('body').addClass('stop-scrolling');
-			$('.msg-box').addClass('for_msg');
-
 			$('.bu_dai .post-box').attr( 'rel', thisGrid.attr('rel') );
-
-			$('.bu_dai .guo_fang_bu, .post-box .close-me').on( 'click', function(){
-				$('.bu_dai .post-box').fadeOut(800);
-				setTimeout( function(){
-					$('.bu_dai').fadeOut(800);
-				}, 300);
-
-				$('body').removeClass('stop-scrolling');
-				$('.msg-box').removeClass('for_msg');
-				$(this).off('click');
-			});
 
 		});
 
@@ -785,11 +766,13 @@ function showPostDetail( post_id, wall_owner_fullname ) {
 		},
 		success: function( response ){
 			comment = $.parseJSON(response);
+			console.log(comment);
 			if( comment['status'] == "success" ) {
-				console.log( comment );
 				var im = comment['delete_able'];
 				$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
 				$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
+				$('.comment-wrapper').html('');
+				$('.bu_dai .post-box .fa').removeClass('clicked');
 
 				// love and hate is clicked ?
 				if( comment['you_2_post'] != "nil" ) {
@@ -812,11 +795,13 @@ function showPostDetail( post_id, wall_owner_fullname ) {
 
 				// come from Notification
 				if( wall_owner_fullname !== undefined ) {
-					$('.post-box .author a').attr( 'href', './profile.php?id=' + p_id );
-					$('.post-box .author img').attr( 'src', './images/profile/' + p_id + '/sticker.png' );
+					console.log('from notification');
+					$('.post-box .author a').attr( 'href', './profile.php?id=' + comment['post_about'][0]['senderid'] );
+					$('.post-box .author img').attr( 'src', './images/profile/' + comment['post_about'][0]['senderid'] + '/sticker.png' );
 					$('.post-box .author .name').text( fullName( comment['post_about'][0]['sender_lname'], comment['post_about'][0]['sender_fname'] ) );
 					$('.post-box .author .time_ago').text( long_time_ago( comment['post_about'][0]['updatetime'] ) );
 					$('.post-box .post_content').html( comment['post_about'][0]['p_content'] );
+					$('.bu_dai .post-box').attr( 'rel', post_id );
 				}
 
 			}
@@ -824,6 +809,25 @@ function showPostDetail( post_id, wall_owner_fullname ) {
 		error: function(){
 
 		}
+	});
+
+	$('.bu_dai').fadeIn(800);
+	setTimeout( function(){
+		$('.bu_dai .post-box').fadeIn(800);
+	}, 300);
+
+	$('body').addClass('stop-scrolling');
+	$('.msg-box').addClass('for_msg');
+
+	$('.bu_dai .guo_fang_bu, .post-box .close-me').on( 'click', function(){
+		$('.bu_dai .post-box').fadeOut(800);
+		setTimeout( function(){
+			$('.bu_dai').fadeOut(800);
+		}, 300);
+
+		$('body').removeClass('stop-scrolling');
+		$('.msg-box').removeClass('for_msg');
+		$(this).off('click');
 	});
 
 }
