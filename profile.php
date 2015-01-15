@@ -8,9 +8,9 @@
 			<input type="text" placeholder="搜尋你的好友試試" />
 			<!-- 提示框框 -->
 			<div class="name-box">
-				<div class="title">User</div>
+				<div class="title">使用者</div>
 				<div class="user_wrapper"></div>
-				<div class="random_search">Random</div>
+				<div class="random_search">隨機</div>
 			</div>
 		</div>
 		<div class="logo">
@@ -18,7 +18,11 @@
 				<img src="./images/logo/logo-white.png" />
 			</a>
 		</div>
-		<div class="notification"></div>
+		<div class="notification">
+			<div class="noti_box show">
+				<div class="title">通知</div>
+			</div>
+		</div>
 		<span class="logout">登出</span>
 	</div>
 

@@ -416,6 +416,22 @@ body#homepage footer {
 	background-position: 0px 32px;
 }
 
+.tool-bar .notification .noti_box {
+	width: 400px;
+	border: 1px #5d5d5d solid;
+	border-radius: 3px;
+	background-color: red;
+	position: absolute;
+	top: 50px;
+	right: -50px;
+
+	display: none;
+}
+
+.tool-bar .notification .noti_box.show {
+	display: block;
+}
+
 .tool-bar .logout {
 	font-size: 12px;
 	color: white;
