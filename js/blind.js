@@ -96,12 +96,17 @@ $(document).ready( function(){
 			},
 			success: function(response){
 				var notification_data = $.parseJSON(response);
-
+console.log(notification_data);
 				// 有 通 知
 				if( notification_data.data.length > 0 ) {
 					for( var i = 0; i < notification_data.data.length; i++ ) {
+						if( notification_data['data'][i]['status'] == 1 ) {
+							var lineClass = "noti_line notread";
+						} else {
+							var lineClass = "noti_line";
+						}
 						var name = fullName( notification_data['data'][i]['m_id_lname'], notification_data['data'][i]['m_id_fname'] );
-						$('.tool-bar .notification .noti_box .wrapper').append('<div class="noti_line" rel="' + notification_data['data'][i]['p_id'] + '"><span>' + name + '</span>在您關注的貼文下留言<div class="time">' + long_time_ago( notification_data['data'][i]['updatetime'] ) + '</div></div>');
+						$('.tool-bar .notification .noti_box .wrapper').append('<div class="' + lineClass + '" rel="' + notification_data['data'][i]['p_id'] + '"><span rel="' + notification_data['data'][i]['m_id'] + '">' + name + '</span>在您關注的貼文下留言<div class="time">' + long_time_ago( notification_data['data'][i]['updatetime'] ) + '</div></div>');
 					}
 				} else {
 					$('.tool-bar .notification .noti_box .wrapper').html('<div class="noti_line nope">無</div>');
@@ -127,6 +132,20 @@ $(document).ready( function(){
 
 			$('.tool-bar .notification .noti_box .noti_line').on( 'click', function(){
 				showPostDetail( $(this).attr('rel'), $(this).find('span') );
+				$(this).removeClass('notread');
+				// send clicked info
+				$.ajax({
+					url: './backend/blindspot.php',
+					type: 'POST',
+					data: {
+						func: 'seen_notification',
+						m_id: $(this).find('span').attr('rel'),
+						p_id: $(this).attr('rel')
+					},
+					success: function(response) {
+						// console.log(response)
+					}
+				});
 			});
 		});
 
@@ -795,7 +814,6 @@ function showPostDetail( post_id, wall_owner_fullname ) {
 
 				// come from Notification
 				if( wall_owner_fullname !== undefined ) {
-					console.log('from notification');
 					$('.post-box .author a').attr( 'href', './profile.php?id=' + comment['post_about'][0]['senderid'] );
 					$('.post-box .author img').attr( 'src', './images/profile/' + comment['post_about'][0]['senderid'] + '/sticker.png' );
 					$('.post-box .author .name').text( fullName( comment['post_about'][0]['sender_lname'], comment['post_about'][0]['sender_fname'] ) );

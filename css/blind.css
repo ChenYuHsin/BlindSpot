@@ -450,12 +450,16 @@ body#homepage footer {
 .tool-bar .notification .noti_box .noti_line {
 	width: 82%;
 	font-size: 13px;
-	color: #474747;
+	color: #3a3a3a;
 	padding: 10px 15% 10px 3%;
 	background-color: white;
 	border-bottom: 1px #c9c9c9 solid;
 	position: relative;
 	cursor: pointer;
+}
+
+.tool-bar .notification .noti_box .noti_line.notread {
+	background-color: #eaeaea;
 }
 
 .tool-bar .notification .noti_box .noti_line:first-child {
