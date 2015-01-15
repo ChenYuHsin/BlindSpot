@@ -506,6 +506,7 @@
 							AND target_id = $user_id
 							AND p_id = $p_id";
 					$result = $this->db_exec($sql);
+						$result = array();
 						$result['status'] = "success";
 						return json_encode($result);
 				break;
