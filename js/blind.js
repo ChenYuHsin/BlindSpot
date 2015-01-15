@@ -88,6 +88,30 @@ $(document).ready( function(){
 			setPicture( relationship );
 		}
 
+		$.ajax({
+			url: './backend/blindspot.php',
+			type: 'POST',
+			data: {
+				func: 'get_notification'
+			},
+			success: function(response){
+				var notification_data = $.parseJSON(response);
+				console.log( notification_data['data'] );
+				// 有 通 知
+				if( notification_data.data.length > 0 ) {
+					$('.tool-bar .notification .noti_box').addClass('show');
+					for( var i = notification_data.data.length -1; i >= 0 ; i-- ) {
+						var name = fullName( notification_data['data'][i]['m_id_lname'], notification_data['data'][i]['m_id_fname'] );
+						$('.tool-bar .notification .noti_box .wrapper').append('<div class="noti_line" rel="' + notification_data['data'][i]['p_id'] + '">' + name + '在您關注的貼文下留言</div>');
+					}
+				} else {
+					$('.tool-bar .notification .noti_box .wrapper').html('<div class="noti_line nope">無</div>');
+				}
+			},
+			error: function(){
+			}
+		});
+
 		// 取得當頁user資料，若沒id則抓session user資料
 		$.ajax({
 			url: './backend/blindspot.php',

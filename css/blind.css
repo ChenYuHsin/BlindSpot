@@ -418,9 +418,10 @@ body#homepage footer {
 
 .tool-bar .notification .noti_box {
 	width: 400px;
+	max-height: 300px;
 	border: 1px #5d5d5d solid;
 	border-radius: 3px;
-	background-color: red;
+	overflow: scroll;
 	position: absolute;
 	top: 35px;
 	right: -50px;
