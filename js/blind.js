@@ -82,8 +82,6 @@ $(document).ready( function(){
 // --------------------------------- \\
 	if( $('body').attr( 'id' ) == 'profile' ) {
 
-		$('body').animate({'scrollTop': '0px'});
-
 		relationship = ( jq_GET['id'] == undefined ) ? 'me' : jq_GET['id'];
 
 		if( relationship != "me" ) {

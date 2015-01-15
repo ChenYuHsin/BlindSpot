@@ -21,6 +21,9 @@
 		<div class="notification">
 			<div class="noti_box show">
 				<div class="title">通知</div>
+				<div class="wrapper">
+					<div class="noti_line nope">無</div>
+				</div>
 			</div>
 		</div>
 		<span class="logout">登出</span>
