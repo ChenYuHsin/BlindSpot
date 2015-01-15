@@ -371,6 +371,7 @@ $(document).ready( function(){
 			});
 		}
 
+		// love or hate is pressed
 		$('.bu_dai .post-box .status-bar i.fa').on( 'click', function(){
 			if( $(this).hasClass('fa-thumbs-o-up') ) {
 				if( $(this).hasClass('clicked') ) {
@@ -425,6 +426,7 @@ $(document).ready( function(){
 			}, 1500);
 		});
 
+		// logout
 		$('.tool-bar .logout').on( 'click', function(){
 			$.ajax({
 				url: './backend/blindspot.php',
@@ -564,43 +566,7 @@ $(document).ready( function(){
 			$('.comment-wrapper').html('');
 			$('.bu_dai .post-box .fa').removeClass('clicked');
 
-			$.ajax({
-				url: './backend/blindspot_2.php',
-				type: 'POST',
-				data: {
-					func: 'get_comment',
-					p_id: thisGrid.attr('rel')
-				},
-				success: function( response ){
-					comment = $.parseJSON(response);
-					if( comment['status'] == "success" ) {
-						var im = comment['delete_able'];
-						$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
-						$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
-
-						if( comment['you_2_post'] != "nil" ) {
-							if( comment['you_2_post'] == "love" )
-								var addTarget = $('.bu_dai .post-box .love .fa');
-							else
-								var addTarget = $('.bu_dai .post-box .hate .fa');
-
-							addTarget.addClass('clicked');
-						}
-
-						for( var i = 0; i < comment['data'].length; i++ ) {
-							var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
-							$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><div class="nt-wrapper"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><span class="time_ago">' + long_time_ago( comment['data'][i]['updatetime'] ) + '</span></div><div class="content">' + getlink( comment['data'][i]['c_content'] ) + '</div></div><br class="clear" /></div>');
-							if( comment['data'][i]['sender_id'] == im ) {
-								$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
-							}
-						};
-
-					}
-				},
-				error: function(){
-
-				}
-			});
+			showPostDetail( thisGrid.attr('rel') );
 
 			$('.post-box .author a').attr( 'href', thisGrid.find('.author a').attr('href') );
 			$('.post-box .author img').attr( 'src', thisGrid.find('.author img').attr('src') );
@@ -806,6 +772,60 @@ function getlink(text) {
 	return Autolinker.link( text, {
 		stripPrefix: false
 	});
+}
+
+function showPostDetail( post_id, wall_owner_fullname ) {
+
+	$.ajax({
+		url: './backend/blindspot_2.php',
+		type: 'POST',
+		data: {
+			func: 'get_comment',
+			p_id: post_id
+		},
+		success: function( response ){
+			comment = $.parseJSON(response);
+			if( comment['status'] == "success" ) {
+				console.log( comment );
+				var im = comment['delete_able'];
+				$('.bu_dai .post-box .status-bar .love .number').text( comment['post_about'][0]['love'] );
+				$('.bu_dai .post-box .status-bar .hate .number').text( comment['post_about'][0]['hate'] );
+
+				// love and hate is clicked ?
+				if( comment['you_2_post'] != "nil" ) {
+					if( comment['you_2_post'] == "love" )
+						var addTarget = $('.bu_dai .post-box .love .fa');
+					else
+						var addTarget = $('.bu_dai .post-box .hate .fa');
+
+					addTarget.addClass('clicked');
+				}
+
+				// each comment
+				for( var i = 0; i < comment['data'].length; i++ ) {
+					var sender_name = fullName( comment['data'][i]['l_name'], comment['data'][i]['f_name'] );
+					$('.comment-wrapper').append('<div class="per_comment" rel="' + comment['data'][i]['c_id'] + '"><div class="f-left sticker"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><img src="./images/profile/' + comment['data'][i]['sender_id'] + '/sticker.png" /></a></div><div class="f-left right-part"><div class="nt-wrapper"><a href="./profile.php?id=' + comment['data'][i]['sender_id'] + '"><span class="name">' + sender_name + '</span></a><span class="time_ago">' + long_time_ago( comment['data'][i]['updatetime'] ) + '</span></div><div class="content">' + getlink( comment['data'][i]['c_content'] ) + '</div></div><br class="clear" /></div>');
+					if( comment['data'][i]['sender_id'] == im ) {
+						$('.comment-wrapper .per_comment:last-child .right-part').append('<div class="delete comment"></div>');
+					}
+				};
+
+				// come from Notification
+				if( wall_owner_fullname !== undefined ) {
+					$('.post-box .author a').attr( 'href', './profile.php?id=' + p_id );
+					$('.post-box .author img').attr( 'src', './images/profile/' + p_id + '/sticker.png' );
+					$('.post-box .author .name').text( fullName( comment['post_about'][0]['sender_lname'], comment['post_about'][0]['sender_fname'] ) );
+					$('.post-box .author .time_ago').text( long_time_ago( comment['post_about'][0]['updatetime'] ) );
+					$('.post-box .post_content').html( comment['post_about'][0]['p_content'] );
+				}
+
+			}
+		},
+		error: function(){
+
+		}
+	});
+
 }
 
 function more() {
