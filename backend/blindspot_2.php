@@ -117,15 +117,18 @@
 	    					and able = '1' 
 	    					ORDER BY `c_id`";
 	    			$q_result = $this -> db_query($sql);
-	    			$sql = "SELECT `love`, `hate` 
-	    					FROM `post`
+
+	    			$sql = "SELECT  a.`p_content`, a.`updatetime`,  a.`love`, a.`hate` , m.`f_name` as sender_fname, m.`l_name` as sender_lname, a.senderid
+	    					FROM `post` a
+	    					LEFT JOIN `member` m
+	    						on a.senderid = m.m_id
 	    					WHERE pid = '$p_id'";
   			 		$plike_result = $this -> db_query($sql);
+
 	    			$sql = "SELECT `status`
 	    					FROM `member_post`
 	    					WHERE p_id = '$p_id'
 	    					and m_id = '$user_id'";
-	    			
 	    			$status_result = $this -> db_query($sql);
 	    			// $status_result => {
 	    			// 					[0] => {

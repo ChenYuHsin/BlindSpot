@@ -300,8 +300,8 @@
 	    			$ori_poster = $ori_poster_result[0]['senderid'];
 	    			$notification_sql = "";
 	    			if($ori_poster != $user){//原po是自己就不用通知
-		    			$notification_sql = "INSERT INTO `notification` (`m_id`, `target_id`, `p_id`)
-		    									values ('$user', '$ori_poster', '$p_id')
+		    			$notification_sql = "INSERT INTO `notification` (`m_id`, `target_id`, `p_id`, `status`)
+		    									values ('$user', '$ori_poster', '$p_id', 1)
 		    								ON DUPLICATE KEY UPDATE updatetime = CURRENT_TIMESTAMP; ";
 	    			}
 
@@ -310,8 +310,8 @@
 	    			$commenter_result = $this->db_query($commenter_sql);
 	    			foreach ($commenter_result as $key => $value) {
 	    				if($value['sender_id'] != $user){//自己不用通知
-		    				$notification_sql .= "INSERT INTO `notification` (`m_id`, `target_id`, `p_id`)
-		    										values ('$user', '".$value['sender_id']."', '$p_id')
+		    				$notification_sql .= "INSERT INTO `notification` (`m_id`, `target_id`, `p_id`, `status`)
+		    										values ('$user', '".$value['sender_id']."', '$p_id', 1)
 		    										ON DUPLICATE KEY UPDATE updatetime = CURRENT_TIMESTAMP; ";
 	    				}
 	    			}
@@ -473,7 +473,8 @@
 					$user_id = $_SESSION['user_id'];
 					$sql = "SELECT a.`m_id`, c.f_name as m_id_fname,c.l_name as m_id_lname  ,
 									a.`target_id`, a.`p_id`, b.senderid as ori_poster, 
-									b.receiverid as wall_user,d.f_name as wall_user_fname,d.l_name as wall_user_lname  
+									b.receiverid as wall_user,d.f_name as wall_user_fname,d.l_name as wall_user_lname,
+									a.updatetime, a.status
 							FROM `notification` a
 							LEFT JOIN `post` b
 								on a.p_id = b.pid
@@ -481,12 +482,32 @@
 								on a.m_id = c.m_id
 							LEFT JOIN `member` d
 								on b.receiverid = d.m_id
-							WHERE a.target_id = $user_id";
+							WHERE a.target_id = $user_id
+							ORDER BY  a.updatetime DESC";
 					$noti_result = $this->db_query($sql);
 					$result['status'] = "success";
 					$result['data'] = $noti_result;
 	    			return json_encode($result);
 
+				break;
+
+				case 'seen_notification':
+					try {
+		    			$user_id = $_SESSION['user_id'];
+		    			$m_id = $_POST['m_id'];
+		    			$p_id = $_POST['p_id'];
+					} catch (Exception $e) {
+						$result['status'] = "fail";
+						return json_encode($result);
+					}
+					$sql = "UPDATE `notification`
+							SET status = -1
+							WHERE m_id = $m_id
+							AND target_id = $user_id
+							AND p_id = $p_id";
+					$result = $this->db_exec($sql);
+						$result['status'] = "success";
+						return json_encode($result);
 				break;
 	    		default:
 	    			# code...
