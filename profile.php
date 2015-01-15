@@ -141,6 +141,7 @@
 				<div class="nt-wrapper">
 					<a href=""><span class="name"></span></a><br/>
 					<span class="time_ago"></span>
+					<span class="wall_owner"><a href=""></a></span>
 				</div>
 			</div>
 

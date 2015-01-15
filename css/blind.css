@@ -941,9 +941,18 @@ body#homepage footer {
 	font-weight: bold;
 }
 
-.bu_dai .post-box .author .time_ago {
+.bu_dai .post-box .author .time_ago,
+.bu_dai .post-box .author .wall_owner {
 	font-size: 12px;
 	color: #858585;
+}
+
+.bu_dai .post-box .author .wall_owner a {
+	color: #858585;
+}
+
+.bu_dai .post-box .author .wall_owner a:hover {
+	color: #2288d6;
 }
 
 .bu_dai .post-box .d_wrapper {
