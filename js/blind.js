@@ -113,18 +113,17 @@ $(document).ready( function(){
 
 		// show/hide notification
 		$('.tool-bar .notification').on( 'click', function(){
-			$('.tool-bar .notification .noti_box').addClass('show');
+			$('.tool-bar .notification .noti_box').addClass('show').on( 'mouseenter', function(){
+				// make it could be scroll but body can't
+				$('body').addClass('stop-scrolling');
+			}).on( 'mouseleave', function(){
+				$('body').removeClass('stop-scrolling');
+			});
+
 			$('.tool-bar .overlay').addClass('show').on( 'click', function(){
 				$('.tool-bar .notification .noti_box').removeClass('show');
 				$('.tool-bar .overlay').removeClass('show').off('click');
 			});
-		});
-
-		// make it could be scroll but body can't
-		$('.tool-bar .notification .noti_box').on( 'mouseenter', function(){
-			$('body').addClass('stop-scrolling');
-		}).on( 'mouseleave', function(){
-			$('body').removeClass('stop-scrolling');
 		});
 
 		// 取得當頁user資料，若沒id則抓session user資料
