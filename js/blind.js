@@ -133,7 +133,7 @@ console.log(notification_data);
 			$('.tool-bar .notification .noti_box .noti_line').on( 'click', function(){
 				showPostDetail( $(this).attr('rel'), $(this).find('span') );
 				$(this).removeClass('notread');
-				// send clicked info
+				// send clicked msg
 				$.ajax({
 					url: './backend/blindspot.php',
 					type: 'POST',
