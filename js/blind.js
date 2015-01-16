@@ -96,7 +96,7 @@ $(document).ready( function(){
 			},
 			success: function(response){
 				var notification_data = $.parseJSON(response);
-				console.log(notification_data);
+				// console.log(notification_data);
 				// 有 通 知
 				if( notification_data.data.length > 0 ) {
 					for( var i = 0; i < notification_data.data.length; i++ ) {
@@ -119,6 +119,7 @@ $(document).ready( function(){
 
 		// show/hide notification
 		$('.tool-bar .notification .noti_icon').on( 'click', function(){
+			$('.tool-bar .notification .arrow').addClass('show');
 			$('.tool-bar .notification .noti_box').addClass('show').on( 'mouseenter', function(){
 				// make it could be scroll but body can't
 				$('body').addClass('stop-scrolling');
@@ -127,6 +128,7 @@ $(document).ready( function(){
 			});
 
 			$('.tool-bar .overlay').addClass('show').on( 'click', function(){
+				$('.tool-bar .notification .arrow').removeClass('show');
 				$('.tool-bar .notification .noti_box').removeClass('show');
 				$('.tool-bar .overlay').removeClass('show').off('click');
 			});

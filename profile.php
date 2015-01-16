@@ -20,6 +20,7 @@
 		</div>
 		<div class="notification">
 			<div class="noti_icon"></div>
+			<div class="arrow"></div>
 			<div class="noti_box">
 				<div class="title">通知</div>
 				<div class="wrapper">
