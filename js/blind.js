@@ -126,11 +126,15 @@ $(document).ready( function(){
 			}).on( 'mouseleave', function(){
 				$('body').removeClass('stop-scrolling');
 			});
+			// $('.msg-box').addClass('noti-show');
 
 			$('.tool-bar .overlay').addClass('show').on( 'click', function(){
 				$('.tool-bar .notification .arrow').removeClass('show');
 				$('.tool-bar .notification .noti_box').removeClass('show');
 				$('.tool-bar .overlay').removeClass('show').off('click');
+				if( $('.msg-box').hasClass('noti-show') ) {
+					$('.msg-box').removeClass('noti-show');
+				}
 			});
 
 			$('.tool-bar .notification .noti_box .noti_line').on( 'click', function(){

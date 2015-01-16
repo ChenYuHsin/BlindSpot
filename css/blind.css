@@ -753,7 +753,8 @@ body#homepage footer {
 			transition: bottom 1s;
 }
 
-.msg-box.show {
+.msg-box.show,
+.msg-box.noti-show {
 	bottom: 0px;
 }
 
