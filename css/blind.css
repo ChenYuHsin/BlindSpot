@@ -1118,6 +1118,10 @@ body#homepage footer {
 	background-image: url( ../images/profile/crystal.png );
 }
 
+.data_board h2:hover {
+	box-shadow: 0px 0px 10px black;
+}
+
 .loading_page {
 	background-color: rgba( 255, 255, 255, 0.95 );
 	width: 100vw;

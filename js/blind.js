@@ -1,6 +1,6 @@
 var windowW, windowH;
 
-var ajax_search, love_request, dontAddMore = 0, developer_code = "";;
+var ajax_search, love_request, dontAddMore = 0, developer_code = "", myPage = 0;
 
 $(document).ready( function(){
 
@@ -44,7 +44,7 @@ $(document).ready( function(){
 				if( response.authResponse ) {
 					console.log( 'Welcome!  Fetching your information.... ' );
 					FB.api( '/me', function(response) {
-
+// console.log( response.birthday );
 						$.ajax({
 							url: './backend/blindspot.php',
 							type: 'POST',
@@ -58,6 +58,7 @@ $(document).ready( function(){
 								func: 'insert_member'
 							},
 							success: function(response) {
+								console.log(response);
 								if( response == "success" )
 									location.href = "./profile.php";
 								// else
@@ -126,18 +127,15 @@ $(document).ready( function(){
 			}).on( 'mouseleave', function(){
 				$('body').removeClass('stop-scrolling');
 			});
-			// $('.msg-box').addClass('noti-show');
 
 			$('.tool-bar .overlay').addClass('show').on( 'click', function(){
 				$('.tool-bar .notification .arrow').removeClass('show');
 				$('.tool-bar .notification .noti_box').removeClass('show');
 				$('.tool-bar .overlay').removeClass('show').off('click');
-				if( $('.msg-box').hasClass('noti-show') ) {
-					$('.msg-box').removeClass('noti-show');
-				}
 			});
 
 			$('.tool-bar .notification .noti_box .noti_line').on( 'click', function(){
+				$('.msg-box').addClass('noti-show');
 				showPostDetail( $(this).attr('rel'), $(this).find('.wall_user').text(), $(this).find('.wall_user').attr('rel') );
 				$(this).removeClass('notread');
 				// send clicked msg
@@ -189,7 +187,8 @@ $(document).ready( function(){
 						// 自己看自己，加入更改頁面
 						setPicture( info['data'][0]['m_id'] );
 						$('.data_board').css( 'display', 'block' );
-						$('.msg-box').remove();
+						// $('.msg-box').remove();
+						myPage = 1;
 						$('.psn-photo .sticker-wrapper .ur-sticker').append('<div class="go_setting"></div>');
 						startOnClick();
 						// post_about
@@ -226,7 +225,7 @@ $(document).ready( function(){
 								friend_id: relationship
 							},
 							success: function( response ){
-								// updatetime <-
+
 								post_data = $.parseJSON( response );
 								var im = post_data['delete_able'];
 								if( windowW <= 480 ) {
@@ -306,7 +305,7 @@ $(document).ready( function(){
 						}
 					});
 
-				} else {
+				} else if( myPage != 1 ) { // 避免在自己牆上叫出來然後po文
 
 					$.ajax({
 						url: './backend/blindspot.php',
@@ -347,7 +346,6 @@ $(document).ready( function(){
 			$('.msg-box .input_ios').addClass('show').on( 'click', function(){
 				var input = prompt( '肆意留言吧！', '' );
 				if( input ) {
-					alert(input);
 					if( $('.msg-box').hasClass('for_msg') ) {
 
 						$.ajax({
@@ -852,6 +850,9 @@ function showPostDetail( post_id, wall_owner_fullname, wall_owner_id ) {
 
 		$('body').removeClass('stop-scrolling');
 		$('.msg-box').removeClass('for_msg');
+		if( $('.msg-box').hasClass('noti-show') ) {
+			$('.msg-box').removeClass('noti-show');
+		}
 		$(this).off('click');
 	});
 

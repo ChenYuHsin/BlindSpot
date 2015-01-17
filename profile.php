@@ -65,6 +65,7 @@
 
 	<div class="data_board">
 		<h1>累計貼文數</h1>
+		<!-- <div class="note">就是在你牆上有多少貼文數囉</div> -->
 		<h2 class="post_number"></h2>
 		<h1>留言關鍵字</h1>
 		<h2 class="key_word"></h2>
