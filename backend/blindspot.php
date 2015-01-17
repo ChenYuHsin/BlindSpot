@@ -38,20 +38,20 @@
 		    			$f_id = $_POST['facebook_id'];
 		    			$l_name = $_POST['last_name'];
 		    			$f_name = $_POST['first_name'];
-		    			$email = $_POST['email'];
+		    			$email = isset($_POST['email']) ? $_POST['email'] : "";	    				
 		    			$gender = isset($_POST['gender']) ? $_POST['gender'] : "";	    				
 		    			$birth = isset($_POST['birthday']) ? $_POST['birthday'] : "";	    				
 	    			}catch(Exception $e){
 	    				return "fail";
 	    			}
-
+	    			// print_r($_POST);
 	    			//判斷是否有登入過
 	    			$sql = "SELECT m_id FROM `member` WHERE fb_id = $f_id";
 	    			$result = $this->db_query($sql);
 	    			if(!isset($result[0]['m_id']) || empty($result[0]['m_id'])){
 
 		    			//如果第一次註冊就新增一個會員，不然就跳過
-		    			$sql = "INSERT IGNORE INTO `member`(`fb_id`, `l_name`, `f_name`, `birthday`, `gender`, `e-mail`, `status`) 
+		    			$sql = "INSERT IGNORE INTO `member`(`fb_id`, `l_name`, `f_name`, `birthday`, `gender`, `email`, `status`) 
 		    								VALUES ('$f_id', '$l_name', '$f_name', '$birth', '$gender', '$email', 'login')";
 		    			$insert_result = $this->db_exec($sql);
 
@@ -78,6 +78,12 @@
 		    			//把會員id記到SESSION
 		    			$_SESSION['user_id'] = $result[0]['m_id'];
 		    			$user_id = $_SESSION['user_id'];
+
+	    				//更新會員資料
+	    				$sql = "UPDATE `member` 
+	    						SET `birthday` = '$birth', `gender` = '$gender', `email` = '$email'
+	    						WHERE m_id = $user_id";
+	    				$result = $this->db_exec($sql);
 	    			}
 
 	    			$this->save_log($user_id, 'login');
